@@ -1,0 +1,26 @@
+# Uploads directory
+/uploads
+
+# IDE or OS
+.idea/
+.DS_Store
+
+# Log files
+*.log
+
+# Build artifact
+.grunt
+
+# local
+node_modules/
+
+# Lando WordPress directory
+/wordpress
+
+# Lando development
+/profiler-output
+.lando.local.yml
+
+# Lint report files
+lint-css-report.json
+lint-js-report.json

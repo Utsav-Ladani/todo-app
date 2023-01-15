@@ -1,0 +1,20 @@
+on: pull_request
+name: JS and CSS Lint
+jobs:
+  runLint:
+    name: Run Lint on JS and CSS
+    # Change below line to: `runs-on: ubuntu-latest` if not using self-hosted runners or if it is a public repo.
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+
+    - name: Run Lint on JS and CSS
+      uses: docker://ghcr.io/rtcamp/action-js-css-lint:v0.0.1
+      env:
+        GH_TOKEN: ${{ secrets.TRAINEE_RTBOT_TOKEN }}
+
+    - name: Cleanup
+      if: ${{ always() }}
+      uses: rtCamp/action-cleanup@master

@@ -1,0 +1,21 @@
+on: 
+  pull_request:
+    types: [ opened, synchronize ]
+name: Lighhouse on PR
+jobs:
+  Lighhouse_on_PR:
+    name: Run Lighhouse test on PR
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Run Lighhouse test on PR Action
+      uses: docker://ghcr.io/rtcamp/action-lighthouse-ci:v0.2
+      env:
+        GH_BOT_TOKEN: ${{ secrets.TRAINEE_RTBOT_TOKEN }}
+        SSH_PRIVATE_KEY: ${{ secrets.TRAINEE_SSH_PRIVATE_KEY }}
+        HTTP_AUTH_FOR_SITE: ${{ secrets.TRAINEE_HTTP_AUTH_FOR_SITE }}
+        HTTP_AUTH_FOR_REPORTS: ${{ secrets.TRAINEE_HTTP_AUTH_FOR_SITE }}
+    - name: Cleanup
+      if: ${{ always() }}
+      uses: rtCamp/action-cleanup@master

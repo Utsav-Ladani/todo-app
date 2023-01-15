@@ -1,0 +1,33 @@
+{
+  "name": "movie-library",
+  "version": "1.0.0",
+  "description": "Movie library assignment",
+  "author": "rtCamp",
+  "license": "GPL-2.0-or-later",
+  "keywords": [],
+  "homepage": "https://github.com/rtCamp/movie-library-assignment#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rtCamp/movie-library-assignment.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rtCamp/movie-library-assignment/issues"
+  },
+  "devDependencies": {
+    "@wordpress/eslint-plugin": "^13.6.0",
+    "@wordpress/prettier-config": "2.5.0",
+    "@wordpress/scripts": "24.6.0",
+    "@wordpress/stylelint-config": "^21.6.0",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-jsdoc": "^39.6.4",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.8.1"
+  },
+  "scripts": {
+    "lint:js": "wp-scripts lint-js ./themes/ ./plugins/ --no-error-on-unmatched-pattern",
+    "lint:js:fix": "npm run lint:js -- --fix",
+    "lint:css": "wp-scripts lint-style ./themes/ ./plugins/ --allow-empty-input",
+    "lint:css:fix": "npm run lint:css -- --fix",
+    "lint": "npm-run-all --parallel lint:*"
+  }
+}
