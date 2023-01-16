@@ -5,7 +5,7 @@ name: Lighhouse on PR
 jobs:
   Lighhouse_on_PR:
     name: Run Lighhouse test on PR
-    runs-on: self-hosted
+    runs-on: [self-hosted, high-performance]
     steps:
     - uses: actions/checkout@v3
 
