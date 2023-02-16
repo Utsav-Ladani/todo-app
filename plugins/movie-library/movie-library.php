@@ -27,7 +27,7 @@ namespace Movie_Library;
 require_once __DIR__ . '/plugin-constant.php';
 require_once MOVIE_LIBRARY_PLUGIN_DIR . 'autoloader.php';
 
-use Movie_Library\Autoloader;
+use Movie_Library\Custom_Post_Type\Movie;
 
 /**
  * Main class of the plugin.
@@ -46,6 +46,9 @@ class Movie_Library {
 
 		// register activation hook.
 		register_activation_hook( __FILE__, array( __CLASS__, 'activate' ) );
+
+		// add custom post type.
+		Movie::init();
 	}
 
 	/**
@@ -54,7 +57,9 @@ class Movie_Library {
 	 * @return void
 	 */
 	public static function activate() : void {
-		// do something on activation.
+		Movie::register_movie_post_type();
+
+		flush_rewrite_rules();
 	}
 }
 
