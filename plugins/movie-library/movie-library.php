@@ -13,7 +13,7 @@
  * Description:       Plugin to manage movie library
  * Version:           1.0.0
  * Requires at least: 6.1
- * Requires PHP:      8.2
+ * Requires PHP:      8.0
  * Author:            Utsav Ladani
  * Author URI:        https://github.com/Utsav-Ladani/
  * Text Domain:       movie-library
@@ -21,3 +21,41 @@
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Update URI:        https://example.com/my-plugin/
  */
+
+namespace Movie_Library;
+
+require_once __DIR__ . '/plugin-constant.php';
+require_once MOVIE_LIBRARY_PLUGIN_DIR . 'autoloader.php';
+
+use Movie_Library\Autoloader;
+
+/**
+ * Main class of the plugin.
+ *
+ * It registers the autoloader and activation hook.
+ */
+class Movie_Library {
+	/**
+	 * Initialize the plugin.
+	 *
+	 * @return void
+	 */
+	public static function init() : void {
+		// register the autoloader.
+		Autoloader::register();
+
+		// register activation hook.
+		register_activation_hook( __FILE__, array( __CLASS__, 'activate' ) );
+	}
+
+	/**
+	 * Do something on activation.
+	 *
+	 * @return void
+	 */
+	public static function activate() : void {
+		// do something on activation.
+	}
+}
+
+Movie_Library::init();
