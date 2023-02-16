@@ -1,4 +1,14 @@
 <?php
+/**
+ * Movie Library constants
+ *
+ * Declare all constants here.
+ *
+ * @package MovieLibrary
+ * @author  Utsav Ladani
+ */
+
+namespace Movie_Library;
 
 // define constants below.
 /**
