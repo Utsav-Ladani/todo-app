@@ -28,6 +28,7 @@ require_once __DIR__ . '/plugin-constant.php';
 require_once MOVIE_LIBRARY_PLUGIN_DIR . 'autoloader.php';
 
 use Movie_Library\Custom_Post_Type\Movie;
+use Movie_Library\Custom_Post_Type\Person;
 
 /**
  * Main class of the plugin.
@@ -49,6 +50,7 @@ class Movie_Library {
 
 		// add custom post type.
 		Movie::init();
+		Person::init();
 	}
 
 	/**
@@ -58,6 +60,7 @@ class Movie_Library {
 	 */
 	public static function activate() : void {
 		Movie::register_movie_post_type();
+		Person::register_person_post_type();
 
 		flush_rewrite_rules();
 	}
