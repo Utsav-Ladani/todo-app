@@ -30,6 +30,8 @@ require_once MOVIE_LIBRARY_PLUGIN_DIR . 'autoloader.php';
 use Movie_Library\Custom_Post_Type\Movie;
 use Movie_Library\Custom_Post_Type\Person;
 
+use Movie_Library\Taxonomy\Hierarchical\Genre;
+
 /**
  * Main class of the plugin.
  *
@@ -51,6 +53,9 @@ class Movie_Library {
 		// add custom post type.
 		Movie::init();
 		Person::init();
+
+		// add custom taxonomy.
+		Genre::init();
 	}
 
 	/**
@@ -59,9 +64,15 @@ class Movie_Library {
 	 * @return void
 	 */
 	public static function activate() : void {
+
+		// register custom post type to flush rewrite rules.
 		Movie::register_movie_post_type();
 		Person::register_person_post_type();
 
+		// register custom taxonomy to flush rewrite rules.
+		Genre::register_genre_taxonomy();
+
+		// flush rewrite rules.
 		flush_rewrite_rules();
 	}
 }
