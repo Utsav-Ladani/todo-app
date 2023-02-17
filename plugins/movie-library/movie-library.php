@@ -37,6 +37,12 @@ use Movie_Library\Taxonomy\Hierarchical\Label;
 use Movie_Library\Taxonomy\Hierarchical\Language;
 use Movie_Library\Taxonomy\Hierarchical\Production_Company;
 
+// non-hierarchical taxonomy
+use Movie_Library\Taxonomy\Non_Hierarchical\Tag;
+
+//non-hierarchical shadow taxonomy
+use Movie_Library\Shadow_Taxonomy\Non_Hierarchical\Shadow_Person;
+
 /**
  * Main class of the plugin.
  *
@@ -59,11 +65,17 @@ class Movie_Library {
 		Movie::init();
 		Person::init();
 
-		// add custom taxonomy.
+		// add hierarchical taxonomy.
 		Genre::init();
 		Label::init();
 		Language::init();
 		Production_Company::init();
+
+		// add non-hierarchical taxonomy.
+		Tag::init();
+
+		// add non-hierarchical shadow taxonomy.
+		Shadow_Person::init();
 	}
 
 	/**
@@ -77,11 +89,17 @@ class Movie_Library {
 		Movie::register_movie_post_type();
 		Person::register_person_post_type();
 
-		// register custom taxonomy to flush rewrite rules.
+		// register hierarchical taxonomy to flush rewrite rules.
 		Genre::register_genre_taxonomy();
 		Label::register_label_taxonomy();
 		Language::register_language_taxonomy();
 		Production_Company::register_production_company_taxonomy();
+
+		// register non-hierarchical taxonomy to flush rewrite rules.
+		Tag::register_tag_taxonomy();
+
+		// register non-hierarchical shadow taxonomy to flush rewrite rules.
+		Shadow_Person::register_shadow_person_taxonomy();
 
 		// flush rewrite rules.
 		flush_rewrite_rules();
