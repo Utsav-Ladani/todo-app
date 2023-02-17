@@ -36,6 +36,7 @@ use Movie_Library\Taxonomy\Hierarchical\Genre;
 use Movie_Library\Taxonomy\Hierarchical\Label;
 use Movie_Library\Taxonomy\Hierarchical\Language;
 use Movie_Library\Taxonomy\Hierarchical\Production_Company;
+use Movie_Library\Taxonomy\Hierarchical\Career;
 
 // non-hierarchical taxonomy
 use Movie_Library\Taxonomy\Non_Hierarchical\Tag;
@@ -70,6 +71,7 @@ class Movie_Library {
 		Label::init();
 		Language::init();
 		Production_Company::init();
+		Career::init();
 
 		// add non-hierarchical taxonomy.
 		Tag::init();
@@ -94,6 +96,7 @@ class Movie_Library {
 		Label::register_label_taxonomy();
 		Language::register_language_taxonomy();
 		Production_Company::register_production_company_taxonomy();
+		Career::register_career_taxonomy();
 
 		// register non-hierarchical taxonomy to flush rewrite rules.
 		Tag::register_tag_taxonomy();
