@@ -27,10 +27,15 @@ namespace Movie_Library;
 require_once __DIR__ . '/plugin-constant.php';
 require_once MOVIE_LIBRARY_PLUGIN_DIR . 'autoloader.php';
 
+// custom post type
 use Movie_Library\Custom_Post_Type\Movie;
 use Movie_Library\Custom_Post_Type\Person;
 
+// hierarchical taxonomy
 use Movie_Library\Taxonomy\Hierarchical\Genre;
+use Movie_Library\Taxonomy\Hierarchical\Label;
+use Movie_Library\Taxonomy\Hierarchical\Language;
+use Movie_Library\Taxonomy\Hierarchical\Production_Company;
 
 /**
  * Main class of the plugin.
@@ -56,6 +61,9 @@ class Movie_Library {
 
 		// add custom taxonomy.
 		Genre::init();
+		Label::init();
+		Language::init();
+		Production_Company::init();
 	}
 
 	/**
@@ -71,6 +79,9 @@ class Movie_Library {
 
 		// register custom taxonomy to flush rewrite rules.
 		Genre::register_genre_taxonomy();
+		Label::register_label_taxonomy();
+		Language::register_language_taxonomy();
+		Production_Company::register_production_company_taxonomy();
 
 		// flush rewrite rules.
 		flush_rewrite_rules();

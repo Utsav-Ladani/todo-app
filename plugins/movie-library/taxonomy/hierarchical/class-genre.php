@@ -1,7 +1,17 @@
 <?php
+/**
+ * Create the Genre taxonomy.
+ *
+ * @package   Movie_Library\Taxonomy\Hierarchical
+ */
 
 namespace Movie_Library\Taxonomy\Hierarchical;
 
+/**
+ * Class Genre
+ *
+ * Create the Genre taxonomy.
+ */
 class Genre {
 
 	/**
@@ -15,7 +25,7 @@ class Genre {
 	}
 
 	/**
-	 * Register the taxonomy.
+	 * Register the Genre taxonomy.
 	 *
 	 * @return void
 	 */
