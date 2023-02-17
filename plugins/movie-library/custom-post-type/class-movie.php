@@ -1,7 +1,17 @@
 <?php
+/**
+ * Create the custom post type for Movie.
+ *
+ * @package   Movie_Library\Custom_Post_Type
+ */
 
 namespace Movie_Library\Custom_Post_Type;
 
+/**
+ * Movie class.
+ *
+ * Create the custom post type for movie.
+ */
 class Movie
 {
 
@@ -13,6 +23,9 @@ class Movie
 	public static function init(): void
 	{
 		add_action( 'init', array( __CLASS__, 'register_movie_post_type' ) );
+		add_filter( 'enter_title_here', array( __CLASS__, 'change_enter_title_here' ) );
+		add_filter( 'write_your_story', array( __CLASS__, 'change_write_your_story' ) );
+		add_action('admin_enqueue_scripts', array( __CLASS__, 'custom_excerpt_heading' ) );
 	}
 
 	/**
@@ -50,9 +63,6 @@ class Movie
 			'items_list_navigation' => __( 'Movies list navigation', 'movie-library' ),
 			'filter_items_list'     => __( 'Filter Movies list', 'movie-library' ),
 			'featured_image'        => __( 'Movie Poster', 'movie-library' ),
-			'post_content'          => __( 'Plot', 'movie-library' ),
-			'post_excerpt'          => __( 'Description', 'movie-library' ),
-			'post_title'            => __( 'Title', 'movie-library' ),
 		);
 
 		$args = array(
@@ -61,7 +71,7 @@ class Movie
 			'hierarchical'        => false,
 			'show_ui'             => true,
 			'show_in_nav_menus'   => true,
-			'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'author', 'comment' ),
+			'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'author', 'comments' ),
 			'has_archive'         => true,
 			'rewrite'             => array ( 'slug' => 'rt-movie' ),
 			'query_var'           => true,
@@ -73,5 +83,34 @@ class Movie
 		);
 
 		register_post_type( 'rt-movie', $args );
+	}
+
+	public static function change_enter_title_here( string $title ) : string {
+		if ( 'rt-movie' === get_post_type() ) {
+			return 'Title';
+		}
+		return $title;
+	}
+
+	public static function change_write_your_story( string $post_content ) : string {
+		if( 'rt-movie' === get_post_type() ) {
+			return 'Plot';
+		}
+		return $post_content;
+	}
+
+	public static function custom_excerpt_heading() : void {
+		// return if post type is not rt-movie.
+		if('rt-movie' !== get_post_type()) {
+			return;
+		}
+
+		// enqueue the script.
+		wp_enqueue_script(
+			'movie-library-admin',
+			MOVIE_LIBRARY_PLUGIN_URL . 'admin/js/movie-library-admin.js',
+			['wp-i18n'],
+			MOVIE_LIBRARY_VERSION,
+		);
 	}
 }
