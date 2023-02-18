@@ -44,6 +44,10 @@ use Movie_Library\Taxonomy\Non_Hierarchical\Tag;
 //non-hierarchical shadow taxonomy
 use Movie_Library\Shadow_Taxonomy\Non_Hierarchical\Shadow_Person;
 
+// meta box
+use Movie_Library\Meta_Box\Basic_Meta_Box;
+
+
 /**
  * Main class of the plugin.
  *
@@ -78,6 +82,9 @@ class Movie_Library {
 
 		// add non-hierarchical shadow taxonomy.
 		Shadow_Person::init();
+
+		// add meta box.
+		Basic_Meta_Box::init();
 	}
 
 	/**
