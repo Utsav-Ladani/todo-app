@@ -126,10 +126,14 @@ abstract class Basic_Meta_Box {
 		$meta_value = self::add_runtime_to_meta_value( $meta_value );
 		$meta_value = self::add_release_date_to_meta_value( $meta_value );
 
-		// update the metadata only if the array is not empty.
-		if( count( $meta_value ) !== 0 ) {
-			update_post_meta( $post_id, 'rt-movie-meta-basic', $meta_value );
+		// delete the metadata if the array is empty.
+		if( count( $meta_value ) === 0 ) {
+			delete_post_meta( $post_id, 'rt-movie-meta-basic' );
+			return;
 		}
+
+		// update the metadata.
+		update_post_meta( $post_id, 'rt-movie-meta-basic', $meta_value );
 	}
 
 	/**
