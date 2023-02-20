@@ -46,7 +46,16 @@ use Movie_Library\Shadow_Taxonomy\Non_Hierarchical\Shadow_Person;
 
 // meta box
 use Movie_Library\Meta_Box\Basic_Meta_Box;
+use Movie_Library\Meta_Box\Crew_Meta_Box;
+use Movie_Library\Meta_Box\Person_Basic_Meta_Box;
+use Movie_Library\Meta_Box\Social_Meta_Box;
 
+// shortcode
+use Movie_Library\Shortcode\Movie_Shortcode;
+use Movie_Library\Shortcode\Person_Shortcode;
+
+// setting
+use Movie_Library\Setting\Setting;
 
 /**
  * Main class of the plugin.
@@ -85,6 +94,16 @@ class Movie_Library {
 
 		// add meta box.
 		Basic_Meta_Box::init();
+		Crew_Meta_Box::init();
+		Person_Basic_Meta_Box::init();
+		Social_Meta_Box::init();
+
+		// add shortcode.
+		Movie_Shortcode::init();
+		Person_Shortcode::init();
+
+		// add setting.
+		Setting::init();
 	}
 
 	/**
