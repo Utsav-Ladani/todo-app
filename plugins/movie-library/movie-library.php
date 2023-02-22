@@ -49,6 +49,8 @@ use Movie_Library\Meta_Box\Basic_Meta_Box;
 use Movie_Library\Meta_Box\Crew_Meta_Box;
 use Movie_Library\Meta_Box\Person_Basic_Meta_Box;
 use Movie_Library\Meta_Box\Social_Meta_Box;
+use Movie_Library\Meta_Box\Images_Meta_Box;
+use Movie_Library\Meta_Box\Videos_Meta_Box;
 
 // shortcode
 use Movie_Library\Shortcode\Movie_Shortcode;
@@ -97,6 +99,8 @@ class Movie_Library {
 		Crew_Meta_Box::init();
 		Person_Basic_Meta_Box::init();
 		Social_Meta_Box::init();
+		Images_Meta_Box::init();
+		Videos_Meta_Box::init();
 
 		// add shortcode.
 		Movie_Shortcode::init();
