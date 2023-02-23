@@ -17,8 +17,14 @@ jQuery(function ($) {
 		);
 
 		// get the values from the input
-		const characterRawValues = JSON.parse(characterNameInput.val());
-		const characterValues = characterRawValues || {};
+		let characterRawValues = characterNameInput.val();
+
+		if (characterRawValues !== '') {
+			characterRawValues = JSON.parse(characterRawValues);
+		} else {
+			characterRawValues = {};
+		}
+		const characterValues = characterRawValues;
 
 		// record the change in the input for character name
 		const recordChange = function () {
