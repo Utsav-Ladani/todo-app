@@ -69,6 +69,11 @@ class Images_Meta_Box {
 	 * @static
 	 */
 	public static function add_image_media_script() : void {
+		// check is post type is not rt-movie or rt-person, then return.
+		if ( ! in_array( get_post_type(), array( 'rt-movie', 'rt-person' ), true ) ) {
+			return;
+		}
+
 		wp_enqueue_media();
 		wp_enqueue_script(
 			'movie-library-image-upload-handler',

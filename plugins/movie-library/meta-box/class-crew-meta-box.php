@@ -89,6 +89,11 @@ abstract class Crew_Meta_Box {
 	 * @static
 	 */
 	public static function enqueue_script() : void {
+		// if post type is not rt-movie, then return.
+		if( 'rt-movie' !== get_post_type() ) {
+			return;
+		}
+
 		wp_enqueue_script(
 			'movie-library-character-name-handler',
 			MOVIE_LIBRARY_PLUGIN_URL . 'admin/js/character-name-handler.js',

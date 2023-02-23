@@ -69,6 +69,11 @@ class Videos_Meta_Box {
 	 * @static
 	 */
 	public static function add_video_media_script() : void {
+		// Check if post type is not rt-movie or rt-person, then return.
+		if ( ! in_array( get_post_type(), array( 'rt-movie', 'rt-person' ), true ) ) {
+			return;
+		}
+
 		wp_enqueue_media();
 		wp_enqueue_script(
 			'movie-library-video-upload-handler',
