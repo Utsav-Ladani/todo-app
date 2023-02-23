@@ -100,6 +100,9 @@ abstract class Social_Meta_Box {
 		// Get the social metadata.
 		$social_meta_data = self::get_social_meta_data( $post->ID );
 
+		// add nonce field.
+		wp_nonce_field( 'rt-person-meta-social', 'rt-person-meta-social-nonce' );
+
 		// Render the social meta box for all the social media.
 		foreach ( self::$social_arr as $social ) {
 			self::render_social_meta_box_section(
@@ -180,6 +183,13 @@ abstract class Social_Meta_Box {
 
 		// Check whether the post is an autosave or a revision.
 		if( wp_is_post_autosave( $post_id ) || wp_is_post_revision($post_id) ) {
+			return;
+		}
+
+		// Check whether the nonce is set and verify it.
+		if( ! isset( $_POST['rt-person-meta-social-nonce'] ) ||
+			! wp_verify_nonce( $_POST['rt-person-meta-social-nonce'], 'rt-person-meta-social' )
+		) {
 			return;
 		}
 

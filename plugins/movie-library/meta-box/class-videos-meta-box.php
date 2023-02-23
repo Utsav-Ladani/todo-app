@@ -104,6 +104,9 @@ class Videos_Meta_Box {
 
 		$input_value = implode( ',', $videos );
 
+		// Add nonce for security and authentication.
+		wp_nonce_field( 'rt-video-upload-nonce-action', 'rt-video-upload-nonce' );
+
 		// Render the video meta box.
 		?>
 		<div id='movie-library-video-upload-handler'>
@@ -135,6 +138,13 @@ class Videos_Meta_Box {
 	public static function save_post_videos( int $post_id ) : void {
 		// Check whether the request type is post and rt-upload-videos is set.
 		if ( ! isset($_POST) || ! isset( $_POST['rt-upload-videos'] ) ) {
+			return;
+		}
+
+		// Check whether the nonce is set and verify it.
+		if ( ! isset( $_POST['rt-video-upload-nonce'] ) ||
+			! wp_verify_nonce( $_POST['rt-video-upload-nonce'], 'rt-video-upload-nonce-action' )
+		) {
 			return;
 		}
 

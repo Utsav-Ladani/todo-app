@@ -47,6 +47,9 @@ abstract class Basic_Meta_Box {
 		// get meta data from database.
 		$basic_meta_data = self::get_basic_meta_data( $post->ID );
 
+		// add nonce
+		wp_nonce_field( 'rt-movie-meta-basic', 'rt-movie-meta-basic-nonce' );
+
 		// add html tags.
 		?>
 		<label for='rt-movie-meta-basic-rating' > Rating </label>
@@ -117,6 +120,13 @@ abstract class Basic_Meta_Box {
 
 		// check if the post is autosave or revision, then return.
 		if( wp_is_post_autosave( $post_id ) || wp_is_post_revision($post_id) ) {
+			return;
+		}
+
+		// check if the nonce is set and valid.
+		if( ! isset( $_POST['rt-movie-meta-basic-nonce'] ) ||
+			! wp_verify_nonce( $_POST['rt-movie-meta-basic-nonce'], 'rt-movie-meta-basic' )
+		) {
 			return;
 		}
 

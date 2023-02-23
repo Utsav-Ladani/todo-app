@@ -143,6 +143,9 @@ abstract class Crew_Meta_Box {
 			$selected_crew_member = array_keys( $selected_crew_member );
 		}
 
+		// add nonce field.
+		wp_nonce_field( 'rt-movie-meta-crew', 'rt-movie-meta-crew-nonce' );
+
 		// Render the meta box section.
 		?>
 		<label for='<?php echo esc_attr( $crew['id'] ); ?>' >
@@ -248,6 +251,13 @@ abstract class Crew_Meta_Box {
 
 		// avoid the autosave and revision.
 		if( wp_is_post_autosave( $post_id ) || wp_is_post_revision($post_id) ) {
+			return;
+		}
+
+		// check if the nonce is set or not and verify it.
+		if( ! isset( $_POST['rt-movie-meta-crew-nonce'] ) ||
+			! wp_verify_nonce( $_POST['rt-movie-meta-crew-nonce'], 'rt-movie-meta-crew' )
+		) {
 			return;
 		}
 

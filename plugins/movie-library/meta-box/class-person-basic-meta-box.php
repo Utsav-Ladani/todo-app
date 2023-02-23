@@ -63,6 +63,9 @@ class Person_Basic_Meta_Box {
 		// Get the metadata for the person.
 		$person_basic_meta_data = self::get_person_basic_meta_data( $post->ID );
 
+		// Add nonce for security and authentication.
+		wp_nonce_field( 'rt-person-basic-meta-box', 'rt-person-basic-meta-box-nonce' );
+
 		// Render the meta box for the basic information about the person.
 		?>
 		<label for='rt-person-meta-basic-birth-date' > Birth Date </label>
@@ -128,6 +131,13 @@ class Person_Basic_Meta_Box {
 
 		// Check whether the post is autosave or revision.
 		if( wp_is_post_autosave( $post_id ) || wp_is_post_revision($post_id) ) {
+			return;
+		}
+
+		// Check whether the nonce is set and verify it.
+		if( ! isset( $_POST['rt-person-basic-meta-box-nonce'] ) ||
+			! wp_verify_nonce( $_POST['rt-person-basic-meta-box-nonce'], 'rt-person-basic-meta-box' )
+		) {
 			return;
 		}
 

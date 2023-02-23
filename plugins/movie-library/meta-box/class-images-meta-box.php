@@ -104,6 +104,9 @@ class Images_Meta_Box {
 
 		$input_value = implode( ',', $images );
 
+		// Add nonce for security and authentication.
+		wp_nonce_field( 'rt-upload-images', 'rt-upload-images-nonce' );
+
 		// Add the HTML in Meta Box.
 		?>
 		<div id='movie-library-image-upload-handler'>
@@ -137,6 +140,14 @@ class Images_Meta_Box {
 		if ( ! isset($_POST) || ! isset( $_POST['rt-upload-images'] ) ) {
 			return;
 		}
+
+		// Check whether nonce is set and verify it.
+		if ( ! isset( $_POST['rt-upload-images-nonce'] ) ||
+			! wp_verify_nonce( $_POST['rt-upload-images-nonce'], 'rt-upload-images' )
+		) {
+			return;
+		}
+
 
 		// Sanitize and explode the data.
 		$images = filter_input(
