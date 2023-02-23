@@ -43,7 +43,7 @@ class Person_Shortcode {
 	/**
 	 * Render the person post for given career in filter.
 	 *
-	 * @param array $attributes Shortcode attributes.
+	 * @param mixed $attributes Shortcode attributes.
 	 * @param string $content Shortcode content.
 	 * @param string $tag Shortcode tag.
 	 * @return string
@@ -51,7 +51,11 @@ class Person_Shortcode {
 	 * @access public
 	 * @static
 	 */
-	public static function render_person_shortcode( array $attributes, string $content, string $tag ) : string {
+	public static function render_person_shortcode( mixed $attributes, string $content, string $tag ) : string {
+		if( ! is_array( $attributes ) ) {
+			$attributes = array();
+		}
+
 		// Structure the attributes.
 		$attributes = self::structure_attributes( $attributes, $tag );
 
@@ -62,7 +66,7 @@ class Person_Shortcode {
 		$query_result = self::wp_query_for_person_shortcode( $attributes );
 
 		// Filter the query result.
-		$filtered_result = self::get_filtered_person_data( $query_result );
+		$filtered_result = self::get_filtered_person_data( $query_result, $attributes );
 
 		// Return the html with data.
 		return self::get_html_with_data( $filtered_result );
@@ -164,6 +168,7 @@ class Person_Shortcode {
 		// Return the query arguments.
 		return array(
 			'post_type'      => 'rt-person',
+			'post_status'    => 'publish',
 			'orderby'        => 'title',
 			'order'          => 'ASC',
 			'tax_query'      => $tax_query,
@@ -195,21 +200,30 @@ class Person_Shortcode {
 	 * Filter the query result.
 	 *
 	 * @param array $query_result Query result.
+	 * @param array $attributes Shortcode attributes.
 	 * @return array
 	 * @since 1.0.0
 	 * @access public
 	 * @static
 	 */
-	public static function get_filtered_person_data( array $query_result ) : array {
+	public static function get_filtered_person_data( array $query_result, mixed $attributes ) : array {
 		$result = array();
 
 		// Loop through the query result and get individual data.
 		foreach ( $query_result as $person ) {
 			$name = $person->post_title;
 
-			$profile_picture = '';
+			// Get the profile picture url.
+			$profile_picture = get_post_thumbnail_id( $person->ID );
+			if( $profile_picture ) {
+				$profile_picture = wp_get_attachment_image_url( $profile_picture);
+			}
+			else {
+				$profile_picture = '';
+			}
 
-			$career = get_post_meta( $person->ID, 'rt-person-career', true );
+			// Get the career type of the person.
+			$career = self::find_career( $person->ID );
 
 			// Create the person data array of name, profile picture and career.
 			$person_data = array(
@@ -222,6 +236,35 @@ class Person_Shortcode {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Find the career of the person.
+	 *
+	 * @param int $person_id Person ID.
+	 * @return string
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 */
+	public static function find_career( int $person_id ) : string {
+		$career = '';
+
+		// Get the career terms.
+		$terms = get_the_terms( $person_id, 'rt-person-career' );
+
+		// Check if the career terms are set or not.
+		if( $terms ) {
+			// Get the career name from the terms.
+			$terms_name = array_map( function( $term ) {
+				return $term->name;
+			}, $terms );
+
+			// Implode the career name.
+			$career = implode( ', ', $terms_name );
+		}
+
+		return $career;
 	}
 
 	/**
@@ -239,7 +282,12 @@ class Person_Shortcode {
 		foreach ( $result as $person ) {
 			// Create the html for each person.
 			$content = sprintf( "<h3 class='person-item__name' > %s </h3>", $person['Name'] );
-			$content .= "<img src='https://www.salonprismla.com/wp-content/uploads/sites/202/2021/07/image-coming-soon-200x300-1.jpg' class='person-item__profile-picture' />";
+
+			// Add Profile Picture if it is exists.
+			if( $person['Profile Picture'] ) {
+				$content .= sprintf( "<img src='%s' class='person-item__profile-picture' />", $person['Profile Picture'] );
+			}
+
 			$content .= sprintf( "<p class='person-item__career' > %s </p>", $person['Career'] );
 
 			// Add the person html to the person items.
