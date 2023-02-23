@@ -60,12 +60,17 @@ class Movie_Shortcode {
 	 * @since 1.0.0
 	 * @access public
 	 * @static
-	 * @param array  $attributes Shortcode attributes.
+	 * @param mixed $attributes Shortcode attributes.
 	 * @param string $content Shortcode content.
 	 * @param string $tag Shortcode tag.
 	 * @return string
 	 */
-	public static function render_movie_shortcode( array $attributes, string $content, string $tag ) : string {
+	public static function render_movie_shortcode( mixed $attributes, string $content, string $tag ) : string {
+		// Check if the attributes is an array.
+		if( ! is_array( $attributes ) ) {
+			$attributes = array();
+		}
+
 		// Structure the attributes.
 		$attributes = self::structure_attributes( $attributes, $tag );
 
@@ -92,20 +97,15 @@ class Movie_Shortcode {
 	 * @return array
 	 */
 	static public function sanitize_shortcode_attributes( array $attributes ) : array {
-		// Change the key to lower case.
-		$attributes = array_change_key_case( $attributes, CASE_LOWER );
-
 		$filtered_attributes = array();
 
 		// Sanitize the attributes.
 		foreach ( self::$attributes_name as $attribute_name ) {
-			$attribute_value = $attributes[$attribute_name];
-			$attribute_value = strtolower( $attribute_value );
-			$attribute_value = trim( $attribute_value, '-' );
-
-			// Check if the attribute value is valid slug or not.
-			if( preg_match( '/^[a-z0-9-]+$/', $attribute_value) ) {
-				$filtered_attributes[$attribute_name] = $attribute_value;
+			if( preg_match( '/^[a-zA-Z0-9- ]+$/', $attributes[ $attribute_name ] ) ) {
+				$filtered_attributes[ $attribute_name ] = sanitize_text_field( $attributes[ $attribute_name ] );
+			}
+			else {
+				$filtered_attributes[ $attribute_name ] = '';
 			}
 		}
 
@@ -145,8 +145,16 @@ class Movie_Shortcode {
 	 * @param array $args Shortcode attributes.
 	 * @return array
 	 */
-	public static function structure_query_args( array $args ) : array {
+	public static function structure_query_args( array $args ) : array
+	{
 		$tax_query = array();
+
+		// Add person slugs to the query if found.
+		$is_found = self::add_person_slugs_to_args( $args );
+
+		if ( ! $is_found ) {
+			return array();
+		}
 
 		// Add the person query.
 		$person_tax_query = self::add_person_query_to_args( $args );
@@ -155,20 +163,99 @@ class Movie_Shortcode {
 		$other_tax_query = self::add_other_query_to_args( $args );
 
 		// Merge the query.
-		$tax_query[] = array_merge( $person_tax_query, $other_tax_query );
+		$arr = array_merge( $person_tax_query, $other_tax_query );
+		array_filter( $arr, function ( $value ) {
+			return !empty( $value );
+		} );
+
+		$tax_query[] = $arr;
+
+		// Add if the query is not empty.
+		$tax_query = array_filter( $tax_query, function ( $value ) {
+			return is_array($value) && ! empty( $value );
+		} );
 
 		// Add the relation.
-		if( count( $tax_query ) > 1 ) {
+		if (count( $tax_query ) > 1) {
 			$tax_query['relation'] = 'AND';
 		}
 
 		// Return the query.
-		return array(
-			'post_type'      => 'rt-movie',
-			'orderby'        => 'title',
-			'order'          => 'ASC',
-			'tax_query'      => $tax_query,
+		$query_args = array(
+			'post_type' => 'rt-movie',
+			'post_status' => 'publish',
+			'orderby' => 'title',
+			'order' => 'ASC',
 		);
+
+		if (! empty( $tax_query )) {
+			$query_args['tax_query'] = $tax_query;
+		}
+
+		return $query_args;
+	}
+
+	/**
+	 * Add person slugs to the query args.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 * @param array $args Shortcode attributes.
+	 * @return array
+	 */
+	public static function add_person_slugs_to_args( array &$args ) : bool {
+		// Check if the person attribute is set or not.
+		if( isset( $args['person'] ) && ! empty( $args['person'] ) ) {
+			$result_name = new \WP_Query( array(
+				'title'       => $args['person'],
+				'post_type'   => 'rt-person',
+				'post_status' => 'publish',
+			));
+
+			// extract the person ids from the result.
+			$person_ids_from_name = array();
+			foreach ( $result_name->posts as $post ) {
+				$person_ids_from_name[] = $post->ID;
+			}
+
+			// Get the person posts.
+			$result_slug = new \WP_Query( array(
+				'name'        => $args['person'],
+				'post_type'   => 'rt-person',
+				'post_status' => 'publish',
+			));
+
+			// extract the person ids from the result.
+			$person_ids_from_slug = array();
+			foreach ( $result_slug->posts as $post ) {
+				$person_ids_from_slug[] = $post->ID;
+			}
+
+			// Merge the person ids.
+			$result = array_merge( $person_ids_from_name, $person_ids_from_slug );
+			$result = array_unique( $result );
+
+			// Get the person slugs.
+			$person_slugs = array();
+			foreach ( $result as $id ) {
+				$person_slugs[] = sprintf( 'person-%d', $id );
+			}
+
+			// Check if the person slugs is empty or not.
+			if( empty( $person_slugs ) ) {
+				$args['person'] = array();
+				return false;
+			}
+
+			// Add person slugs to the args.
+			$args['person'] = $person_slugs;
+		}
+		else {
+			$args['person'] = array();
+		}
+
+		return true;
 	}
 
 	/**
@@ -181,43 +268,17 @@ class Movie_Shortcode {
 	 * @return array
 	 */
 	public static function add_person_query_to_args( array $args ) : array {
-		$person_tax_query = array();
-
 		// Check if the person attribute is set or not.
 		if( isset( $args['person'] ) && ! empty( $args['person'] ) ) {
 			// Add the person query for term id.
-			$person_tax_query[] = array(
+			return array(
 				'taxonomy' => '_rt-movie-person',
-				'field'    => 'term_id',
-				'terms'    => (int) $args['person']
+				'field'    => 'slug',
+				'terms'    => (array) $args['person'],
 			);
-
-			// Add the person query for name.
-			$person_tax_query[] = array(
-				'taxonomy' => '_rt-movie-person',
-				'field'    => 'name',
-				'terms'    => sprintf( 'rt-person-%s', $args['person'] )
-			);
-
-			// Add the person query for slug.
-			if( ! str_contains( $args['person'], ' ' ) ) {
-				$person_tax_query[] = array(
-					'taxonomy' => '_rt-movie-person',
-					'field'    => 'slug',
-					'terms'    => sprintf( 'rt-person-%s', $args['person'] )
-				);
-			}
-
-			// Add the relation.
-			if( count( $person_tax_query ) > 1 ) {
-				$person_tax_query['relation'] = 'OR';
-			}
-			else {
-				$person_tax_query = $person_tax_query[0];
-			}
 		}
 
-		return array( $person_tax_query );
+		return array();
 	}
 
 	/**
@@ -287,6 +348,10 @@ class Movie_Shortcode {
 	public static function wp_query_for_movie_shortcode( array $query_args ) : array {
 		$query_args = self::structure_query_args( $query_args );
 
+		if ( empty( $query_args ) ) {
+			return array();
+		}
+
 		$movie_query = new \WP_Query( $query_args );
 
 		// Reset the post pointer.
@@ -312,7 +377,10 @@ class Movie_Shortcode {
 			$title = $movie->post_title;
 
 			// Get the poster.
-			$poster = '';
+			$poster = get_post_thumbnail_id( $movie->ID );
+			if( ! empty( $poster ) ) {
+				$poster = wp_get_attachment_image_url( $poster, 'rt-movie-poster' );
+			}
 
 			// Get the release date.
 			$movie_basic_date = get_post_meta( $movie->ID, 'rt-movie-meta-basic', true );
@@ -327,9 +395,17 @@ class Movie_Shortcode {
 				$director = array();
 			}
 
+			foreach ( $director as &$director_value ) {
+				$director_value = get_the_title( $director_value );
+			}
+
 			// Get the actors.
 			$actors = get_post_meta( $movie->ID, 'rt-movie-meta-crew-actor', true );
 			$actors = maybe_unserialize( $actors ) ?? array();
+
+			foreach ( $actors as &$actor_value ) {
+				$actor_value = get_the_title( $actor_value );
+			}
 
 			// Limit the actors to 2.
 			if( is_array( $actors ) ) {
@@ -384,7 +460,12 @@ class Movie_Shortcode {
 
 			// Structure the HTML.
 			$content = sprintf( "<h3 class='movie-item__title' > %s </h3>", $movie['Title'] );
-			$content .= "<img src='https://www.salonprismla.com/wp-content/uploads/sites/202/2021/07/image-coming-soon-200x300-1.jpg' class='movie-item__poster' />";
+
+			// Add the poster if it exists.
+			if( $movie['Poster'] ) {
+				$content .= sprintf( "<img src='%s' class='movie-item__poster' />", $movie['Poster'] );
+			}
+
 			$content .= sprintf( "<p class='movie-item__date' > %s </p>", $movie['Release Date'] );
 
 			$content .= sprintf( "<h5 class='movie-item__director-title' > %s </h5>", 'Director' );
