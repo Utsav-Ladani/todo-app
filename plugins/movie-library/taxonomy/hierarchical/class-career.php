@@ -12,7 +12,7 @@ namespace Movie_Library\Taxonomy\Hierarchical;
  *
  * Create the Career taxonomy for Person.
  */
-class Career {
+abstract class Career {
 
 	/**
 	 * Initialize the class.

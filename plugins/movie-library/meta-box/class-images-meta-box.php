@@ -12,7 +12,7 @@ namespace Movie_Library\Meta_Box;
  * Class Images_Meta_Box
  * Adds images meta box to movie and person post type.
  */
-class Images_Meta_Box {
+abstract class Images_Meta_Box {
 	/**
 	 * Initialize the class.
 	 *

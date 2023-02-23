@@ -11,7 +11,7 @@ namespace Movie_Library\Taxonomy\Hierarchical;
  *
  * Create the Language taxonomy.
  */
-class Language {
+abstract class Language {
 
 	/**
 	 * Initialize the class.

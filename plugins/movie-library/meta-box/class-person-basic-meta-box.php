@@ -11,7 +11,7 @@ namespace Movie_Library\Meta_Box;
  * Class Person_Basic_Meta_Box
  * Add the basic information about the person like birthdate, birthplace.
  */
-class Person_Basic_Meta_Box {
+abstract class Person_Basic_Meta_Box {
 
 	/**
 	 * Initialize the class.

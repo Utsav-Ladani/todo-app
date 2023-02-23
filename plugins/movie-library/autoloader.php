@@ -14,7 +14,7 @@ namespace Movie_Library;
  *
  * It loads the classes automatically when needed.
  */
-class Autoloader {
+abstract class Autoloader {
 	/**
 	 * Register the autoloader.
 	 *

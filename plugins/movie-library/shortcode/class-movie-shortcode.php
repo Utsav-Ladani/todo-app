@@ -11,7 +11,7 @@ namespace Movie_Library\Shortcode;
  * Class Movie_Shortcode
  * Add the 'movie' shortcode to show the movie list using given filters.
  */
-class Movie_Shortcode {
+abstract class Movie_Shortcode {
 
 	/**
 	 * Attributes name.

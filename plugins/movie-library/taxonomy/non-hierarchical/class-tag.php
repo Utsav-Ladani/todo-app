@@ -12,7 +12,7 @@ namespace Movie_Library\Taxonomy\Non_Hierarchical;
  *
  * Create the Tag taxonomy.
  */
-class Tag {
+abstract class Tag {
 
 	/**
 	 * Initialize the class.

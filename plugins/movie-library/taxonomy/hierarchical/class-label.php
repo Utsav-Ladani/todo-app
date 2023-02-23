@@ -11,7 +11,7 @@ namespace Movie_Library\Taxonomy\Hierarchical;
  *
  * Create the Label taxonomy.
  */
-class Label {
+abstract class Label {
 
 	/**
 	 * Initialize the class.

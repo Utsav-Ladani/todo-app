@@ -11,7 +11,7 @@ namespace Movie_Library\Shortcode;
  * Class Person_Shortcode
  * It add the 'person' shortcode and render the person post for given career in filter.
  */
-class Person_Shortcode {
+abstract class Person_Shortcode {
 
 	/**
 	 * Initialize the class.

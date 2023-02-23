@@ -12,7 +12,7 @@ namespace Movie_Library\Shadow_Taxonomy\Non_Hierarchical;
  *
  * Create the Person shadow taxonomy.
  */
-class Shadow_Person {
+abstract class Shadow_Person {
 
 	/**
 	 * Initialize the class.

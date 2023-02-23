@@ -12,7 +12,7 @@ namespace Movie_Library\Custom_Post_Type;
  *
  * Create the custom post type for person.
  */
-class Person {
+abstract class Person {
 
 	/**
 	 * Initialize the class.

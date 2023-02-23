@@ -12,7 +12,7 @@ namespace Movie_Library\Taxonomy\Hierarchical;
  *
  * Create the Genre taxonomy.
  */
-class Genre {
+abstract class Genre {
 
 	/**
 	 * Initialize the class.

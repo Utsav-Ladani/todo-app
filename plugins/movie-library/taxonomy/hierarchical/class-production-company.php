@@ -11,7 +11,7 @@ namespace Movie_Library\Taxonomy\Hierarchical;
  *
  * Create the Production Company taxonomy.
  */
-class Production_Company {
+abstract class Production_Company {
 
 	/**
 	 * Initialize the class.

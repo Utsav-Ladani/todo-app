@@ -64,7 +64,7 @@ use Movie_Library\Setting\Setting;
  *
  * It registers the autoloader and activation hook.
  */
-class Movie_Library {
+abstract class Movie_Library {
 	/**
 	 * Initialize the plugin.
 	 *

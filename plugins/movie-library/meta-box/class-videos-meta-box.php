@@ -12,7 +12,7 @@ namespace Movie_Library\Meta_Box;
  * Class Videos_Meta_Box
  * Add video meta box to movie and person post type.
  */
-class Videos_Meta_Box {
+abstract class Videos_Meta_Box {
 	/**
 	 * Initialize the class
 	 *
