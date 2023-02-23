@@ -42,12 +42,11 @@ class Setting {
 	 * @static
 	 */
 	public static function init_plugin_options() : void {
-		// Add the options page to the Settings menu.
 		add_options_page(
-			__( 'Movie Library', 'movie-library' ),
-			__( 'Movie Library', 'movie-library' ),
+			__('Movie Library'),
+			__('Movie Library'),
 			'manage_options',
-			'movie-library-settings',
+			'movie-library',
 			array( __CLASS__, 'render_plugin_settings_page' ),
 		);
 	}
@@ -62,11 +61,51 @@ class Setting {
 	 */
 	public static function init_plugin_settings() : void {
 		// Register the settings for deleting data on plugin delete.
-		register_setting(
-			'movie-library-settings',
-			'movie-library-setting-delete-data-on-delete',
-			array( __CLASS__, 'sanitize_plugin_settings' ),
+		register_setting( 'movie-library', 'rt-delete-data-on-delete-plugin' );
+
+		add_settings_section(
+			'movie-library-section',
+			__( 'Plugin Settings', 'movie-library' ),
+			array( __CLASS__, 'render_setting_section' ),
+			'movie-library',
 		);
+
+		add_settings_field(
+			'rt-delete-data-on-delete-plugin',
+			__( 'Delete all content on plugin delete', 'movie-library' ),
+			array( __CLASS__, 'render_delete_data_on_delete_field' ),
+			'movie-library',
+			'movie-library-section',
+		);
+	}
+
+	public static function render_setting_section() : void {
+		?>
+		<p>
+			<?php esc_html_e( 'Movie Library plugin related settings.', 'movie-library' ); ?>
+		</p>
+		<?php
+	}
+
+	public static function render_delete_data_on_delete_field() : void {
+		$option = get_option( 'rt-delete-data-on-delete-plugin' );
+
+		$is_checked = 0;
+		if ( isset( $option ) && 'on' === $option ) {
+			$is_checked = 1;
+		}
+
+		?>
+		<input
+			type='checkbox'
+			name='rt-delete-data-on-delete-plugin'
+			id='rt-delete-data-on-delete-plugin'
+			<?php checked( $is_checked, 1 ); ?>
+		/>
+		<p class="description">
+			<?php esc_html_e( 'If this option is checked, all your data will be deleted when the plugin is deleted.', 'movie-library' ); ?>
+		</p>
+		<?php
 	}
 
 	/**
@@ -78,32 +117,19 @@ class Setting {
 	 * @static
 	 */
 	public static function render_plugin_settings_page() : void {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'Movie Library Settings', 'movie-library' ); ?></h1>
-			<form method="POST" action="options.php">
+			<h1><?php esc_html_e( get_admin_page_title() ); ?></h1>
+			<form action="options.php" method="post">
 				<?php
-				settings_fields( 'movie-library-settings' );
+				settings_fields( 'movie-library' );
+				do_settings_sections( 'movie-library' );
+				submit_button();
 				?>
-				<table class="form-table">
-					<tr>
-						<th scope="row">
-							<?php esc_html_e( 'Delete all content on plugin delete', 'movie-library' ); ?>
-						</th>
-						<td>
-							<input
-								type="checkbox"
-								name="movie-library-setting-delete-data-on-plugin-delete"
-								value="1"
-								<?php checked( get_option( 'movie-library-setting-delete-data-on-plugin-delete' ), 1 ); ?>
-							/>
-							<label for="movie-library-setting-delete-data-on-plugin-delete">
-								<?php esc_html_e( 'Delete all data when the plugin is deleted.', 'movie-library' ); ?>
-							</label>
-						</td>
-					</tr>
-				</table>
-				<?php submit_button(); ?>
 			</form>
 		</div>
 		<?php
