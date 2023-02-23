@@ -52,6 +52,7 @@ class Shadow_Person {
 			'publicly_queryable'  => false,
 			'hierarchical'        => false,
 			'show_ui'             => false,
+			'rewrite'             => false,
 		);
 
 		register_taxonomy( '_rt-movie-person', array( 'rt-movie' ), $args );
