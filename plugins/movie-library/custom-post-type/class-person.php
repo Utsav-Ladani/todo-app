@@ -19,8 +19,7 @@ abstract class Person {
 	 *
 	 * @return void
 	 */
-	public static function init(): void
-	{
+	public static function init(): void {
 		add_action( 'init', array( __CLASS__, 'register_person_post_type' ) );
 		add_filter( 'enter_title_here', array( __CLASS__, 'change_enter_title_here' ) );
 		add_filter( 'write_your_story', array( __CLASS__, 'change_write_your_story' ) );
@@ -31,8 +30,7 @@ abstract class Person {
 	 *
 	 * @return void
 	 */
-	public static function register_person_post_type(): void
-	{
+	public static function register_person_post_type(): void {
 		$labels = array(
 			'name'                  => _x( 'Persons', 'Post Type General Name', 'movie-library' ),
 			'singular_name'         => _x( 'Person', 'Post Type Singular Name', 'movie-library' ),
@@ -55,7 +53,7 @@ abstract class Person {
 			'set_featured_image'    => __( 'Set featured image', 'movie-library' ),
 			'remove_featured_image' => __( 'Remove featured image', 'movie-library' ),
 			'use_featured_image'    => __( 'Use as featured image', 'movie-library' ),
-			'insert_into_item'      => __( 'Insert into Person', 'movie-library' ),
+			'insert_into_item'      => __( 'Add into Person', 'movie-library' ),
 			'uploaded_to_this_item' => __( 'Uploaded to this Person', 'movie-library' ),
 			'items_list'            => __( 'Persons list', 'movie-library' ),
 			'items_list_navigation' => __( 'Persons list navigation', 'movie-library' ),
@@ -64,34 +62,48 @@ abstract class Person {
 		);
 
 		$args = array(
-			'labels'              => $labels,
-			'public'              => true,
-			'hierarchical'        => false,
-			'show_ui'             => true,
-			'show_in_nav_menus'   => true,
-			'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'author' ),
-			'has_archive'         => true,
-			'rewrite'             => array ( 'slug' => 'rt-person' ),
-			'query_var'           => true,
-			'menu_position'       => null,
-			'menu_icon'           => 'dashicons-admin-users',
-			'show_in_rest'        => true,
-			'rest_base'           => 'person',
+			'labels'                => $labels,
+			'public'                => true,
+			'hierarchical'          => false,
+			'show_ui'               => true,
+			'show_in_nav_menus'     => true,
+			'supports'              => array( 'title', 'editor', 'excerpt', 'thumbnail', 'author' ),
+			'has_archive'           => true,
+			'rewrite'               => array( 'slug' => 'rt-person' ),
+			'query_var'             => true,
+			'menu_position'         => null,
+			'menu_icon'             => 'dashicons-admin-users',
+			'show_in_rest'          => true,
+			'rest_base'             => 'person',
 			'rest_controller_class' => 'WP_REST_Posts_Controller',
 		);
 
 		register_post_type( 'rt-person', $args );
 	}
 
+	/**
+	 * Change the enter_title_here label for rt-person post type.
+	 *
+	 * @param string $title The label text.
+	 *
+	 * @return string
+	 */
 	public static function change_enter_title_here( string $title ) : string {
-		if( 'rt-person' === get_post_type() ) {
+		if ( 'rt-person' === get_post_type() ) {
 			return 'Name';
 		}
 		return $title;
 	}
 
+	/**
+	 * Change the write_your_story label for rt-person post type.
+	 *
+	 * @param string $post_content The label text.
+	 *
+	 * @return string
+	 */
 	public static function change_write_your_story( string $post_content ) : string {
-		if( 'rt-person' === get_post_type() ) {
+		if ( 'rt-person' === get_post_type() ) {
 			return 'Biography';
 		}
 		return $post_content;

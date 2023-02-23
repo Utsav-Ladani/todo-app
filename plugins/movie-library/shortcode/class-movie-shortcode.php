@@ -22,7 +22,7 @@ abstract class Movie_Shortcode {
 	 * @access public
 	 * @static
 	 */
-	public static array $attributes_name = array(
+	public static array $attributes_name = array( // phpcs:ignore
 		'person',
 		'genre',
 		'label',
@@ -60,14 +60,14 @@ abstract class Movie_Shortcode {
 	 * @since 1.0.0
 	 * @access public
 	 * @static
-	 * @param mixed $attributes Shortcode attributes.
-	 * @param string $content Shortcode content.
+	 * @param mixed  $attributes Shortcode attributes.
+	 * @param mixed  $content Shortcode content.
 	 * @param string $tag Shortcode tag.
 	 * @return string
 	 */
-	public static function render_movie_shortcode( mixed $attributes, string $content, string $tag ) : string {
+	public static function render_movie_shortcode( $attributes, $content, string $tag ) : string {
 		// Check if the attributes is an array.
-		if( ! is_array( $attributes ) ) {
+		if ( ! is_array( $attributes ) ) {
 			$attributes = array();
 		}
 
@@ -96,15 +96,14 @@ abstract class Movie_Shortcode {
 	 * @param array $attributes Shortcode attributes.
 	 * @return array
 	 */
-	static public function sanitize_shortcode_attributes( array $attributes ) : array {
+	public static function sanitize_shortcode_attributes( array $attributes ) : array {
 		$filtered_attributes = array();
 
 		// Sanitize the attributes.
 		foreach ( self::$attributes_name as $attribute_name ) {
-			if( preg_match( '/^[a-zA-Z0-9- ]+$/', $attributes[ $attribute_name ] ) ) {
+			if ( preg_match( '/^[a-zA-Z0-9- ]+$/', $attributes[ $attribute_name ] ) ) {
 				$filtered_attributes[ $attribute_name ] = sanitize_text_field( $attributes[ $attribute_name ] );
-			}
-			else {
+			} else {
 				$filtered_attributes[ $attribute_name ] = '';
 			}
 		}
@@ -118,7 +117,7 @@ abstract class Movie_Shortcode {
 	 * @since 1.0.0
 	 * @access public
 	 * @static
-	 * @param array $attributes Shortcode attributes.
+	 * @param array  $attributes Shortcode attributes.
 	 * @param string $tag Shortcode tag.
 	 * @return array
 	 */
@@ -145,8 +144,7 @@ abstract class Movie_Shortcode {
 	 * @param array $args Shortcode attributes.
 	 * @return array
 	 */
-	public static function structure_query_args( array $args ) : array
-	{
+	public static function structure_query_args( array $args ) : array {
 		$tax_query = array();
 
 		// Add person slugs to the query if found.
@@ -164,31 +162,38 @@ abstract class Movie_Shortcode {
 
 		// Merge the query.
 		$arr = array_merge( $person_tax_query, $other_tax_query );
-		array_filter( $arr, function ( $value ) {
-			return !empty( $value );
-		} );
+		array_filter(
+			$arr,
+			function ( $value ) {
+				return ! empty( $value );
+			}
+		);
 
 		$tax_query[] = $arr;
 
 		// Add if the query is not empty.
-		$tax_query = array_filter( $tax_query, function ( $value ) {
-			return is_array($value) && ! empty( $value );
-		} );
+		$tax_query = array_filter(
+			$tax_query,
+			function ( $value ) {
+				return is_array( $value ) && ! empty( $value );
+			}
+		);
 
 		// Add the relation.
-		if (count( $tax_query ) > 1) {
+		if ( count( $tax_query ) > 1 ) {
 			$tax_query['relation'] = 'AND';
 		}
 
 		// Return the query.
 		$query_args = array(
-			'post_type' => 'rt-movie',
+			'post_type'   => 'rt-movie',
 			'post_status' => 'publish',
-			'orderby' => 'title',
-			'order' => 'ASC',
+			'orderby'     => 'title',
+			'order'       => 'ASC',
 		);
 
-		if (! empty( $tax_query )) {
+		if ( ! empty( $tax_query ) ) {
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 			$query_args['tax_query'] = $tax_query;
 		}
 
@@ -206,12 +211,14 @@ abstract class Movie_Shortcode {
 	 */
 	public static function add_person_slugs_to_args( array &$args ) : bool {
 		// Check if the person attribute is set or not.
-		if( isset( $args['person'] ) && ! empty( $args['person'] ) ) {
-			$result_name = new \WP_Query( array(
-				'title'       => $args['person'],
-				'post_type'   => 'rt-person',
-				'post_status' => 'publish',
-			));
+		if ( isset( $args['person'] ) && ! empty( $args['person'] ) ) {
+			$result_name = new \WP_Query(
+				array(
+					'title'       => $args['person'],
+					'post_type'   => 'rt-person',
+					'post_status' => 'publish',
+				)
+			);
 
 			// extract the person ids from the result.
 			$person_ids_from_name = array();
@@ -220,11 +227,13 @@ abstract class Movie_Shortcode {
 			}
 
 			// Get the person posts.
-			$result_slug = new \WP_Query( array(
-				'name'        => $args['person'],
-				'post_type'   => 'rt-person',
-				'post_status' => 'publish',
-			));
+			$result_slug = new \WP_Query(
+				array(
+					'name'        => $args['person'],
+					'post_type'   => 'rt-person',
+					'post_status' => 'publish',
+				)
+			);
 
 			// extract the person ids from the result.
 			$person_ids_from_slug = array();
@@ -243,15 +252,14 @@ abstract class Movie_Shortcode {
 			}
 
 			// Check if the person slugs is empty or not.
-			if( empty( $person_slugs ) ) {
+			if ( empty( $person_slugs ) ) {
 				$args['person'] = array();
 				return false;
 			}
 
 			// Add person slugs to the args.
 			$args['person'] = $person_slugs;
-		}
-		else {
+		} else {
 			$args['person'] = array();
 		}
 
@@ -269,7 +277,7 @@ abstract class Movie_Shortcode {
 	 */
 	public static function add_person_query_to_args( array $args ) : array {
 		// Check if the person attribute is set or not.
-		if( isset( $args['person'] ) && ! empty( $args['person'] ) ) {
+		if ( isset( $args['person'] ) && ! empty( $args['person'] ) ) {
 			// Add the person query for term id.
 			return array(
 				'taxonomy' => '_rt-movie-person',
@@ -297,8 +305,8 @@ abstract class Movie_Shortcode {
 		foreach ( self::$attributes_name as $attribute_name ) {
 			// Check if the attribute is set or not.
 			if (
-				isset( $args[$attribute_name] )
-				&& ! empty( $args[$attribute_name] )
+				isset( $args[ $attribute_name ] )
+				&& ! empty( $args[ $attribute_name ] )
 				&& 'person' !== $attribute_name
 			) {
 				$sub_tax_query = array();
@@ -307,22 +315,22 @@ abstract class Movie_Shortcode {
 				$sub_tax_query[] = array(
 					'taxonomy' => sprintf( 'rt-movie-%s', $attribute_name ),
 					'field'    => 'term_id',
-					'terms'    => (int) $args[$attribute_name],
+					'terms'    => (int) $args[ $attribute_name ],
 				);
 
 				// Add the query for name.
 				$sub_tax_query[] = array(
 					'taxonomy' => sprintf( 'rt-movie-%s', $attribute_name ),
 					'field'    => 'name',
-					'terms'    => $args[$attribute_name],
+					'terms'    => $args[ $attribute_name ],
 				);
 
 				// Add the query for slug.
-				if( ! str_contains( $args[$attribute_name], ' ' ) ) {
+				if ( ! str_contains( $args[ $attribute_name ], ' ' ) ) {
 					$sub_tax_query[] = array(
 						'taxonomy' => sprintf( 'rt-movie-%s', $attribute_name ),
 						'field'    => 'slug',
-						'terms'    => $args[$attribute_name],
+						'terms'    => $args[ $attribute_name ],
 					);
 				}
 
@@ -378,20 +386,19 @@ abstract class Movie_Shortcode {
 
 			// Get the poster.
 			$poster = get_post_thumbnail_id( $movie->ID );
-			if( ! empty( $poster ) ) {
+			if ( ! empty( $poster ) ) {
 				$poster = wp_get_attachment_image_url( $poster, 'rt-movie-poster' );
 			}
 
 			// Get the release date.
 			$movie_basic_date = get_post_meta( $movie->ID, 'rt-movie-meta-basic', true );
-			$release_date = $movie_basic_date['rt-movie-meta-basic-release-date'] ?? '';
-
+			$release_date     = $movie_basic_date['rt-movie-meta-basic-release-date'] ?? '';
 
 			// Get the director.
 			$director = get_post_meta( $movie->ID, 'rt-movie-meta-crew-director', true );
 			$director = maybe_unserialize( $director ) ?? array();
 
-			if( ! is_array( $director ) ) {
+			if ( ! is_array( $director ) ) {
 				$director = array();
 			}
 
@@ -408,20 +415,19 @@ abstract class Movie_Shortcode {
 			}
 
 			// Limit the actors to 2.
-			if( is_array( $actors ) ) {
+			if ( is_array( $actors ) ) {
 				$actors = array_slice( $actors, 0, 2 );
-			}
-			else {
+			} else {
 				$actors = array();
 			}
 
 			// Structure the movie data.
 			$movie_data = array(
-				'Title'          => $title,
-				'Poster'         => $poster,
-				'Release Date'   => $release_date,
-				'Director'       => $director,
-				'Actor'          => $actors,
+				'Title'        => $title,
+				'Poster'       => $poster,
+				'Release Date' => $release_date,
+				'Director'     => $director,
+				'Actor'        => $actors,
 			);
 
 			$result[] = $movie_data;
@@ -462,8 +468,8 @@ abstract class Movie_Shortcode {
 			$content = sprintf( "<h3 class='movie-item__title' > %s </h3>", $movie['Title'] );
 
 			// Add the poster if it exists.
-			if( $movie['Poster'] ) {
-				$content .= sprintf( "<img src='%s' class='movie-item__poster' />", $movie['Poster'] );
+			if ( $movie['Poster'] ) {
+				$content .= sprintf( "<img src='%s' alt='Poster' class='movie-item__poster' />", $movie['Poster'] );
 			}
 
 			$content .= sprintf( "<p class='movie-item__date' > %s </p>", $movie['Release Date'] );
@@ -475,7 +481,7 @@ abstract class Movie_Shortcode {
 			$content .= sprintf( "<ul class='movie-item__actors' > %s </ul>", $actors );
 
 			// Add the content to the movie items.
-			$movie_items .= sprintf('<li> %s </li>', $content);
+			$movie_items .= sprintf( '<li> %s </li>', $content );
 		}
 
 		// Return the HTML.

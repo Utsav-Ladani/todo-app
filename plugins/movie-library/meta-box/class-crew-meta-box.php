@@ -11,7 +11,6 @@ namespace Movie_Library\Meta_Box;
  * Class Crew_Meta_Box
  */
 abstract class Crew_Meta_Box {
-
 	/**
 	 * Crew data. It used to avoid the code duplication.
 	 *
@@ -19,8 +18,9 @@ abstract class Crew_Meta_Box {
 	 * @since 1.0.0
 	 * @access public
 	 * @static
+	 * phpcs:ignore Generic.PHP.Syntax.PHPSyntax
 	 */
-	public static array $crew_data = array(
+	public static array $crew_data = array( // phpcs:ignore Generic.PHP.Syntax.PHPSyntax
 		array(
 			'name' => 'Director',
 			'type' => 'director',
@@ -68,8 +68,7 @@ abstract class Crew_Meta_Box {
 	 * @access public
 	 * @static
 	 */
-	public static function add_crew_meta_box() : void
-	{
+	public static function add_crew_meta_box() : void {
 		// Add meta box.
 		add_meta_box(
 			'rt-movie-meta-crew',
@@ -90,7 +89,7 @@ abstract class Crew_Meta_Box {
 	 */
 	public static function enqueue_script() : void {
 		// if post type is not rt-movie, then return.
-		if( 'rt-movie' !== get_post_type() ) {
+		if ( 'rt-movie' !== get_post_type() ) {
 			return;
 		}
 
@@ -134,19 +133,26 @@ abstract class Crew_Meta_Box {
 		$all_crew_member = self::list_persons_with_career( $crew['type'] );
 
 		// get the selected crew members for the given crew type.
-		$selected_crew_member = get_post_meta( $post_id, $crew['id'], true);
+		$selected_crew_member = get_post_meta( $post_id, $crew['id'], true );
 
 		// if the selected crew member is not an array, then make it an array.
-		if( ! is_array($selected_crew_member) ) {
+		if ( ! is_array( $selected_crew_member ) ) {
 			$selected_crew_member = array();
 		}
 
 		// if the crew type is actor, then we need to get the character name also.
 		$character_name = array();
-		if( 'actor' === $crew['type'] ) {
-			$character_name = $selected_crew_member;
+		if ( 'actor' === $crew['type'] ) {
+			$character_name       = $selected_crew_member;
 			$selected_crew_member = array_keys( $selected_crew_member );
 		}
+
+		$selected_crew_member = array_map(
+			function ( $value ) {
+				return (int) $value;
+			},
+			$selected_crew_member
+		);
 
 		// add nonce field.
 		wp_nonce_field( 'rt-movie-meta-crew', 'rt-movie-meta-crew-nonce' );
@@ -167,13 +173,13 @@ abstract class Crew_Meta_Box {
 		>
 			<?php
 
-			foreach( $all_crew_member as $crew_member ) {
+			foreach ( $all_crew_member as $crew_member ) {
 				?>
 				<option
 					value='<?php echo esc_attr( $crew_member['id'] ); ?>'
 					<?php
 						// if the crew member is selected, then mark it as selected.
-						echo in_array( $crew_member['id'], $selected_crew_member ) ? 'selected' : '';
+						echo in_array( (int) $crew_member['id'], $selected_crew_member, true ) ? 'selected' : '';
 					?>
 				>
 					<?php echo esc_html( $crew_member['name'] ); ?>
@@ -186,13 +192,13 @@ abstract class Crew_Meta_Box {
 		<?php
 
 		// if the crew type is actor, then we need to render the character name input.
-		if( 'actor' === $crew['type'] ) {
+		if ( 'actor' === $crew['type'] ) {
 			?>
 			<input
 				type='hidden'
 				name='rt-movie-meta-crew-actor-character-name'
 				id='rt-movie-meta-crew-actor-character-name'
-				value='<?php echo esc_attr( json_encode( $character_name ) ); ?>'
+				value='<?php echo esc_attr( wp_json_encode( $character_name ) ); ?>'
 				autocomplete='off'
 			/>
 			<div id='rt-characters-name'>
@@ -214,18 +220,21 @@ abstract class Crew_Meta_Box {
 	 */
 	public static function list_persons_with_career( string $career ) : array {
 		// get the person from the database.
-		$person_query = new \WP_Query( array(
-			'post_type' => 'rt-person',
-			'orderby' => 'name',
-			'order' => 'ASC',
-			'tax_query' => array(
-				array(
-					'taxonomy' => 'rt-person-career',
-					'field' => 'slug',
-					'terms' => $career,
+		$person_query = new \WP_Query(
+			array(
+				'post_type' => 'rt-person',
+				'orderby'   => 'name',
+				'order'     => 'ASC',
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+				'tax_query' => array(
+					array(
+						'taxonomy' => 'rt-person-career',
+						'field'    => 'slug',
+						'terms'    => $career,
+					),
 				),
-			),
-		) );
+			)
+		);
 
 		$persons = array();
 
@@ -243,26 +252,35 @@ abstract class Crew_Meta_Box {
 		return $persons;
 	}
 
+	/**
+	 * Save the crew metadata.
+	 *
+	 * @param int $post_id Post ID.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 */
 	public static function save_crew_meta_data( int $post_id ) : void {
-		// check if the request type is POST or not
-		if( ! isset($_POST) || count($_POST) === 0  ) {
+		// check if the request type is POST or not.
+		if ( ! isset( $_POST ) ) {
 			return;
 		}
 
 		// check if the current user has the permission to edit the post.
-		if( !current_user_can( 'edit_post', $post_id ) ) {
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return;
 		}
 
 		// avoid the autosave and revision.
-		if( wp_is_post_autosave( $post_id ) || wp_is_post_revision($post_id) ) {
+		if ( wp_is_post_autosave( $post_id ) || wp_is_post_revision( $post_id ) ) {
 			return;
 		}
 
+		$nonce = filter_input( INPUT_POST, 'rt-movie-meta-crew-nonce', FILTER_SANITIZE_STRING );
+
 		// check if the nonce is set or not and verify it.
-		if( ! isset( $_POST['rt-movie-meta-crew-nonce'] ) ||
-			! wp_verify_nonce( $_POST['rt-movie-meta-crew-nonce'], 'rt-movie-meta-crew' )
-		) {
+		if ( ! wp_verify_nonce( $nonce, 'rt-movie-meta-crew' ) ) {
 			return;
 		}
 
@@ -296,7 +314,7 @@ abstract class Crew_Meta_Box {
 		);
 
 		// if the no member is selected then delete the metadata and return.
-		if( empty($selected_crew_member) || ! is_array($selected_crew_member) ) {
+		if ( empty( $selected_crew_member ) || ! is_array( $selected_crew_member ) ) {
 			delete_post_meta( $post_id, $crew['id'] );
 			return;
 		}
@@ -309,7 +327,7 @@ abstract class Crew_Meta_Box {
 		}
 
 		// if the crew type is actor, then we need to get the character name.
-		if( $crew['type'] === 'actor') {
+		if ( 'actor' === $crew['type'] ) {
 			$selected_crew_member = self::get_character_name( $selected_crew_member );
 		}
 
@@ -317,7 +335,7 @@ abstract class Crew_Meta_Box {
 		update_post_meta( $post_id, $crew['id'], $selected_crew_member );
 
 		// add the temp-relationships.
-		wp_add_object_terms( $post_id, $rt_person_arr, '_rt-movie-person');
+		wp_add_object_terms( $post_id, $rt_person_arr, '_rt-movie-person' );
 	}
 
 	/**
@@ -337,25 +355,24 @@ abstract class Crew_Meta_Box {
 			'rt-movie-meta-crew-actor-character-name',
 		);
 
-		// decode the response
-		$character_names = json_decode( $character_names, true);
+		// decode the response.
+		$character_names = json_decode( $character_names, true );
 
 		$data = array();
 
 		// loop over the persons and add the character name if exists.
-		foreach( $persons as $person ) {
+		foreach ( $persons as $person ) {
 			// validate and sanitize the character name.
-			$name = $character_names[$person];
+			$name = $character_names[ $person ];
 			$name = trim( $name );
 
-			if( $name !== '' &&
-				preg_match('/^[a-zA-Z0-9 ]+$/', $name) &&
-				strlen($name) < 24
+			if ( '' !== $name &&
+				preg_match( '/^[a-zA-Z0-9 ]+$/', $name ) &&
+				strlen( $name ) < 24
 			) {
-				$data[$person] = $name;
-			}
-			else {
-				$data[$person] = '';
+				$data[ $person ] = $name;
+			} else {
+				$data[ $person ] = '';
 			}
 		}
 

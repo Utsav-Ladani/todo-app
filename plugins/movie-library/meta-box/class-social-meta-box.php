@@ -23,9 +23,8 @@ abstract class Social_Meta_Box {
 	 * @since 1.0.0
 	 * @access public
 	 * @static
-	 * @var array
 	 */
-	public static array $social_arr = array(
+	public static array $social_arr = array( // phpcs:ignore
 		array(
 			'name' => 'Twitter',
 			'type' => 'twitter',
@@ -75,8 +74,7 @@ abstract class Social_Meta_Box {
 	 * @static
 	 * @return void
 	 */
-	public static function add_social_meta_box() : void
-	{
+	public static function add_social_meta_box() : void {
 		// Add the meta box.
 		add_meta_box(
 			'rt-person-meta-social',
@@ -124,16 +122,16 @@ abstract class Social_Meta_Box {
 	 */
 	public static function render_social_meta_box_section( array $social_data, string $data ) : void {
 		?>
-		<label for='<?php echo esc_attr( $social_data['id'] ) ?>' >
-			<?php echo esc_html( $social_data['name'] ) ?>
+		<label for='<?php echo esc_attr( $social_data['id'] ); ?>' >
+			<?php echo esc_html( $social_data['name'] ); ?>
 		</label>
 		<input
 			type='text'
 			class='widefat'
-			name='<?php echo esc_attr( $social_data['id'] ) ?>'
-			id='<?php echo esc_attr( $social_data['id'] ) ?>'
-			value='<?php echo esc_attr( $data ) ?>'
-			placeholder='<?php echo esc_attr( $social_data['name'] ) ?> profile link'
+			name='<?php echo esc_attr( $social_data['id'] ); ?>'
+			id='<?php echo esc_attr( $social_data['id'] ); ?>'
+			value='<?php echo esc_attr( $data ); ?>'
+			placeholder='<?php echo esc_attr( $social_data['name'] ); ?> profile link'
 		/>
 		<?php
 	}
@@ -172,24 +170,24 @@ abstract class Social_Meta_Box {
 	 */
 	public static function save_social_meta_data( int $post_id ) : void {
 		// Check whether the request type is POST.
-		if( ! isset($_POST) || count($_POST) === 0  ) {
+		if ( ! isset( $_POST ) ) {
 			return;
 		}
 
 		// Check whether the user has the permission to edit the post.
-		if( !current_user_can( 'edit_post', $post_id ) ) {
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return;
 		}
 
 		// Check whether the post is an autosave or a revision.
-		if( wp_is_post_autosave( $post_id ) || wp_is_post_revision($post_id) ) {
+		if ( wp_is_post_autosave( $post_id ) || wp_is_post_revision( $post_id ) ) {
 			return;
 		}
 
+		$nonce = filter_input( INPUT_POST, 'rt-person-meta-social-nonce', FILTER_SANITIZE_STRING );
+
 		// Check whether the nonce is set and verify it.
-		if( ! isset( $_POST['rt-person-meta-social-nonce'] ) ||
-			! wp_verify_nonce( $_POST['rt-person-meta-social-nonce'], 'rt-person-meta-social' )
-		) {
+		if ( ! wp_verify_nonce( $nonce, 'rt-person-meta-social' ) ) {
 			return;
 		}
 
@@ -201,7 +199,7 @@ abstract class Social_Meta_Box {
 		}
 
 		// Delete the meta data if there is no social media link.
-		if( count( $meta_value ) === 0 ) {
+		if ( count( $meta_value ) === 0 ) {
 			delete_post_meta( $post_id, 'rt-person-meta-social' );
 			return;
 		}
@@ -221,16 +219,22 @@ abstract class Social_Meta_Box {
 	 * @return array
 	 */
 	public static function add_social_to_meta_data_by_id( array $meta_value, string $social_id ) : array {
-		// Check whether the social media link is set.
-		if( isset( $_POST[$social_id] ) ) {
-			$url  = $_POST[$social_id];
+		$nonce = filter_input( INPUT_POST, 'rt-person-meta-social-nonce', FILTER_SANITIZE_STRING );
 
+		if ( ! wp_verify_nonce( $nonce, 'rt-person-meta-social' ) ) {
+			return $meta_value;
+		}
+
+		$url = filter_input( INPUT_POST, $social_id, FILTER_SANITIZE_URL );
+
+		// Check whether the social media link is set.
+		if ( $url ) {
 			// Sanitize the url.
 			$url = self::sanitize_url( $url );
 
 			// Add the url to the array.
-			if( $url !== '' ) {
-				$meta_value[$social_id] = $url;
+			if ( $url ) {
+				$meta_value[ $social_id ] = $url;
 			}
 		}
 
@@ -249,7 +253,7 @@ abstract class Social_Meta_Box {
 	public static function sanitize_url( string $url ) : string {
 		// Sanitize the url.
 		$url = trim( $url );
-		$url = sanitize_url( $url, [ 'https', 'http' ] );
+		$url = esc_url_raw( $url, array( 'https', 'http' ) );
 		return filter_var( $url, FILTER_SANITIZE_URL );
 	}
 }

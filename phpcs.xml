@@ -12,7 +12,7 @@
 		<properties>
 			<property name="text_domain" type="array">
 				<!-- List of text domains used in your plugin and theme -->
-				<element value="text-domain-1" />
+				<element value="movie-library" />
 				<element value="text-domain-2" />
 			</property>
 		</properties>

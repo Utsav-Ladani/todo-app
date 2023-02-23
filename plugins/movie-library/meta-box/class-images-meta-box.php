@@ -104,9 +104,6 @@ abstract class Images_Meta_Box {
 		// Remove images which are not present in media library.
 		$images = self::remove_unlinked_images( $images );
 
-		// Build image tags list.
-		$image_list = self::build_image_tags_list( $images );
-
 		$input_value = implode( ',', $images );
 
 		// Add nonce for security and authentication.
@@ -116,7 +113,10 @@ abstract class Images_Meta_Box {
 		?>
 		<div id='movie-library-image-upload-handler'>
 			<div id='image-preview-container'>
-				<?php echo $image_list; ?>
+				<?php
+				// Build the image tags.
+				self::build_image_tags_list( $images );
+				?>
 			</div>
 			<button id='add-images-custom-btn' class='button button-primary widefat'>
 				<?php esc_html_e( 'Add Images', 'movie-library' ); ?>
@@ -142,17 +142,16 @@ abstract class Images_Meta_Box {
 	 */
 	public static function save_post_images( int $post_id ) : void {
 		// Check whether request type is post and if rt-upload-images is set.
-		if ( ! isset($_POST) || ! isset( $_POST['rt-upload-images'] ) ) {
+		if ( ! isset( $_POST ) || ! isset( $_POST['rt-upload-images'] ) ) {
 			return;
 		}
+
+		$nonce = filter_input( INPUT_POST, 'rt-upload-images-nonce', FILTER_SANITIZE_STRING );
 
 		// Check whether nonce is set and verify it.
-		if ( ! isset( $_POST['rt-upload-images-nonce'] ) ||
-			! wp_verify_nonce( $_POST['rt-upload-images-nonce'], 'rt-upload-images' )
-		) {
+		if ( ! wp_verify_nonce( $nonce, 'rt-upload-images' ) ) {
 			return;
 		}
-
 
 		// Sanitize and explode the data.
 		$images = filter_input(
@@ -164,10 +163,10 @@ abstract class Images_Meta_Box {
 		$images = explode( ',', $images );
 
 		// sanitize the values by remove not integer values.
-		$image_ids = [];
+		$image_ids = array();
 		foreach ( $images as $image ) {
-			if( (int) $image ) {
-				$image_ids[] = (int)$image;
+			if ( (int) $image ) {
+				$image_ids[] = (int) $image;
 			}
 		}
 
@@ -199,36 +198,32 @@ abstract class Images_Meta_Box {
 	 *
 	 * @param array $images Array of image ids.
 	 *
-	 * @return string
+	 * @return void
 	 * @since 1.0.0
 	 * @access public
 	 * @static
 	 */
-	public static function build_image_tags_list( array $images ) : string {
-		$image_list = '';
+	public static function build_image_tags_list( array $images ) : void {
 		foreach ( $images as $image ) {
-			// Build image tag.
-			$image_item = sprintf(
-				'<img src="%s" alt="%s" class="widefat" />',
-				esc_attr( wp_get_attachment_url( $image ) ),
-				esc_attr__( get_the_title( $image ) )
-			);
+			?>
+			<div
+				class='image-item widefat'
+				data-image-id='<?php echo esc_attr( $image ); ?>'
+			>
+				<img
+					src='<?php echo esc_url( wp_get_attachment_url( $image ) ); ?>'
+					alt='<?php echo esc_attr( get_the_title( $image ) ); ?>'
+					class='widefat'
+				/>
 
-			// Build remove button.
-			$remove_btn = sprintf(
-				'<button class="button rt-remove-image-btn widefat" data-image-id="%d"> Remove </button>',
-				$image
-			);
-
-			// Build image item.
-			$image_list .= sprintf(
-				'<div class="image-item widefat" data-image-id="%d">%s%s</div>',
-				$image,
-				$image_item,
-				$remove_btn
-			);
+				<button
+					class='button rt-remove-image-btn widefat'
+					data-image-id='<?php echo esc_attr( $image ); ?>'
+				>
+					Remove
+				</button>
+			</div>
+			<?php
 		}
-
-		return $image_list;
 	}
 }

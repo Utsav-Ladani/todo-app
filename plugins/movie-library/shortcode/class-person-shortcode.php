@@ -43,16 +43,16 @@ abstract class Person_Shortcode {
 	/**
 	 * Render the person post for given career in filter.
 	 *
-	 * @param mixed $attributes Shortcode attributes.
-	 * @param string $content Shortcode content.
+	 * @param mixed  $attributes Shortcode attributes.
+	 * @param mixed  $content Shortcode content.
 	 * @param string $tag Shortcode tag.
 	 * @return string
 	 * @since 1.0.0
 	 * @access public
 	 * @static
 	 */
-	public static function render_person_shortcode( mixed $attributes, string $content, string $tag ) : string {
-		if( ! is_array( $attributes ) ) {
+	public static function render_person_shortcode( $attributes, $content, string $tag ) : string {
+		if ( ! is_array( $attributes ) ) {
 			$attributes = array();
 		}
 
@@ -93,7 +93,7 @@ abstract class Person_Shortcode {
 		$attribute_value = trim( $attribute_value, '-' );
 
 		// Check if the career slug is valid or not.
-		if( preg_match( '/^[a-z0-9-]+$/', $attribute_value) ) {
+		if ( preg_match( '/^[a-z0-9-]+$/', $attribute_value ) ) {
 			$filtered_value['career'] = $attribute_value;
 		}
 
@@ -103,7 +103,7 @@ abstract class Person_Shortcode {
 	/**
 	 * Structure the shortcode attributes.
 	 *
-	 * @param array $attributes Shortcode attributes.
+	 * @param array  $attributes Shortcode attributes.
 	 * @param string $tag Shortcode tag.
 	 * @return array
 	 * @since 1.0.0
@@ -134,30 +134,30 @@ abstract class Person_Shortcode {
 		$tax_query = array();
 
 		// Check if the career is set or not.
-		if( isset( $args['career'] ) && ! empty( $args['career'] ) ) {
+		if ( isset( $args['career'] ) && ! empty( $args['career'] ) ) {
 			// add tax query for career using term_id.
 			$tax_query[] = array(
 				'taxonomy' => 'rt-person-career',
 				'field'    => 'term_id',
-				'terms'    => $args['career']
+				'terms'    => $args['career'],
 			);
 
 			// add tax query for career using name.
 			$tax_query[] = array(
 				'taxonomy' => 'rt-person-career',
 				'field'    => 'name',
-				'terms'    => $args['career']
+				'terms'    => $args['career'],
 			);
 
 			/*
 			 * Check if the career slug contains space or not.
 			 * Add tax query for career using slug.
 			 */
-			if( ! str_contains( $args['career'], ' ' ) ) {
+			if ( ! str_contains( $args['career'], ' ' ) ) {
 				$tax_query[] = array(
 					'taxonomy' => 'rt-person-career',
 					'field'    => 'slug',
-					'terms'    => $args['career']
+					'terms'    => $args['career'],
 				);
 			}
 
@@ -167,11 +167,12 @@ abstract class Person_Shortcode {
 
 		// Return the query arguments.
 		return array(
-			'post_type'      => 'rt-person',
-			'post_status'    => 'publish',
-			'orderby'        => 'title',
-			'order'          => 'ASC',
-			'tax_query'      => $tax_query,
+			'post_type'   => 'rt-person',
+			'post_status' => 'publish',
+			'orderby'     => 'title',
+			'order'       => 'ASC',
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+			'tax_query'   => $tax_query,
 		);
 	}
 
@@ -200,13 +201,12 @@ abstract class Person_Shortcode {
 	 * Filter the query result.
 	 *
 	 * @param array $query_result Query result.
-	 * @param array $attributes Shortcode attributes.
 	 * @return array
 	 * @since 1.0.0
 	 * @access public
 	 * @static
 	 */
-	public static function get_filtered_person_data( array $query_result, mixed $attributes ) : array {
+	public static function get_filtered_person_data( array $query_result ) : array {
 		$result = array();
 
 		// Loop through the query result and get individual data.
@@ -215,10 +215,9 @@ abstract class Person_Shortcode {
 
 			// Get the profile picture url.
 			$profile_picture = get_post_thumbnail_id( $person->ID );
-			if( $profile_picture ) {
-				$profile_picture = wp_get_attachment_image_url( $profile_picture);
-			}
-			else {
+			if ( $profile_picture ) {
+				$profile_picture = wp_get_attachment_image_url( $profile_picture );
+			} else {
 				$profile_picture = '';
 			}
 
@@ -227,9 +226,9 @@ abstract class Person_Shortcode {
 
 			// Create the person data array of name, profile picture and career.
 			$person_data = array(
-				'Name' => $name,
+				'Name'            => $name,
 				'Profile Picture' => $profile_picture,
-				'Career' => $career,
+				'Career'          => $career,
 			);
 
 			$result[] = $person_data;
@@ -254,11 +253,14 @@ abstract class Person_Shortcode {
 		$terms = get_the_terms( $person_id, 'rt-person-career' );
 
 		// Check if the career terms are set or not.
-		if( $terms ) {
+		if ( $terms ) {
 			// Get the career name from the terms.
-			$terms_name = array_map( function( $term ) {
-				return $term->name;
-			}, $terms );
+			$terms_name = array_map(
+				function( $term ) {
+					return $term->name;
+				},
+				$terms
+			);
 
 			// Implode the career name.
 			$career = implode( ', ', $terms_name );
@@ -284,14 +286,14 @@ abstract class Person_Shortcode {
 			$content = sprintf( "<h3 class='person-item__name' > %s </h3>", $person['Name'] );
 
 			// Add Profile Picture if it is exists.
-			if( $person['Profile Picture'] ) {
-				$content .= sprintf( "<img src='%s' class='person-item__profile-picture' />", $person['Profile Picture'] );
+			if ( $person['Profile Picture'] ) {
+				$content .= sprintf( "<img src='%s' alt='Profile Picture' class='person-item__profile-picture' />", $person['Profile Picture'] );
 			}
 
 			$content .= sprintf( "<p class='person-item__career' > %s </p>", $person['Career'] );
 
 			// Add the person html to the person items.
-			$person_items .= sprintf('<li> %s </li>', $content);
+			$person_items .= sprintf( '<li> %s </li>', $content );
 		}
 
 		// Return the person items html.

@@ -104,9 +104,6 @@ abstract class Videos_Meta_Box {
 		// Remove videos which are removed from the media library.
 		$videos = self::remove_unlinked_videos( $videos );
 
-		// Build the video tags list.
-		$video_list = self::build_video_tags_list( $videos );
-
 		$input_value = implode( ',', $videos );
 
 		// Add nonce for security and authentication.
@@ -116,7 +113,10 @@ abstract class Videos_Meta_Box {
 		?>
 		<div id='movie-library-video-upload-handler'>
 			<div id='video-preview-container'>
-				<?php echo $video_list; ?>
+				<?php
+				// Render the video tags.
+				self::build_video_tags_list( $videos );
+				?>
 			</div>
 			<button id='add-videos-custom-btn' class='button button-primary widefat'>
 				<?php esc_html_e( 'Add Videos', 'movie-library' ); ?>
@@ -142,14 +142,14 @@ abstract class Videos_Meta_Box {
 	 */
 	public static function save_post_videos( int $post_id ) : void {
 		// Check whether the request type is post and rt-upload-videos is set.
-		if ( ! isset($_POST) || ! isset( $_POST['rt-upload-videos'] ) ) {
+		if ( ! isset( $_POST ) || ! isset( $_POST['rt-upload-videos'] ) ) {
 			return;
 		}
 
+		$nonce = filter_input( INPUT_POST, 'rt-video-upload-nonce', FILTER_SANITIZE_STRING );
+
 		// Check whether the nonce is set and verify it.
-		if ( ! isset( $_POST['rt-video-upload-nonce'] ) ||
-			! wp_verify_nonce( $_POST['rt-video-upload-nonce'], 'rt-video-upload-nonce-action' )
-		) {
+		if ( ! wp_verify_nonce( $nonce, 'rt-video-upload-nonce-action' ) ) {
 			return;
 		}
 
@@ -164,12 +164,12 @@ abstract class Videos_Meta_Box {
 		// Explode the input.
 		$videos = explode( ',', $videos );
 
-		$video_ids = [];
+		$video_ids = array();
 
 		// Remove the non-integer values.
 		foreach ( $videos as $video ) {
-			if( (int) $video ) {
-				$video_ids[] = (int)$video;
+			if ( (int) $video ) {
+				$video_ids[] = (int) $video;
 			}
 		}
 
@@ -201,42 +201,28 @@ abstract class Videos_Meta_Box {
 	 *
 	 * @param array $videos Video IDs.
 	 *
-	 * @return string
+	 * @return void
 	 * @since 1.0.0
 	 * @access public
 	 * @static
 	 */
-	public static function build_video_tags_list( array $videos ) : string {
-		$video_list = '';
+	public static function build_video_tags_list( array $videos ) : void {
 		foreach ( $videos as $video ) {
-			// Build the video source tag.
-			$video_source = sprintf(
-				'<source src="%s">',
-				esc_attr( wp_get_attachment_url( $video ) ),
-			);
+			?>
+			<div class='video-item' >
+				<video class='widefat' controls>
+					<source src='<?php echo esc_url( wp_get_attachment_url( $video ) ); ?>' >
+					<?php echo esc_html( get_the_title( $video ) ); ?>
+				</video>
 
-			// Build the video tag.
-			$video_tag = sprintf(
-				'<video class="widefat" controls>%s %s</video>',
-				$video_source,
-				esc_attr__( get_the_title( $video ) )
-			);
-
-			// Build the remove button.
-			$remove_btn = sprintf(
-				'<button class="button rt-remove-video-btn widefat" data-video-id="%d"> Remove </button>',
-				$video
-			);
-
-			// Build the video item.
-			$video_list .= sprintf(
-				'<div class="video-item" data-video-id="%d">%s%s</div>',
-				$video,
-				$video_tag,
-				$remove_btn
-			);
+				<button
+					class='button rt-remove-video-btn widefat'
+					data-video-id='<?php echo esc_attr( $video ); ?>'
+				>
+					Remove
+				</button>
+			</div>
+			<?php
 		}
-
-		return $video_list;
 	}
 }

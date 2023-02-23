@@ -12,20 +12,19 @@ namespace Movie_Library\Custom_Post_Type;
  *
  * Create the custom post type for movie.
  */
-abstract class Movie
-{
+abstract class Movie {
+
 
 	/**
 	 * Initialize the class.
 	 *
 	 * @return void
 	 */
-	public static function init(): void
-	{
+	public static function init(): void {
 		add_action( 'init', array( __CLASS__, 'register_movie_post_type' ) );
 		add_filter( 'enter_title_here', array( __CLASS__, 'change_enter_title_here' ) );
 		add_filter( 'write_your_story', array( __CLASS__, 'change_write_your_story' ) );
-		add_action('admin_enqueue_scripts', array( __CLASS__, 'custom_excerpt_heading' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'custom_excerpt_heading' ) );
 	}
 
 	/**
@@ -33,8 +32,7 @@ abstract class Movie
 	 *
 	 * @return void
 	 */
-	public static function register_movie_post_type(): void
-	{
+	public static function register_movie_post_type(): void {
 		$labels = array(
 			'name'                  => _x( 'Movies', 'Post Type General Name', 'movie-library' ),
 			'singular_name'         => _x( 'Movie', 'Post Type Singular Name', 'movie-library' ),
@@ -57,7 +55,7 @@ abstract class Movie
 			'set_featured_image'    => __( 'Set featured image', 'movie-library' ),
 			'remove_featured_image' => __( 'Remove featured image', 'movie-library' ),
 			'use_featured_image'    => __( 'Use as featured image', 'movie-library' ),
-			'insert_into_item'      => __( 'Insert into Movie', 'movie-library' ),
+			'insert_into_item'      => __( 'Add into Movie', 'movie-library' ),
 			'uploaded_to_this_item' => __( 'Uploaded to this Movie', 'movie-library' ),
 			'items_list'            => __( 'Movies list', 'movie-library' ),
 			'items_list_navigation' => __( 'Movies list navigation', 'movie-library' ),
@@ -66,25 +64,32 @@ abstract class Movie
 		);
 
 		$args = array(
-			'labels'              => $labels,
-			'public'              => true,
-			'hierarchical'        => false,
-			'show_ui'             => true,
-			'show_in_nav_menus'   => true,
-			'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'author', 'comments' ),
-			'has_archive'         => true,
-			'rewrite'             => array ( 'slug' => 'rt-movie' ),
-			'query_var'           => true,
-			'menu_position'       => null,
-			'menu_icon'           => 'dashicons-editor-video',
-			'show_in_rest'        => true,
-			'rest_base'           => 'movie',
+			'labels'                => $labels,
+			'public'                => true,
+			'hierarchical'          => false,
+			'show_ui'               => true,
+			'show_in_nav_menus'     => true,
+			'supports'              => array( 'title', 'editor', 'excerpt', 'thumbnail', 'author', 'comments' ),
+			'has_archive'           => true,
+			'rewrite'               => array( 'slug' => 'rt-movie' ),
+			'query_var'             => true,
+			'menu_position'         => null,
+			'menu_icon'             => 'dashicons-editor-video',
+			'show_in_rest'          => true,
+			'rest_base'             => 'movie',
 			'rest_controller_class' => 'WP_REST_Posts_Controller',
 		);
 
 		register_post_type( 'rt-movie', $args );
 	}
 
+	/**
+	 * Change the enter_title_here label for rt-movie post type.
+	 *
+	 * @param string $title The label text.
+	 *
+	 * @return string
+	 */
 	public static function change_enter_title_here( string $title ) : string {
 		if ( 'rt-movie' === get_post_type() ) {
 			return 'Title';
@@ -92,16 +97,28 @@ abstract class Movie
 		return $title;
 	}
 
+	/**
+	 * Change the write_your_story label for rt-movie post type.
+	 *
+	 * @param string $post_content The label text.
+	 *
+	 * @return string
+	 */
 	public static function change_write_your_story( string $post_content ) : string {
-		if( 'rt-movie' === get_post_type() ) {
+		if ( 'rt-movie' === get_post_type() ) {
 			return 'Plot';
 		}
 		return $post_content;
 	}
 
+	/**
+	 * Enqueue the script for custom excerpt heading.
+	 *
+	 * @return void
+	 */
 	public static function custom_excerpt_heading() : void {
 		// return if post type is not rt-movie.
-		if('rt-movie' !== get_post_type()) {
+		if ( 'rt-movie' !== get_post_type() ) {
 			return;
 		}
 
@@ -109,8 +126,9 @@ abstract class Movie
 		wp_enqueue_script(
 			'movie-library-admin',
 			MOVIE_LIBRARY_PLUGIN_URL . 'admin/js/movie-library-admin.js',
-			['wp-i18n'],
+			array( 'wp-i18n' ),
 			MOVIE_LIBRARY_VERSION,
+			true
 		);
 	}
 }

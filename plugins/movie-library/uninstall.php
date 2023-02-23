@@ -12,4 +12,4 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-die("Uninstalling plugin...");
+die( 'Uninstalling plugin...' );
