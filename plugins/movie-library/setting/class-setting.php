@@ -13,7 +13,7 @@ namespace Movie_Library\Setting;
  * Add options for movie library plugin into the Settings menu.
  * Option is to delete the data on plugin delete.
  */
-class Setting {
+abstract class Setting {
 
 	/**
 	 * Initialize the class.
@@ -43,8 +43,8 @@ class Setting {
 	 */
 	public static function init_plugin_options() : void {
 		add_options_page(
-			__('Movie Library'),
-			__('Movie Library'),
+			__( 'Movie Library', 'movie-library' ),
+			__( 'Movie Library', 'movie-library' ),
 			'manage_options',
 			'movie-library',
 			array( __CLASS__, 'render_plugin_settings_page' ),
@@ -79,6 +79,14 @@ class Setting {
 		);
 	}
 
+	/**
+	 * Render the setting section.
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 */
 	public static function render_setting_section() : void {
 		?>
 		<p>
@@ -87,6 +95,14 @@ class Setting {
 		<?php
 	}
 
+	/**
+	 * Render the option field.
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 */
 	public static function render_delete_data_on_delete_field() : void {
 		$option = get_option( 'rt-delete-data-on-delete-plugin' );
 
@@ -102,7 +118,12 @@ class Setting {
 			id='rt-delete-data-on-delete-plugin'
 			<?php checked( $is_checked, 1 ); ?>
 		/>
-		<p class="description">
+		<label
+			for='rt-delete-data-on-delete-plugin'
+		>
+			<?php esc_html_e( 'Delete all content on plugin delete', 'movie-library' ); ?>
+		</label>
+		<p class="description notice notice-warning">
 			<?php esc_html_e( 'If this option is checked, all your data will be deleted when the plugin is deleted.', 'movie-library' ); ?>
 		</p>
 		<?php
@@ -123,7 +144,9 @@ class Setting {
 
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( get_admin_page_title() ); ?></h1>
+			<h1>
+				<?php esc_html_e( 'Movie Library', 'movie-library' ); ?>
+			</h1>
 			<form action="options.php" method="post">
 				<?php
 				settings_fields( 'movie-library' );
