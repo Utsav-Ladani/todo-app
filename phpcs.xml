@@ -18,7 +18,7 @@
 		</properties>
 	</rule>
 
-	<rule ref="WordPress-VIP-Go" />
+<!--	<rule ref="WordPress-VIP-Go" />-->
 	<rule ref="WordPress-Docs" />
 	<rule ref="WordPress-Extra" />
 	<rule ref="PHPCompatibilityWP"/>
