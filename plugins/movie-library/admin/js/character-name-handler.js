@@ -3,7 +3,6 @@
  */
 
 // Call function using jQuery
-// eslint-disable-next-line no-undef
 jQuery(function ($) {
 	// run on document ready
 	$(document).ready(function () {
