@@ -3,9 +3,10 @@
  */
 
 // Call function using jQuery
+// eslint-disable-next-line no-undef
 jQuery(function ($) {
 	// run on document ready
-	$(document).ready(function ($) {
+	$(document).ready(function () {
 		// get the translation function
 		const { __ } = wp.i18n;
 

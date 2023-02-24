@@ -5,9 +5,10 @@
  */
 
 // call the function with jQuery
+// eslint-disable-next-line no-undef
 jQuery(function ($) {
 	// run it after the DOM is ready
-	$(document).ready(function ($) {
+	$(document).ready(function () {
 		// get i18n functions
 		const { __ } = wp.i18n;
 
