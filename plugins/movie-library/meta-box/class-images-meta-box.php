@@ -220,7 +220,7 @@ abstract class Images_Meta_Box {
 					class='button rt-remove-image-btn widefat'
 					data-image-id='<?php echo esc_attr( $image ); ?>'
 				>
-					Remove
+					<?php esc_html_e( 'Remove', 'movie-library' ); ?>
 				</button>
 			</div>
 			<?php

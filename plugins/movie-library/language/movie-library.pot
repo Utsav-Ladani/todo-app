@@ -1,4 +1,4 @@
-# Copyright (C) 2023 Utsav Ladani
+# Copyright (C) 2023 rtCamp
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
@@ -9,12 +9,15 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-02-23T14:51:29+00:00\n"
+"POT-Creation-Date: 2023-02-28T17:44:06+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: movie-library\n"
 
 #. Plugin Name of the plugin
+#: setting/class-setting.php:46
+#: setting/class-setting.php:47
+#: setting/class-setting.php:148
 msgid "Movie Library"
 msgstr ""
 
@@ -27,230 +30,242 @@ msgid "Plugin to manage movie library"
 msgstr ""
 
 #. Author of the plugin
-msgid "Utsav Ladani"
+msgid "rtCamp"
 msgstr ""
 
 #. Author URI of the plugin
-msgid "https://github.com/Utsav-Ladani/"
+msgid "https://github.com/rtCamp/"
+msgstr ""
+
+#: custom-post-type/class-movie.php:37
+msgctxt "Post Type General Name"
+msgid "Movies"
+msgstr ""
+
+#: custom-post-type/class-movie.php:38
+msgctxt "Post Type Singular Name"
+msgid "Movie"
 msgstr ""
 
 #: custom-post-type/class-movie.php:39
-msgctxt "Post Type General Name"
+msgctxt "Admin Menu text"
 msgid "Movies"
 msgstr ""
 
 #: custom-post-type/class-movie.php:40
-msgctxt "Post Type Singular Name"
+msgctxt "Add New on Toolbar"
 msgid "Movie"
 msgstr ""
 
 #: custom-post-type/class-movie.php:41
-msgctxt "Admin Menu text"
-msgid "Movies"
-msgstr ""
-
-#: custom-post-type/class-movie.php:42
-msgctxt "Add New on Toolbar"
-msgid "Movie"
-msgstr ""
-
-#: custom-post-type/class-movie.php:43
 msgid "Movie Archives"
 msgstr ""
 
-#: custom-post-type/class-movie.php:44
+#: custom-post-type/class-movie.php:42
 msgid "Movie Attributes"
 msgstr ""
 
-#: custom-post-type/class-movie.php:45
+#: custom-post-type/class-movie.php:43
 msgid "Parent Movie:"
 msgstr ""
 
-#: custom-post-type/class-movie.php:46
+#: custom-post-type/class-movie.php:44
 msgid "All Movies"
 msgstr ""
 
-#: custom-post-type/class-movie.php:47
+#: custom-post-type/class-movie.php:45
 msgid "Add New Movie"
 msgstr ""
 
-#: custom-post-type/class-movie.php:48
-#: custom-post-type/class-person.php:46
+#: custom-post-type/class-movie.php:46
+#: custom-post-type/class-person.php:44
 msgid "Add New"
 msgstr ""
 
-#: custom-post-type/class-movie.php:49
+#: custom-post-type/class-movie.php:47
 msgid "New Movie"
 msgstr ""
 
-#: custom-post-type/class-movie.php:50
+#: custom-post-type/class-movie.php:48
 msgid "Edit Movie"
 msgstr ""
 
-#: custom-post-type/class-movie.php:51
+#: custom-post-type/class-movie.php:49
 msgid "Update Movie"
 msgstr ""
 
-#: custom-post-type/class-movie.php:52
+#: custom-post-type/class-movie.php:50
 msgid "View Movie"
 msgstr ""
 
-#: custom-post-type/class-movie.php:53
+#: custom-post-type/class-movie.php:51
 msgid "View Movies"
 msgstr ""
 
-#: custom-post-type/class-movie.php:54
+#: custom-post-type/class-movie.php:52
 msgid "Search Movie"
+msgstr ""
+
+#: custom-post-type/class-movie.php:53
+#: custom-post-type/class-person.php:51
+msgid "Not found"
+msgstr ""
+
+#: custom-post-type/class-movie.php:54
+#: custom-post-type/class-person.php:52
+msgid "Not found in Trash"
 msgstr ""
 
 #: custom-post-type/class-movie.php:55
 #: custom-post-type/class-person.php:53
-msgid "Not found"
+msgid "Set featured image"
 msgstr ""
 
 #: custom-post-type/class-movie.php:56
 #: custom-post-type/class-person.php:54
-msgid "Not found in Trash"
+msgid "Remove featured image"
 msgstr ""
 
 #: custom-post-type/class-movie.php:57
 #: custom-post-type/class-person.php:55
-msgid "Set featured image"
-msgstr ""
-
-#: custom-post-type/class-movie.php:58
-#: custom-post-type/class-person.php:56
-msgid "Remove featured image"
-msgstr ""
-
-#: custom-post-type/class-movie.php:59
-#: custom-post-type/class-person.php:57
 msgid "Use as featured image"
 msgstr ""
 
-#: custom-post-type/class-movie.php:60
-msgid "Insert into Movie"
+#: custom-post-type/class-movie.php:58
+msgid "Add into Movie"
 msgstr ""
 
-#: custom-post-type/class-movie.php:61
+#: custom-post-type/class-movie.php:59
 msgid "Uploaded to this Movie"
 msgstr ""
 
-#: custom-post-type/class-movie.php:62
+#: custom-post-type/class-movie.php:60
 msgid "Movies list"
 msgstr ""
 
-#: custom-post-type/class-movie.php:63
+#: custom-post-type/class-movie.php:61
 msgid "Movies list navigation"
 msgstr ""
 
-#: custom-post-type/class-movie.php:64
+#: custom-post-type/class-movie.php:62
 msgid "Filter Movies list"
 msgstr ""
 
-#: custom-post-type/class-movie.php:65
+#: custom-post-type/class-movie.php:63
 msgid "Movie Poster"
 msgstr ""
 
-#: custom-post-type/class-person.php:37
+#: custom-post-type/class-person.php:35
 msgctxt "Post Type General Name"
 msgid "Persons"
 msgstr ""
 
-#: custom-post-type/class-person.php:38
+#: custom-post-type/class-person.php:36
 msgctxt "Post Type Singular Name"
 msgid "Person"
 msgstr ""
 
-#: custom-post-type/class-person.php:39
+#: custom-post-type/class-person.php:37
 msgctxt "Admin Menu text"
 msgid "Persons"
 msgstr ""
 
-#: custom-post-type/class-person.php:40
+#: custom-post-type/class-person.php:38
 msgctxt "Add New on Toolbar"
 msgid "Person"
 msgstr ""
 
-#: custom-post-type/class-person.php:41
+#: custom-post-type/class-person.php:39
 msgid "Person Archives"
 msgstr ""
 
-#: custom-post-type/class-person.php:42
+#: custom-post-type/class-person.php:40
 msgid "Person Attributes"
 msgstr ""
 
-#: custom-post-type/class-person.php:43
-#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:40
+#: custom-post-type/class-person.php:41
+#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:38
 msgid "Parent Person:"
 msgstr ""
 
-#: custom-post-type/class-person.php:44
-#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:38
+#: custom-post-type/class-person.php:42
+#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:36
 msgid "All Persons"
 msgstr ""
 
-#: custom-post-type/class-person.php:45
-#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:43
+#: custom-post-type/class-person.php:43
+#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:41
 msgid "Add New Person"
 msgstr ""
 
-#: custom-post-type/class-person.php:47
+#: custom-post-type/class-person.php:45
 msgid "New Person"
 msgstr ""
 
-#: custom-post-type/class-person.php:48
-#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:41
+#: custom-post-type/class-person.php:46
+#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:39
 msgid "Edit Person"
 msgstr ""
 
-#: custom-post-type/class-person.php:49
-#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:42
+#: custom-post-type/class-person.php:47
+#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:40
 msgid "Update Person"
 msgstr ""
 
-#: custom-post-type/class-person.php:50
+#: custom-post-type/class-person.php:48
 msgid "View Person"
 msgstr ""
 
-#: custom-post-type/class-person.php:51
+#: custom-post-type/class-person.php:49
 msgid "View Persons"
 msgstr ""
 
-#: custom-post-type/class-person.php:52
+#: custom-post-type/class-person.php:50
 msgid "Search Person"
 msgstr ""
 
-#: custom-post-type/class-person.php:58
-msgid "Insert into Person"
+#: custom-post-type/class-person.php:56
+msgid "Add into Person"
 msgstr ""
 
-#: custom-post-type/class-person.php:59
+#: custom-post-type/class-person.php:57
 msgid "Uploaded to this Person"
 msgstr ""
 
-#: custom-post-type/class-person.php:60
+#: custom-post-type/class-person.php:58
 msgid "Persons list"
 msgstr ""
 
-#: custom-post-type/class-person.php:61
+#: custom-post-type/class-person.php:59
 msgid "Persons list navigation"
 msgstr ""
 
-#: custom-post-type/class-person.php:62
+#: custom-post-type/class-person.php:60
 msgid "Filter Persons list"
 msgstr ""
 
-#: custom-post-type/class-person.php:63
+#: custom-post-type/class-person.php:61
 msgid "Profile Picture"
 msgstr ""
 
-#: meta-box/class-basic-meta-box.php:33
-#: meta-box/class-person-basic-meta-box.php:44
+#: meta-box/class-basic-meta-box.php:32
+#: meta-box/class-person-basic-meta-box.php:43
 msgid "Basic"
 msgstr ""
 
-#: meta-box/class-crew-meta-box.php:76
+#: meta-box/class-basic-meta-box.php:55
+msgid "Rating"
+msgstr ""
+
+#: meta-box/class-basic-meta-box.php:68
+msgid "Runtime"
+msgstr ""
+
+#: meta-box/class-basic-meta-box.php:79
+msgid "Release Date"
+msgstr ""
+
+#: meta-box/class-crew-meta-box.php:75
 msgid "Crew"
 msgstr ""
 
@@ -264,7 +279,22 @@ msgstr ""
 msgid "Add Images"
 msgstr ""
 
-#: meta-box/class-social-meta-box.php:83
+#: meta-box/class-images-meta-box.php:223
+#: meta-box/class-videos-meta-box.php:222
+#: admin/js/image-upload-handler.js:114
+#: admin/js/video-upload-handler.js:119
+msgid "Remove"
+msgstr ""
+
+#: meta-box/class-person-basic-meta-box.php:71
+msgid "Birth Date"
+msgstr ""
+
+#: meta-box/class-person-basic-meta-box.php:83
+msgid "Birth Place"
+msgstr ""
+
+#: meta-box/class-social-meta-box.php:81
 msgid "Social Information"
 msgstr ""
 
@@ -283,333 +313,329 @@ msgid "Plugin Settings"
 msgstr ""
 
 #: setting/class-setting.php:75
+#: setting/class-setting.php:124
 msgid "Delete all content on plugin delete"
 msgstr ""
 
-#: setting/class-setting.php:85
+#: setting/class-setting.php:93
 msgid "Movie Library plugin related settings."
 msgstr ""
 
-#: setting/class-setting.php:106
+#: setting/class-setting.php:127
 msgid "If this option is checked, all your data will be deleted when the plugin is deleted."
 msgstr ""
 
-#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:35
+#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:33
 msgctxt "taxonomy general name"
 msgid "Persons"
 msgstr ""
 
-#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:36
+#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:34
 msgctxt "taxonomy singular name"
 msgid "Person"
 msgstr ""
 
-#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:37
+#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:35
 msgid "Search Persons"
 msgstr ""
 
-#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:39
+#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:37
 msgid "Parent Person"
 msgstr ""
 
-#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:44
+#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:42
 msgid "New Person Name"
 msgstr ""
 
-#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:45
-#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:50
+#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:43
+#: shadow-taxonomy/non-hierarchical/class-shadow-person.php:48
 msgid "Person"
 msgstr ""
 
-#: taxonomy/hierarchical/class-career.php:35
+#: taxonomy/hierarchical/class-career.php:33
 msgctxt "taxonomy general name"
 msgid "Careers"
 msgstr ""
 
-#: taxonomy/hierarchical/class-career.php:36
+#: taxonomy/hierarchical/class-career.php:34
 msgctxt "taxonomy singular name"
 msgid "Career"
 msgstr ""
 
-#: taxonomy/hierarchical/class-career.php:37
+#: taxonomy/hierarchical/class-career.php:35
 msgid "Search Careers"
 msgstr ""
 
-#: taxonomy/hierarchical/class-career.php:38
+#: taxonomy/hierarchical/class-career.php:36
 msgid "All Careers"
 msgstr ""
 
-#: taxonomy/hierarchical/class-career.php:39
+#: taxonomy/hierarchical/class-career.php:37
 msgid "Parent Career"
 msgstr ""
 
-#: taxonomy/hierarchical/class-career.php:40
+#: taxonomy/hierarchical/class-career.php:38
 msgid "Parent Career:"
 msgstr ""
 
-#: taxonomy/hierarchical/class-career.php:41
+#: taxonomy/hierarchical/class-career.php:39
 msgid "Edit Career"
 msgstr ""
 
-#: taxonomy/hierarchical/class-career.php:42
+#: taxonomy/hierarchical/class-career.php:40
 msgid "Update Career"
 msgstr ""
 
-#: taxonomy/hierarchical/class-career.php:43
+#: taxonomy/hierarchical/class-career.php:41
 msgid "Add New Career"
 msgstr ""
 
-#: taxonomy/hierarchical/class-career.php:44
+#: taxonomy/hierarchical/class-career.php:42
 msgid "New Career Name"
 msgstr ""
 
-#: taxonomy/hierarchical/class-career.php:45
-#: taxonomy/hierarchical/class-career.php:50
+#: taxonomy/hierarchical/class-career.php:43
+#: taxonomy/hierarchical/class-career.php:48
 msgid "Career"
 msgstr ""
 
-#: taxonomy/hierarchical/class-genre.php:35
+#: taxonomy/hierarchical/class-genre.php:33
 msgctxt "taxonomy general name"
 msgid "Genres"
 msgstr ""
 
-#: taxonomy/hierarchical/class-genre.php:36
+#: taxonomy/hierarchical/class-genre.php:34
 msgctxt "taxonomy singular name"
 msgid "Genre"
 msgstr ""
 
-#: taxonomy/hierarchical/class-genre.php:37
+#: taxonomy/hierarchical/class-genre.php:35
 msgid "Search Genres"
 msgstr ""
 
-#: taxonomy/hierarchical/class-genre.php:38
+#: taxonomy/hierarchical/class-genre.php:36
 msgid "All Genres"
 msgstr ""
 
-#: taxonomy/hierarchical/class-genre.php:39
+#: taxonomy/hierarchical/class-genre.php:37
 msgid "Parent Genre"
 msgstr ""
 
-#: taxonomy/hierarchical/class-genre.php:40
+#: taxonomy/hierarchical/class-genre.php:38
 msgid "Parent Genre:"
 msgstr ""
 
-#: taxonomy/hierarchical/class-genre.php:41
+#: taxonomy/hierarchical/class-genre.php:39
 msgid "Edit Genre"
 msgstr ""
 
-#: taxonomy/hierarchical/class-genre.php:42
+#: taxonomy/hierarchical/class-genre.php:40
 msgid "Update Genre"
 msgstr ""
 
-#: taxonomy/hierarchical/class-genre.php:43
+#: taxonomy/hierarchical/class-genre.php:41
 msgid "Add New Genre"
 msgstr ""
 
-#: taxonomy/hierarchical/class-genre.php:44
+#: taxonomy/hierarchical/class-genre.php:42
 msgid "New Genre Name"
 msgstr ""
 
-#: taxonomy/hierarchical/class-genre.php:45
-#: taxonomy/hierarchical/class-genre.php:50
+#: taxonomy/hierarchical/class-genre.php:43
+#: taxonomy/hierarchical/class-genre.php:48
 msgid "Genre"
 msgstr ""
 
-#: taxonomy/hierarchical/class-label.php:34
+#: taxonomy/hierarchical/class-label.php:33
 msgctxt "taxonomy general name"
 msgid "Labels"
 msgstr ""
 
-#: taxonomy/hierarchical/class-label.php:35
+#: taxonomy/hierarchical/class-label.php:34
 msgctxt "taxonomy singular name"
 msgid "Label"
 msgstr ""
 
-#: taxonomy/hierarchical/class-label.php:36
+#: taxonomy/hierarchical/class-label.php:35
 msgid "Search Labels"
 msgstr ""
 
-#: taxonomy/hierarchical/class-label.php:37
+#: taxonomy/hierarchical/class-label.php:36
 msgid "All Labels"
 msgstr ""
 
-#: taxonomy/hierarchical/class-label.php:38
+#: taxonomy/hierarchical/class-label.php:37
 msgid "Parent Label"
 msgstr ""
 
-#: taxonomy/hierarchical/class-label.php:39
+#: taxonomy/hierarchical/class-label.php:38
 msgid "Parent Label:"
 msgstr ""
 
-#: taxonomy/hierarchical/class-label.php:40
+#: taxonomy/hierarchical/class-label.php:39
 msgid "Edit Label"
 msgstr ""
 
-#: taxonomy/hierarchical/class-label.php:41
+#: taxonomy/hierarchical/class-label.php:40
 msgid "Update Label"
 msgstr ""
 
-#: taxonomy/hierarchical/class-label.php:42
+#: taxonomy/hierarchical/class-label.php:41
 msgid "Add New Label"
 msgstr ""
 
-#: taxonomy/hierarchical/class-label.php:43
+#: taxonomy/hierarchical/class-label.php:42
 msgid "New Label Name"
 msgstr ""
 
-#: taxonomy/hierarchical/class-label.php:44
-#: taxonomy/hierarchical/class-label.php:49
+#: taxonomy/hierarchical/class-label.php:43
+#: taxonomy/hierarchical/class-label.php:48
 msgid "Label"
 msgstr ""
 
-#: taxonomy/hierarchical/class-language.php:34
+#: taxonomy/hierarchical/class-language.php:33
 msgctxt "taxonomy general name"
 msgid "Languages"
 msgstr ""
 
-#: taxonomy/hierarchical/class-language.php:35
+#: taxonomy/hierarchical/class-language.php:34
 msgctxt "taxonomy singular name"
 msgid "Language"
 msgstr ""
 
-#: taxonomy/hierarchical/class-language.php:36
+#: taxonomy/hierarchical/class-language.php:35
 msgid "Search Languages"
 msgstr ""
 
-#: taxonomy/hierarchical/class-language.php:37
+#: taxonomy/hierarchical/class-language.php:36
 msgid "All Languages"
 msgstr ""
 
-#: taxonomy/hierarchical/class-language.php:38
+#: taxonomy/hierarchical/class-language.php:37
 msgid "Parent Language"
 msgstr ""
 
-#: taxonomy/hierarchical/class-language.php:39
+#: taxonomy/hierarchical/class-language.php:38
 msgid "Parent Language:"
 msgstr ""
 
-#: taxonomy/hierarchical/class-language.php:40
+#: taxonomy/hierarchical/class-language.php:39
 msgid "Edit Language"
 msgstr ""
 
-#: taxonomy/hierarchical/class-language.php:41
+#: taxonomy/hierarchical/class-language.php:40
 msgid "Update Language"
 msgstr ""
 
-#: taxonomy/hierarchical/class-language.php:42
+#: taxonomy/hierarchical/class-language.php:41
 msgid "Add New Language"
 msgstr ""
 
-#: taxonomy/hierarchical/class-language.php:43
+#: taxonomy/hierarchical/class-language.php:42
 msgid "New Language Name"
 msgstr ""
 
-#: taxonomy/hierarchical/class-language.php:44
-#: taxonomy/hierarchical/class-language.php:49
+#: taxonomy/hierarchical/class-language.php:43
+#: taxonomy/hierarchical/class-language.php:48
 msgid "Language"
 msgstr ""
 
-#: taxonomy/hierarchical/class-production-company.php:34
+#: taxonomy/hierarchical/class-production-company.php:33
 msgctxt "taxonomy general name"
 msgid "Production Companies"
 msgstr ""
 
-#: taxonomy/hierarchical/class-production-company.php:35
+#: taxonomy/hierarchical/class-production-company.php:34
 msgctxt "taxonomy singular name"
 msgid "Production Company"
 msgstr ""
 
-#: taxonomy/hierarchical/class-production-company.php:36
+#: taxonomy/hierarchical/class-production-company.php:35
 msgid "Search Production Companies"
 msgstr ""
 
-#: taxonomy/hierarchical/class-production-company.php:37
+#: taxonomy/hierarchical/class-production-company.php:36
 msgid "All Production Companies"
 msgstr ""
 
-#: taxonomy/hierarchical/class-production-company.php:38
+#: taxonomy/hierarchical/class-production-company.php:37
 msgid "Parent Production Company"
 msgstr ""
 
-#: taxonomy/hierarchical/class-production-company.php:39
+#: taxonomy/hierarchical/class-production-company.php:38
 msgid "Parent Production Company:"
 msgstr ""
 
-#: taxonomy/hierarchical/class-production-company.php:40
+#: taxonomy/hierarchical/class-production-company.php:39
 msgid "Edit Production Company"
 msgstr ""
 
-#: taxonomy/hierarchical/class-production-company.php:41
+#: taxonomy/hierarchical/class-production-company.php:40
 msgid "Update Production Company"
 msgstr ""
 
-#: taxonomy/hierarchical/class-production-company.php:42
+#: taxonomy/hierarchical/class-production-company.php:41
 msgid "Add New Production Company"
 msgstr ""
 
-#: taxonomy/hierarchical/class-production-company.php:43
+#: taxonomy/hierarchical/class-production-company.php:42
 msgid "New Production Company Name"
 msgstr ""
 
-#: taxonomy/hierarchical/class-production-company.php:44
-#: taxonomy/hierarchical/class-production-company.php:49
+#: taxonomy/hierarchical/class-production-company.php:43
+#: taxonomy/hierarchical/class-production-company.php:48
 msgid "Production Company"
 msgstr ""
 
-#: taxonomy/non-hierarchical/class-tag.php:35
+#: taxonomy/non-hierarchical/class-tag.php:33
 msgctxt "taxonomy general name"
 msgid "Tags"
 msgstr ""
 
-#: taxonomy/non-hierarchical/class-tag.php:36
+#: taxonomy/non-hierarchical/class-tag.php:34
 msgctxt "taxonomy singular name"
 msgid "Tag"
 msgstr ""
 
-#: taxonomy/non-hierarchical/class-tag.php:37
+#: taxonomy/non-hierarchical/class-tag.php:35
 msgid "Search Tags"
 msgstr ""
 
-#: taxonomy/non-hierarchical/class-tag.php:38
+#: taxonomy/non-hierarchical/class-tag.php:36
 msgid "All Tags"
 msgstr ""
 
-#: taxonomy/non-hierarchical/class-tag.php:39
+#: taxonomy/non-hierarchical/class-tag.php:37
 msgid "Parent Tag"
 msgstr ""
 
-#: taxonomy/non-hierarchical/class-tag.php:40
+#: taxonomy/non-hierarchical/class-tag.php:38
 msgid "Parent Tag:"
 msgstr ""
 
-#: taxonomy/non-hierarchical/class-tag.php:41
+#: taxonomy/non-hierarchical/class-tag.php:39
 msgid "Edit Tag"
 msgstr ""
 
-#: taxonomy/non-hierarchical/class-tag.php:42
+#: taxonomy/non-hierarchical/class-tag.php:40
 msgid "Update Tag"
 msgstr ""
 
-#: taxonomy/non-hierarchical/class-tag.php:43
+#: taxonomy/non-hierarchical/class-tag.php:41
 msgid "Add New Tag"
 msgstr ""
 
-#: taxonomy/non-hierarchical/class-tag.php:44
+#: taxonomy/non-hierarchical/class-tag.php:42
 msgid "New Tag Name"
 msgstr ""
 
-#: taxonomy/non-hierarchical/class-tag.php:45
-#: taxonomy/non-hierarchical/class-tag.php:50
+#: taxonomy/non-hierarchical/class-tag.php:43
+#: taxonomy/non-hierarchical/class-tag.php:48
 msgid "Tag"
 msgstr ""
 
 #: admin/js/image-upload-handler.js:62
 msgid "Select or Upload Images for Movie"
-msgstr ""
-
-#: admin/js/image-upload-handler.js:114
-#: admin/js/video-upload-handler.js:120
-msgid "Remove"
 msgstr ""
 
 #: admin/js/video-upload-handler.js:58

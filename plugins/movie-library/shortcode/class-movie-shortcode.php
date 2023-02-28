@@ -474,10 +474,10 @@ abstract class Movie_Shortcode {
 
 			$content .= sprintf( "<p class='movie-item__date' > %s </p>", $movie['Release Date'] );
 
-			$content .= sprintf( "<h5 class='movie-item__director-title' > %s </h5>", 'Director' );
+			$content .= sprintf( "<h5 class='movie-item__director-title' > %s </h5>", esc_html__( 'Director', 'movie-library' ) );
 			$content .= sprintf( "<ul class='movie-item__directors' > %s </ul>", $directors );
 
-			$content .= sprintf( "<h5 class='movie-item__actor-title' > %s </h5>", 'Actor' );
+			$content .= sprintf( "<h5 class='movie-item__actor-title' > %s </h5>", esc_html__( 'Actor', 'movie-library' ) );
 			$content .= sprintf( "<ul class='movie-item__actors' > %s </ul>", $actors );
 
 			// Add the content to the movie items.

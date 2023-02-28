@@ -58,9 +58,6 @@ abstract class Movie_Library {
 		// register the autoloader.
 		Autoloader::register();
 
-		// register activation hook.
-		register_activation_hook( __FILE__, array( __CLASS__, 'activate' ) );
-
 		// add custom post type.
 		Movie::init();
 		Person::init();

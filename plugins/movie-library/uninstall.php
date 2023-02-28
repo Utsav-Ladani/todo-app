@@ -4,7 +4,7 @@
  * Uninstalling Movie Library deletes user roles, pages, tables, and options according to the settings.
  *
  * @package MovieLibrary
- * @author  Utsav Ladani
+ * @author  rtCamp
  */
 
 // If uninstall not called from WordPress, then exit.
