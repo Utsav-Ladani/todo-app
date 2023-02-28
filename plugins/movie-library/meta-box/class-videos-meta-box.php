@@ -219,7 +219,7 @@ abstract class Videos_Meta_Box {
 					class='button rt-remove-video-btn widefat'
 					data-video-id='<?php echo esc_attr( $video ); ?>'
 				>
-					Remove
+					<?php esc_html_e( 'Remove', 'movie-library' ); ?>
 				</button>
 			</div>
 			<?php

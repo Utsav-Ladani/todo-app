@@ -5,7 +5,7 @@
  * Declare all constants here.
  *
  * @package MovieLibrary
- * @author  Utsav Ladani
+ * @author  rtCamp
  */
 
 namespace Movie_Library;

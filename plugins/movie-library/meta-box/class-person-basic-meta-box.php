@@ -67,7 +67,9 @@ abstract class Person_Basic_Meta_Box {
 
 		// Render the meta box for the basic information about the person.
 		?>
-		<label for='rt-person-meta-basic-birth-date' > Birth Date </label>
+		<label for='rt-person-meta-basic-birth-date' >
+			<?php esc_html_e( 'Birth Date', 'movie-library' ); ?>
+		</label>
 		<input
 			type='date'
 			class='widefat'
@@ -77,7 +79,9 @@ abstract class Person_Basic_Meta_Box {
 			value=<?php echo esc_attr( $person_basic_meta_data['rt-person-meta-basic-birth-date'] ); ?>
 		/>
 
-		<label for='rt-person-meta-basic-birth-place' > Birth Place </label>
+		<label for='rt-person-meta-basic-birth-place' >
+			<?php esc_html_e( 'Birth Place', 'movie-library' ); ?>
+		</label>
 		<input
 			type='text'
 			class='widefat'

@@ -51,7 +51,9 @@ abstract class Basic_Meta_Box {
 
 		// add html tags.
 		?>
-		<label for='rt-movie-meta-basic-rating' > Rating </label>
+		<label for='rt-movie-meta-basic-rating' >
+			<?php esc_html_e( 'Rating', 'movie-library' ); ?>
+		</label>
 		<input
 			type='number'
 			class='widefat'
@@ -62,7 +64,9 @@ abstract class Basic_Meta_Box {
 			value=<?php echo esc_attr( $basic_meta_data['rt-movie-meta-basic-rating'] ); ?>
 		/>
 
-		<label for='rt-movie-meta-basic-runtime' > Runtime </label>
+		<label for='rt-movie-meta-basic-runtime' >
+			<?php esc_html_e( 'Runtime', 'movie-library' ); ?>
+		</label>
 		<input
 			type='text'
 			class='widefat'
@@ -71,7 +75,9 @@ abstract class Basic_Meta_Box {
 			value='<?php echo esc_attr( $basic_meta_data['rt-movie-meta-basic-runtime'] ); ?>'
 		/>
 
-		<label for='rt-movie-meta-basic-release-date' > Release Date </label>
+		<label for='rt-movie-meta-basic-release-date' >
+			<?php esc_html_e( 'Release Date', 'movie-library' ); ?>
+		</label>
 		<input
 			type='date'
 			class='widefat'

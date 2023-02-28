@@ -123,7 +123,7 @@ abstract class Social_Meta_Box {
 	public static function render_social_meta_box_section( array $social_data, string $data ) : void {
 		?>
 		<label for='<?php echo esc_attr( $social_data['id'] ); ?>' >
-			<?php echo esc_html( $social_data['name'] ); ?>
+			<?php esc_html( $social_data['name'] ); ?>
 		</label>
 		<input
 			type='text'
