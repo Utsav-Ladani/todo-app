@@ -7,12 +7,20 @@
 
 namespace Movie_Library\Taxonomy\Hierarchical;
 
+use Movie_Library\Custom_Post_Type\Person;
+
 /**
  * Class Career
  *
  * Create the Career taxonomy for Person.
  */
 abstract class Career {
+	/**
+	 * The slug of the taxonomy.
+	 *
+	 * @var string
+	 */
+	const SLUG = 'rt-person-career';
 
 	/**
 	 * Initialize the class.
@@ -30,8 +38,8 @@ abstract class Career {
 	 */
 	public static function register_career_taxonomy(): void {
 		$labels = array(
-			'name'              => _x( 'Careers', 'taxonomy general name', 'movie-library' ),
-			'singular_name'     => _x( 'Career', 'taxonomy singular name', 'movie-library' ),
+			'name'              => __( 'Careers', 'movie-library' ),
+			'singular_name'     => __( 'Career', 'movie-library' ),
 			'search_items'      => __( 'Search Careers', 'movie-library' ),
 			'all_items'         => __( 'All Careers', 'movie-library' ),
 			'parent_item'       => __( 'Parent Career', 'movie-library' ),
@@ -59,6 +67,6 @@ abstract class Career {
 			'show_admin_column'  => true,
 		);
 
-		register_taxonomy( 'rt-person-career', array( 'rt-person' ), $args );
+		register_taxonomy( self::SLUG, array( Person::SLUG ), $args );
 	}
 }

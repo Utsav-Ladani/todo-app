@@ -7,12 +7,20 @@
 
 namespace Movie_Library\Taxonomy\Hierarchical;
 
+use Movie_Library\Custom_Post_Type\Movie;
+
 /**
  * Class Production_Company
  *
  * Create the Production Company taxonomy.
  */
 abstract class Production_Company {
+	/**
+	 * The slug of the taxonomy.
+	 *
+	 * @var string
+	 */
+	const SLUG = 'rt-movie-production-company';
 
 	/**
 	 * Initialize the class.
@@ -30,8 +38,8 @@ abstract class Production_Company {
 	 */
 	public static function register_production_company_taxonomy(): void {
 		$labels = array(
-			'name'              => _x( 'Production Companies', 'taxonomy general name', 'movie-library' ),
-			'singular_name'     => _x( 'Production Company', 'taxonomy singular name', 'movie-library' ),
+			'name'              => __( 'Production Companies', 'movie-library' ),
+			'singular_name'     => __( 'Production Company', 'movie-library' ),
 			'search_items'      => __( 'Search Production Companies', 'movie-library' ),
 			'all_items'         => __( 'All Production Companies', 'movie-library' ),
 			'parent_item'       => __( 'Parent Production Company', 'movie-library' ),
@@ -59,6 +67,6 @@ abstract class Production_Company {
 			'show_admin_column'  => true,
 		);
 
-		register_taxonomy( 'rt-movie-production-company', array( 'rt-movie' ), $args );
+		register_taxonomy( self::SLUG, array( Movie::SLUG ), $args );
 	}
 }

@@ -7,12 +7,20 @@
 
 namespace Movie_Library\Taxonomy\Hierarchical;
 
+use Movie_Library\Custom_Post_Type\Movie;
+
 /**
  * Class Genre
  *
  * Create the Genre taxonomy.
  */
 abstract class Genre {
+	/**
+	 * The slug of the taxonomy.
+	 *
+	 * @var string
+	 */
+	const SLUG = 'rt-person-genre';
 
 	/**
 	 * Initialize the class.
@@ -30,8 +38,8 @@ abstract class Genre {
 	 */
 	public static function register_genre_taxonomy(): void {
 		$labels = array(
-			'name'              => _x( 'Genres', 'taxonomy general name', 'movie-library' ),
-			'singular_name'     => _x( 'Genre', 'taxonomy singular name', 'movie-library' ),
+			'name'              => __( 'Genres', 'movie-library' ),
+			'singular_name'     => __( 'Genre', 'movie-library' ),
 			'search_items'      => __( 'Search Genres', 'movie-library' ),
 			'all_items'         => __( 'All Genres', 'movie-library' ),
 			'parent_item'       => __( 'Parent Genre', 'movie-library' ),
@@ -59,6 +67,6 @@ abstract class Genre {
 			'show_admin_column'  => true,
 		);
 
-		register_taxonomy( 'rt-movie-genre', array( 'rt-movie' ), $args );
+		register_taxonomy( self::SLUG, array( Movie::SLUG ), $args );
 	}
 }

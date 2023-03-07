@@ -24,7 +24,7 @@ abstract class Social_Meta_Box {
 	 * @access public
 	 * @static
 	 */
-	public static array $social_arr = array( // phpcs:ignore
+	public static $social_arr = array(
 		array(
 			'name' => 'Twitter',
 			'type' => 'twitter',
@@ -184,7 +184,7 @@ abstract class Social_Meta_Box {
 			return;
 		}
 
-		$nonce = filter_input( INPUT_POST, 'rt-person-meta-social-nonce', FILTER_SANITIZE_STRING );
+		$nonce = filter_input( INPUT_POST, 'rt-person-meta-social-nonce', FILTER_DEFAULT );
 
 		// Check whether the nonce is set and verify it.
 		if ( ! wp_verify_nonce( $nonce, 'rt-person-meta-social' ) ) {
@@ -219,7 +219,7 @@ abstract class Social_Meta_Box {
 	 * @return array
 	 */
 	public static function add_social_to_meta_data_by_id( array $meta_value, string $social_id ) : array {
-		$nonce = filter_input( INPUT_POST, 'rt-person-meta-social-nonce', FILTER_SANITIZE_STRING );
+		$nonce = filter_input( INPUT_POST, 'rt-person-meta-social-nonce', FILTER_DEFAULT );
 
 		if ( ! wp_verify_nonce( $nonce, 'rt-person-meta-social' ) ) {
 			return $meta_value;

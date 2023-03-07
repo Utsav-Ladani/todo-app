@@ -79,7 +79,7 @@ abstract class Images_Meta_Box {
 			'movie-library-image-upload-handler',
 			MOVIE_LIBRARY_PLUGIN_URL . 'admin/js/image-upload-handler.js',
 			array( 'jquery', 'wp-i18n' ),
-			MOVIE_LIBRARY_VERSION,
+			filemtime( MOVIE_LIBRARY_PLUGIN_DIR . 'admin/js/image-upload-handler.js' ),
 			true
 		);
 	}
@@ -146,7 +146,7 @@ abstract class Images_Meta_Box {
 			return;
 		}
 
-		$nonce = filter_input( INPUT_POST, 'rt-upload-images-nonce', FILTER_SANITIZE_STRING );
+		$nonce = filter_input( INPUT_POST, 'rt-upload-images-nonce', FILTER_DEFAULT );
 
 		// Check whether nonce is set and verify it.
 		if ( ! wp_verify_nonce( $nonce, 'rt-upload-images' ) ) {
@@ -157,7 +157,7 @@ abstract class Images_Meta_Box {
 		$images = filter_input(
 			INPUT_POST,
 			'rt-upload-images',
-			FILTER_SANITIZE_STRING,
+			FILTER_DEFAULT,
 			FILTER_REQUIRE_SCALAR
 		);
 		$images = explode( ',', $images );

@@ -22,7 +22,7 @@ abstract class Movie_Shortcode {
 	 * @access public
 	 * @static
 	 */
-	public static array $attributes_name = array( // phpcs:ignore
+	public static $attributes_name = array(
 		'person',
 		'genre',
 		'label',

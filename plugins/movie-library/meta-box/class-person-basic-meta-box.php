@@ -137,7 +137,7 @@ abstract class Person_Basic_Meta_Box {
 			return;
 		}
 
-		$nonce = filter_input( INPUT_POST, 'rt-person-basic-meta-box-nonce', FILTER_SANITIZE_STRING );
+		$nonce = filter_input( INPUT_POST, 'rt-person-basic-meta-box-nonce', FILTER_DEFAULT );
 
 		// Check whether the nonce is set and verify it.
 		if ( ! wp_verify_nonce( $nonce, 'rt-person-basic-meta-box' ) ) {
@@ -215,13 +215,13 @@ abstract class Person_Basic_Meta_Box {
 	 * @static
 	 */
 	public static function add_birth_date_to_meta_data( array $meta_value ) : array {
-		$nonce = filter_input( INPUT_POST, 'rt-person-basic-meta-box-nonce', FILTER_SANITIZE_STRING );
+		$nonce = filter_input( INPUT_POST, 'rt-person-basic-meta-box-nonce', FILTER_DEFAULT );
 
 		if ( ! wp_verify_nonce( $nonce, 'rt-person-basic-meta-box' ) ) {
 			return $meta_value;
 		}
 
-		$birth_date = filter_input( INPUT_POST, 'rt-person-meta-basic-birth-date', FILTER_SANITIZE_STRING );
+		$birth_date = filter_input( INPUT_POST, 'rt-person-meta-basic-birth-date', FILTER_DEFAULT );
 
 		// Check whether the birthdate is sent by user and is valid or not.
 		if ( $birth_date ) {
@@ -246,13 +246,13 @@ abstract class Person_Basic_Meta_Box {
 	 * @static
 	 */
 	public static function add_birth_place_to_meta_data( array $meta_value ) : array {
-		$nonce = filter_input( INPUT_POST, 'rt-person-basic-meta-box-nonce', FILTER_SANITIZE_STRING );
+		$nonce = filter_input( INPUT_POST, 'rt-person-basic-meta-box-nonce', FILTER_DEFAULT );
 
 		if ( ! wp_verify_nonce( $nonce, 'rt-person-basic-meta-box' ) ) {
 			return $meta_value;
 		}
 
-		$birth_place = filter_input( INPUT_POST, 'rt-person-meta-basic-birth-place', FILTER_SANITIZE_STRING );
+		$birth_place = filter_input( INPUT_POST, 'rt-person-meta-basic-birth-place', FILTER_DEFAULT );
 
 		// Check whether the birthplace is sent by user and is valid or not.
 		if ( $birth_place ) {

@@ -18,9 +18,8 @@ abstract class Crew_Meta_Box {
 	 * @since 1.0.0
 	 * @access public
 	 * @static
-	 * phpcs:ignore Generic.PHP.Syntax.PHPSyntax
 	 */
-	public static array $crew_data = array( // phpcs:ignore Generic.PHP.Syntax.PHPSyntax
+	public static $crew_data = array(
 		array(
 			'name' => 'Director',
 			'type' => 'director',
@@ -97,7 +96,7 @@ abstract class Crew_Meta_Box {
 			'movie-library-character-name-handler',
 			MOVIE_LIBRARY_PLUGIN_URL . 'admin/js/character-name-handler.js',
 			array( 'jquery', 'wp-i18n' ),
-			MOVIE_LIBRARY_VERSION,
+			filemtime( MOVIE_LIBRARY_PLUGIN_DIR . 'admin/js/character-name-handler.js' ),
 			true
 		);
 	}
@@ -277,7 +276,7 @@ abstract class Crew_Meta_Box {
 			return;
 		}
 
-		$nonce = filter_input( INPUT_POST, 'rt-movie-meta-crew-nonce', FILTER_SANITIZE_STRING );
+		$nonce = filter_input( INPUT_POST, 'rt-movie-meta-crew-nonce', FILTER_DEFAULT );
 
 		// check if the nonce is set or not and verify it.
 		if ( ! wp_verify_nonce( $nonce, 'rt-movie-meta-crew' ) ) {
@@ -309,7 +308,7 @@ abstract class Crew_Meta_Box {
 		$selected_crew_member = filter_input(
 			INPUT_POST,
 			$crew['id'],
-			FILTER_SANITIZE_STRING,
+			FILTER_DEFAULT,
 			FILTER_REQUIRE_ARRAY
 		);
 

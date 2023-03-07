@@ -79,7 +79,7 @@ abstract class Videos_Meta_Box {
 			'movie-library-video-upload-handler',
 			MOVIE_LIBRARY_PLUGIN_URL . 'admin/js/video-upload-handler.js',
 			array( 'jquery', 'wp-i18n' ),
-			MOVIE_LIBRARY_VERSION,
+			filemtime( MOVIE_LIBRARY_PLUGIN_DIR . 'admin/js/video-upload-handler.js' ),
 			true
 		);
 	}
@@ -146,7 +146,7 @@ abstract class Videos_Meta_Box {
 			return;
 		}
 
-		$nonce = filter_input( INPUT_POST, 'rt-video-upload-nonce', FILTER_SANITIZE_STRING );
+		$nonce = filter_input( INPUT_POST, 'rt-video-upload-nonce', FILTER_DEFAULT );
 
 		// Check whether the nonce is set and verify it.
 		if ( ! wp_verify_nonce( $nonce, 'rt-video-upload-nonce-action' ) ) {
@@ -157,7 +157,7 @@ abstract class Videos_Meta_Box {
 		$videos = filter_input(
 			INPUT_POST,
 			'rt-upload-videos',
-			FILTER_SANITIZE_STRING,
+			FILTER_DEFAULT,
 			FILTER_REQUIRE_SCALAR
 		);
 

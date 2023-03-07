@@ -118,7 +118,7 @@ abstract class Basic_Meta_Box {
 			return;
 		}
 
-		$nonce = filter_input( INPUT_POST, 'rt-movie-meta-basic-nonce', FILTER_SANITIZE_STRING );
+		$nonce = filter_input( INPUT_POST, 'rt-movie-meta-basic-nonce', FILTER_DEFAULT );
 
 		// check if the nonce is set and valid.
 		if ( ! wp_verify_nonce( $nonce, 'rt-movie-meta-basic' )
@@ -181,7 +181,7 @@ abstract class Basic_Meta_Box {
 	 * @return array
 	 */
 	public static function add_rating_to_meta_value( array $meta_value ) : array {
-		$rating = filter_input( INPUT_POST, 'rt-movie-meta-basic-rating', FILTER_SANITIZE_STRING );
+		$rating = filter_input( INPUT_POST, 'rt-movie-meta-basic-rating', FILTER_DEFAULT );
 
 		// check if the rating is set and not empty.
 		if ( $rating ) {
@@ -222,7 +222,7 @@ abstract class Basic_Meta_Box {
 	 * @return array
 	 */
 	public static function add_runtime_to_meta_value( array $meta_value ) : array {
-		$runtime = filter_input( INPUT_POST, 'rt-movie-meta-basic-runtime', FILTER_SANITIZE_STRING );
+		$runtime = filter_input( INPUT_POST, 'rt-movie-meta-basic-runtime', FILTER_DEFAULT );
 
 		// check if the runtime is not empty.
 		if ( $runtime ) {
@@ -263,7 +263,7 @@ abstract class Basic_Meta_Box {
 	 * @return array
 	 */
 	public static function add_release_date_to_meta_value( array $meta_value ) : array {
-		$release_date = filter_input( INPUT_POST, 'rt-movie-meta-basic-release-date', FILTER_SANITIZE_STRING );
+		$release_date = filter_input( INPUT_POST, 'rt-movie-meta-basic-release-date', FILTER_DEFAULT );
 
 		// check if the release date is not empty.
 		if ( $release_date ) {

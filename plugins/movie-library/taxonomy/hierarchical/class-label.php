@@ -7,12 +7,20 @@
 
 namespace Movie_Library\Taxonomy\Hierarchical;
 
+use Movie_Library\Custom_Post_Type\Movie;
+
 /**
  * Class Label
  *
  * Create the Label taxonomy.
  */
 abstract class Label {
+	/**
+	 * The slug of the taxonomy.
+	 *
+	 * @var string
+	 */
+	const SLUG = 'rt-movie-label';
 
 	/**
 	 * Initialize the class.
@@ -30,8 +38,8 @@ abstract class Label {
 	 */
 	public static function register_label_taxonomy(): void {
 		$labels = array(
-			'name'              => _x( 'Labels', 'taxonomy general name', 'movie-library' ),
-			'singular_name'     => _x( 'Label', 'taxonomy singular name', 'movie-library' ),
+			'name'              => __( 'Labels', 'movie-library' ),
+			'singular_name'     => __( 'Label', 'movie-library' ),
 			'search_items'      => __( 'Search Labels', 'movie-library' ),
 			'all_items'         => __( 'All Labels', 'movie-library' ),
 			'parent_item'       => __( 'Parent Label', 'movie-library' ),
@@ -59,6 +67,6 @@ abstract class Label {
 			'show_admin_column'  => true,
 		);
 
-		register_taxonomy( 'rt-movie-label', array( 'rt-movie' ), $args );
+		register_taxonomy( self::SLUG, array( Movie::SLUG ), $args );
 	}
 }
