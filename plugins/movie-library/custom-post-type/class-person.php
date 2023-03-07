@@ -82,7 +82,7 @@ abstract class Person {
 			'rest_base'         => 'person',
 		);
 
-		register_post_type( self::SLUG, $args );
+		register_post_type( (string) self::SLUG, $args );
 	}
 
 	/**

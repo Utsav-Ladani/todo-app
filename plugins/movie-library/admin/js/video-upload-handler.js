@@ -12,9 +12,6 @@
 		const { __ } = wp.i18n;
 
 		// get DOM objects
-		const metaBox = document.getElementById(
-			'movie-library-video-upload-handler'
-		);
 		const addVideoButton = document.getElementById('add-videos-custom-btn');
 		const videoPreviewContainer = document.getElementById(
 			'video-preview-container'

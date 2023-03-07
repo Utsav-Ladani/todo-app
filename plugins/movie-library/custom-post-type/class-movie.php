@@ -83,7 +83,7 @@ abstract class Movie {
 			'rest_base'         => 'movie',
 		);
 
-		register_post_type( self::SLUG, $args );
+		register_post_type( (string) self::SLUG, $args );
 	}
 
 	/**
