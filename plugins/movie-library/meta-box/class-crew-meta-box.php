@@ -165,7 +165,7 @@ abstract class Crew_Meta_Box {
 		?>
 		<label for='<?php echo esc_attr( $crew['id'] ); ?>' >
 			<?php echo esc_html( $crew['name'] ); ?>
-			<?php echo esc_html__( '(Press CTRL to select multiple)' ); ?>
+			<?php echo esc_html__( '(Press CTRL to select multiple)', 'movie-library' ); ?>
 		</label>
 		<br />
 		<select
