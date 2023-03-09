@@ -7,6 +7,8 @@
 
 namespace Movie_Library\Meta_Box;
 
+use Movie_Library\Custom_Post_Type\Person;
+
 /**
  * Class Social_Meta_Box
  * It adds the boxes for different social media links.
@@ -64,6 +66,9 @@ abstract class Social_Meta_Box {
 
 		// Save the meta box.
 		add_action( 'save_post_rt-person', array( __CLASS__, 'save_social_meta_data' ) );
+
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'social_meta_enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'social_meta_enqueue_styles' ) );
 	}
 
 	/**
@@ -80,8 +85,43 @@ abstract class Social_Meta_Box {
 			'rt-person-meta-social',
 			__( 'Social Information', 'movie-library' ),
 			array( __CLASS__, 'render_social_meta_box' ),
-			'rt-person',
+			Person::SLUG,
 			'side',
+		);
+	}
+
+	/**
+	 * Enqueue social link validation scripts.
+	 */
+	public static function social_meta_enqueue_scripts() : void {
+		// only enqueue script on rt-person post type.
+		if ( Person::SLUG !== get_post_type() || ! is_admin() ) {
+			return;
+		}
+
+		wp_enqueue_script(
+			'rt-social-validation',
+			MOVIE_LIBRARY_PLUGIN_URL . 'admin/js/social-validation.js',
+			array( 'wp-i18n' ),
+			filemtime( MOVIE_LIBRARY_PLUGIN_DIR . 'admin/js/social-validation.js' ),
+			true
+		);
+	}
+
+	/**
+	 * Enqueue social meta box styles.
+	 */
+	public static function social_meta_enqueue_styles() : void {
+		// only enqueue styles on rt-person post type.
+		if ( Person::SLUG !== get_post_type() || ! is_admin() ) {
+			return;
+		}
+
+		wp_enqueue_style(
+			'rt-social-meta-box-css',
+			MOVIE_LIBRARY_PLUGIN_URL . 'admin/css/meta-box.css',
+			array(),
+			filemtime( MOVIE_LIBRARY_PLUGIN_DIR . 'admin/css/meta-box.css' ),
 		);
 	}
 
@@ -122,6 +162,8 @@ abstract class Social_Meta_Box {
 	 */
 	public static function render_social_meta_box_section( array $social_data, string $data ) : void {
 		?>
+		<div id='<?php echo esc_attr( $social_data['id'] . '-error' ); ?>' class='rt-error'>
+		</div>
 		<label for='<?php echo esc_attr( $social_data['id'] ); ?>' >
 			<?php esc_html( $social_data['name'] ); ?>
 		</label>

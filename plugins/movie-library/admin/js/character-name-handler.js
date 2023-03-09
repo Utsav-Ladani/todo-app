@@ -2,7 +2,7 @@
  * Character Name Handler
  */
 
-// Call function using jQuery
+// call anonymous function to avoid global scope access by user
 (function () {
 	// run on document ready
 	document.addEventListener('DOMContentLoaded', () => {

@@ -7,6 +7,8 @@
 
 namespace Movie_Library\Meta_Box;
 
+use Movie_Library\Custom_Post_Type\Person;
+
 /**
  * Class Person_Basic_Meta_Box
  * Add the basic information about the person like birthdate, birthplace.
@@ -26,6 +28,8 @@ abstract class Person_Basic_Meta_Box {
 	public static function init() : void {
 		add_action( 'add_meta_boxes', array( __CLASS__, 'add_person_basic_meta_box' ) );
 		add_action( 'save_post_rt-person', array( __CLASS__, 'save_person_basic_meta_data' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'person_meta_enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'person_meta_enqueue_styles' ) );
 	}
 
 	/**
@@ -42,8 +46,43 @@ abstract class Person_Basic_Meta_Box {
 			'rt-person-meta-basic',
 			__( 'Basic', 'movie-library' ),
 			array( __CLASS__, 'render_person_basic_meta_box' ),
-			'rt-person',
+			Person::SLUG,
 			'side',
+		);
+	}
+
+	/**
+	 * Enqueue person meta box validation scripts.
+	 */
+	public static function person_meta_enqueue_scripts() : void {
+		// only enqueue script on rt-person post type.
+		if ( Person::SLUG !== get_post_type() || ! is_admin() ) {
+			return;
+		}
+
+		wp_enqueue_script(
+			'rt-person-validation',
+			MOVIE_LIBRARY_PLUGIN_URL . 'admin/js/person-validation.js',
+			array( 'wp-i18n' ),
+			filemtime( MOVIE_LIBRARY_PLUGIN_DIR . 'admin/js/person-validation.js' ),
+			true
+		);
+	}
+
+	/**
+	 * Enqueue person meta box styles.
+	 */
+	public static function person_meta_enqueue_styles() : void {
+		// only enqueue styles on rt-person post type.
+		if ( Person::SLUG !== get_post_type() || ! is_admin() ) {
+			return;
+		}
+
+		wp_enqueue_style(
+			'rt-person-meta-box-css',
+			MOVIE_LIBRARY_PLUGIN_URL . 'admin/css/meta-box.css',
+			array(),
+			filemtime( MOVIE_LIBRARY_PLUGIN_DIR . 'admin/css/meta-box.css' ),
 		);
 	}
 
@@ -79,6 +118,8 @@ abstract class Person_Basic_Meta_Box {
 			value=<?php echo esc_attr( $person_basic_meta_data['rt-person-meta-basic-birth-date'] ); ?>
 		/>
 
+		<div id="rt-person-meta-basic-birth-place-error" class="rt-error">
+		</div>
 		<label for='rt-person-meta-basic-birth-place' >
 			<?php esc_html_e( 'Birth Place', 'movie-library' ); ?>
 		</label>
@@ -87,6 +128,8 @@ abstract class Person_Basic_Meta_Box {
 			class='widefat'
 			name='rt-person-meta-basic-birth-place'
 			id='rt-person-meta-basic-birth-place'
+			placeholder='Birth Place'
+			autocomplete='off'
 			value='<?php echo esc_attr( $person_basic_meta_data['rt-person-meta-basic-birth-place'] ); ?>'
 		/>
 		<?php
@@ -198,7 +241,7 @@ abstract class Person_Basic_Meta_Box {
 		 * Check whether the birthplace contains only alphabets and spaces.
 		 * The birthplace can contain multiple words.
 		 */
-		if ( preg_match( '/^\w+(  ?\w+)*$/', $birth_place ) ) {
+		if ( preg_match( '/^[a-zA-Z, ]+$/', $birth_place ) ) {
 			return $birth_place;
 		}
 

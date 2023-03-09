@@ -4,7 +4,7 @@
  * @version 1.0.0
  */
 
-// call the function
+// call anonymous function to avoid global scope access by user.
 (function () {
 	// run it after the DOM is ready
 	document.addEventListener('DOMContentLoaded', () => {

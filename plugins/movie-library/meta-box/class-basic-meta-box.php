@@ -7,6 +7,8 @@
 
 namespace Movie_Library\Meta_Box;
 
+use Movie_Library\Custom_Post_Type\Movie;
+
 /**
  * Class Basic_Meta_Box
  *
@@ -17,10 +19,14 @@ abstract class Basic_Meta_Box {
 
 	/**
 	 * Initialize the class and add callbacks to hooks.
+	 *
+	 * @return void
 	 */
 	public static function init() : void {
 		add_action( 'add_meta_boxes', array( __CLASS__, 'add_basic_meta_box' ) );
 		add_action( 'save_post_rt-movie', array( __CLASS__, 'save_basic_meta_data' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'movie_meta_enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'movie_meta_enqueue_styles' ) );
 	}
 
 	/**
@@ -31,8 +37,43 @@ abstract class Basic_Meta_Box {
 			'rt-movie-meta-basic',
 			__( 'Basic', 'movie-library' ),
 			array( __CLASS__, 'render_basic_meta_box' ),
-			'rt-movie',
+			Movie::SLUG,
 			'side',
+		);
+	}
+
+	/**
+	 * Enqueue movie meta box validation scripts.
+	 */
+	public static function movie_meta_enqueue_scripts() : void {
+		// only enqueue scripts on rt-movie post type.
+		if ( Movie::SLUG !== get_post_type() || ! is_admin() ) {
+			return;
+		}
+
+		wp_enqueue_script(
+			'rt-movie-validation',
+			MOVIE_LIBRARY_PLUGIN_URL . 'admin/js/movie-validation.js',
+			array( 'wp-i18n' ),
+			filemtime( MOVIE_LIBRARY_PLUGIN_DIR . 'admin/js/movie-validation.js' ),
+			true
+		);
+	}
+
+	/**
+	 * Enqueue movie meta box styles.
+	 */
+	public static function movie_meta_enqueue_styles() : void {
+		// only enqueue styles on rt-movie post type.
+		if ( Movie::SLUG !== get_post_type() || ! is_admin() ) {
+			return;
+		}
+
+		wp_enqueue_style(
+			'rt-movie-meta-box-css',
+			MOVIE_LIBRARY_PLUGIN_URL . 'admin/css/meta-box.css',
+			array(),
+			filemtime( MOVIE_LIBRARY_PLUGIN_DIR . 'admin/css/meta-box.css' ),
 		);
 	}
 
@@ -51,27 +92,37 @@ abstract class Basic_Meta_Box {
 
 		// add html tags.
 		?>
+		<div id="rt-movie-meta-basic-rating-error" class="rt-error">
+		</div>
 		<label for='rt-movie-meta-basic-rating' >
-			<?php esc_html_e( 'Rating', 'movie-library' ); ?>
+			<?php esc_html_e( 'Rating ( Between 0 to 10 )', 'movie-library' ); ?>
 		</label>
 		<input
 			type='number'
 			class='widefat'
 			name='rt-movie-meta-basic-rating'
 			id='rt-movie-meta-basic-rating'
+			placeholder='Rating'
+			autoComplete='off'
 			min='0'
 			max='10'
 			value=<?php echo esc_attr( $basic_meta_data['rt-movie-meta-basic-rating'] ); ?>
 		/>
 
+		<div id="rt-movie-meta-basic-runtime-error" class="rt-error">
+		</div>
 		<label for='rt-movie-meta-basic-runtime' >
 			<?php esc_html_e( 'Runtime', 'movie-library' ); ?>
 		</label>
 		<input
-			type='text'
+			type='number'
 			class='widefat'
 			name='rt-movie-meta-basic-runtime'
 			id='rt-movie-meta-basic-runtime'
+			placeholder='Runtime in minutes'
+			autoComplete='off'
+			min='0'
+			max='5000'
 			value='<?php echo esc_attr( $basic_meta_data['rt-movie-meta-basic-runtime'] ); ?>'
 		/>
 
@@ -207,7 +258,11 @@ abstract class Basic_Meta_Box {
 		$runtime = sanitize_text_field( $runtime );
 
 		// check if the runtime is in the format hh:mm.
-		if ( preg_match( '/^[0-9]{2}:[0-9]{2}$/', $runtime ) ) {
+		if (
+			preg_match( '/^[0-9]+$/', $runtime ) &&
+			(int) $runtime >= 0 &&
+			(int) $runtime <= 5000
+		) {
 			return $runtime;
 		}
 

@@ -7,6 +7,11 @@
 
 namespace Movie_Library\Meta_Box;
 
+use Movie_Library\Custom_Post_Type\Movie;
+use Movie_Library\Custom_Post_Type\Person;
+use Movie_Library\Shadow_Taxonomy\Non_Hierarchical\Shadow_Person;
+use Movie_Library\Taxonomy\Hierarchical\Career;
+
 /**
  * Class Crew_Meta_Box
  */
@@ -73,13 +78,13 @@ abstract class Crew_Meta_Box {
 			'rt-movie-meta-crew',
 			__( 'Crew', 'movie-library' ),
 			array( __CLASS__, 'render_crew_meta_box' ),
-			'rt-movie',
+			Movie::SLUG,
 			'side',
 		);
 	}
 
 	/**
-	 * Enqueue script.
+	 * Enqueue character name handler script.
 	 *
 	 * @return void
 	 * @since 1.0.0
@@ -87,8 +92,8 @@ abstract class Crew_Meta_Box {
 	 * @static
 	 */
 	public static function enqueue_script() : void {
-		// if post type is not rt-movie, then return.
-		if ( 'rt-movie' !== get_post_type() ) {
+		// only enqueue script on rt-movie post type.
+		if ( Movie::SLUG !== get_post_type() || ! is_admin() ) {
 			return;
 		}
 
@@ -160,6 +165,7 @@ abstract class Crew_Meta_Box {
 		?>
 		<label for='<?php echo esc_attr( $crew['id'] ); ?>' >
 			<?php echo esc_html( $crew['name'] ); ?>
+			<?php echo esc_html__( '(Press CTRL to select multiple)' ); ?>
 		</label>
 		<br />
 		<select
@@ -221,13 +227,13 @@ abstract class Crew_Meta_Box {
 		// get the person from the database.
 		$person_query = new \WP_Query(
 			array(
-				'post_type' => 'rt-person',
+				'post_type' => Person::SLUG,
 				'orderby'   => 'name',
 				'order'     => 'ASC',
 				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				'tax_query' => array(
 					array(
-						'taxonomy' => 'rt-person-career',
+						'taxonomy' => Career::SLUG,
 						'field'    => 'slug',
 						'terms'    => $career,
 					),
@@ -284,7 +290,7 @@ abstract class Crew_Meta_Box {
 		}
 
 		// unlink all the existing crew members temp-relationships.
-		wp_delete_object_term_relationships( $post_id, '_rt-movie-person' );
+		wp_delete_object_term_relationships( $post_id, Shadow_Person::SLUG );
 
 		// loop over the crew data and save the metadata for each section.
 		foreach ( self::$crew_data as $crew ) {
@@ -334,7 +340,7 @@ abstract class Crew_Meta_Box {
 		update_post_meta( $post_id, $crew['id'], $selected_crew_member );
 
 		// add the temp-relationships.
-		wp_add_object_terms( $post_id, $rt_person_arr, '_rt-movie-person' );
+		wp_add_object_terms( $post_id, $rt_person_arr, Shadow_Person::SLUG );
 	}
 
 	/**

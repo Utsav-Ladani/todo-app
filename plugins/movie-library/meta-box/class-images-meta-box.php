@@ -8,6 +8,9 @@
 
 namespace Movie_Library\Meta_Box;
 
+use Movie_Library\Custom_Post_Type\Movie;
+use Movie_Library\Custom_Post_Type\Person;
+
 /**
  * Class Images_Meta_Box
  * Adds images meta box to movie and person post type.
@@ -46,7 +49,7 @@ abstract class Images_Meta_Box {
 			'rt-media-meta-images',
 			__( 'Images', 'movie-library' ),
 			array( __CLASS__, 'render_image_meta_box' ),
-			'rt-movie',
+			Movie::SLUG,
 			'side',
 		);
 
@@ -55,13 +58,13 @@ abstract class Images_Meta_Box {
 			'rt-media-meta-images',
 			__( 'Images', 'movie-library' ),
 			array( __CLASS__, 'render_image_meta_box' ),
-			'rt-person',
+			Person::SLUG,
 			'side',
 		);
 	}
 
 	/**
-	 * Adds media script to admin page.
+	 * Adds media and image upload handler script to admin page.
 	 *
 	 * @return void
 	 * @since 1.0.0
@@ -70,18 +73,21 @@ abstract class Images_Meta_Box {
 	 */
 	public static function add_image_media_script() : void {
 		// check is post type is not rt-movie or rt-person, then return.
-		if ( ! in_array( get_post_type(), array( 'rt-movie', 'rt-person' ), true ) ) {
+		if ( ! in_array( get_post_type(), array( Movie::SLUG, Person::SLUG ), true ) ) {
 			return;
 		}
 
 		wp_enqueue_media();
-		wp_enqueue_script(
-			'movie-library-image-upload-handler',
-			MOVIE_LIBRARY_PLUGIN_URL . 'admin/js/image-upload-handler.js',
-			array( 'jquery', 'wp-i18n' ),
-			filemtime( MOVIE_LIBRARY_PLUGIN_DIR . 'admin/js/image-upload-handler.js' ),
-			true
-		);
+
+		if ( is_admin() ) {
+			wp_enqueue_script(
+				'movie-library-image-upload-handler',
+				MOVIE_LIBRARY_PLUGIN_URL . 'admin/js/image-upload-handler.js',
+				array( 'jquery', 'wp-i18n' ),
+				filemtime( MOVIE_LIBRARY_PLUGIN_DIR . 'admin/js/image-upload-handler.js' ),
+				true
+			);
+		}
 	}
 
 	/**
