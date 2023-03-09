@@ -20,7 +20,7 @@ abstract class Genre {
 	 *
 	 * @var string
 	 */
-	const SLUG = 'rt-person-genre';
+	const SLUG = 'rt-movie-genre';
 
 	/**
 	 * Initialize the class.

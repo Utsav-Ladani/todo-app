@@ -410,9 +410,12 @@ abstract class Movie_Shortcode {
 			$actors = get_post_meta( $movie->ID, 'rt-movie-meta-crew-actor', true );
 			$actors = maybe_unserialize( $actors ) ?? array();
 
-			foreach ( $actors as &$actor_value ) {
-				$actor_value = get_the_title( $actor_value );
+			$actor_names = array();
+
+			foreach ( $actors as $actor_key => $actor_value ) {
+				$actor_names[] = get_the_title( $actor_key );
 			}
+			$actors = $actor_names;
 
 			// Limit the actors to 2.
 			if ( is_array( $actors ) ) {
