@@ -24,3 +24,6 @@ node_modules/
 # Lint report files
 lint-css-report.json
 lint-js-report.json
+
+# redis cache
+/plugins/redis-cache

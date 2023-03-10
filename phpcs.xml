@@ -12,13 +12,13 @@
 		<properties>
 			<property name="text_domain" type="array">
 				<!-- List of text domains used in your plugin and theme -->
-				<element value="text-domain-1" />
-				<element value="text-domain-2" />
+				<element value="movie-library" />
+<!--				<element value="text-domain-2" />-->
 			</property>
 		</properties>
 	</rule>
 
-	<rule ref="WordPress-VIP-Go" />
+<!--	<rule ref="WordPress-VIP-Go" />-->
 	<rule ref="WordPress-Docs" />
 	<rule ref="WordPress-Extra" />
 	<rule ref="PHPCompatibilityWP"/>
