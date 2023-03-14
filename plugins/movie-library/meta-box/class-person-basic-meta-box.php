@@ -228,7 +228,7 @@ abstract class Person_Basic_Meta_Box {
 	}
 
 	/**
-	 * Add the meta data to datebase.
+	 * Add the meta data to database.
 	 *
 	 * @param string $meta_key The meta key.
 	 * @param string $meta_value The meta value.
