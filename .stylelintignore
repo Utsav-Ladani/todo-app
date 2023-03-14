@@ -1,2 +1,8 @@
 themes/twentytwentyone/
 **/*.js
+**/*.php
+**/*.png
+**/*.svg
+**/*.pot
+**/*.map
+**/*.md

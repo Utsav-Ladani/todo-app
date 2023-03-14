@@ -10,7 +10,7 @@
 
 <div class="plot-with-sidebar section">
 	<div>
-		<h3 class="section-title"><?php esc_html_e( 'Synopsis' ); ?></h3>
+		<h3 class="section-title"><?php esc_html_e( 'Synopsis', 'movie-library' ); ?></h3>
 		<div class="the-content">
 			<?php the_content(); ?>
 		</div>

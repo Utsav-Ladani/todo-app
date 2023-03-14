@@ -10,7 +10,7 @@
 
 <div class="about-with-sidebar section">
 	<div>
-		<h3 class="section-title"> <?php esc_html_e( 'About Us' ); ?> </h3>
+		<h3 class="section-title"> <?php esc_html_e( 'About Us', 'movie-library' ); ?> </h3>
 		<div class="the-content">
 			<?php the_content( 'Read more...' ); ?>
 		</div>

@@ -45,7 +45,8 @@ if ( ! function_exists( 'enqueue_script' ) ) {
 				'slider-script',
 				get_stylesheet_directory_uri() . '/js/slider.js',
 				array(),
-				filemtime( get_stylesheet_directory() . '/js/slider.js' )
+				filemtime( get_stylesheet_directory() . '/js/slider.js' ),
+				true
 			);
 		}
 
@@ -54,7 +55,8 @@ if ( ! function_exists( 'enqueue_script' ) ) {
 			'menu-script',
 			get_stylesheet_directory_uri() . '/js/menu.js',
 			array(),
-			filemtime( get_stylesheet_directory() . '/js/menu.js' )
+			filemtime( get_stylesheet_directory() . '/js/menu.js' ),
+			true
 		);
 
 		// enqueue accordion script for header menu.
@@ -62,7 +64,8 @@ if ( ! function_exists( 'enqueue_script' ) ) {
 			'accordion-script',
 			get_stylesheet_directory_uri() . '/js/accordion.js',
 			array(),
-			filemtime( get_stylesheet_directory() . '/js/accordion.js' )
+			filemtime( get_stylesheet_directory() . '/js/accordion.js' ),
+			true
 		);
 
 		// enqueue lightbox script to play the video.
@@ -70,7 +73,8 @@ if ( ! function_exists( 'enqueue_script' ) ) {
 			'lightbox-script',
 			get_stylesheet_directory_uri() . '/js/lightbox.js',
 			array(),
-			filemtime( get_stylesheet_directory() . '/js/lightbox.js' )
+			filemtime( get_stylesheet_directory() . '/js/lightbox.js' ),
+			true
 		);
 	}
 }
