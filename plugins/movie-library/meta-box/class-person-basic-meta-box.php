@@ -132,6 +132,21 @@ abstract class Person_Basic_Meta_Box {
 			autocomplete='off'
 			value='<?php echo esc_attr( $person_basic_meta_data['rt-person-meta-basic-birth-place'] ); ?>'
 		/>
+
+		<div id="rt-person-meta-basic-full-name-error" class="rt-error">
+		</div>
+		<label for='rt-person-meta-basic-full-name' >
+			<?php esc_html_e( 'Full Name', 'movie-library' ); ?>
+		</label>
+		<input
+			type='text'
+			class='widefat'
+			name='rt-person-meta-basic-full-name'
+			id='rt-person-meta-basic-full-name'
+			placeholder='Full Name'
+			autocomplete='off'
+			value='<?php echo esc_attr( $person_basic_meta_data['rt-person-meta-basic-full-name'] ); ?>'
+		/>
 		<?php
 	}
 
@@ -152,6 +167,7 @@ abstract class Person_Basic_Meta_Box {
 		return array(
 			'rt-person-meta-basic-birth-date'  => $data['rt-person-meta-basic-birth-date'] ?? '',
 			'rt-person-meta-basic-birth-place' => $data['rt-person-meta-basic-birth-place'] ?? '',
+			'rt-person-meta-basic-full-name'   => $data['rt-person-meta-basic-full-name'] ?? '',
 		);
 	}
 
@@ -191,6 +207,7 @@ abstract class Person_Basic_Meta_Box {
 		$meta_value = array();
 		$meta_value = self::add_birth_date_to_meta_data( $meta_value );
 		$meta_value = self::add_birth_place_to_meta_data( $meta_value );
+		$meta_value = self::add_full_name_to_meta_data( $meta_value );
 
 		// Delete the meta data if no data is sent by user.
 		if ( count( $meta_value ) === 0 ) {
@@ -243,6 +260,21 @@ abstract class Person_Basic_Meta_Box {
 		 */
 		if ( preg_match( '/^[a-zA-Z, ]+$/', $birth_place ) ) {
 			return $birth_place;
+		}
+
+		return '';
+	}
+
+	public static function sanitize_full_name( string $full_name ) : string {
+		// Remove all whitespace from the string.
+		$full_name = trim( $full_name );
+
+		/**
+		 * Check whether the full name contains only alphabets, numbers, and spaces.
+		 * The full name can contain multiple words.
+		 */
+		if ( preg_match( '/^[a-zA-Z0-9 ]+$/', $full_name ) ) {
+			return $full_name;
 		}
 
 		return '';
@@ -304,6 +336,37 @@ abstract class Person_Basic_Meta_Box {
 			// Add the birthplace to the metadata, if it is not empty.
 			if ( $birth_place ) {
 				$meta_value['rt-person-meta-basic-birth-place'] = $birth_place;
+			}
+		}
+
+		return $meta_value;
+	}
+
+	/**
+	 * Add the full name to the metadata, if sent by user.
+	 *
+	 * @param array $meta_value The meta data.
+	 * @return array
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 */
+	public static function add_full_name_to_meta_data( array $meta_value ) : array {
+		$nonce = filter_input( INPUT_POST, 'rt-person-basic-meta-box-nonce', FILTER_DEFAULT );
+
+		if ( ! wp_verify_nonce( $nonce, 'rt-person-basic-meta-box' ) ) {
+			return $meta_value;
+		}
+
+		$full_name = filter_input( INPUT_POST, 'rt-person-meta-basic-full-name', FILTER_DEFAULT );
+
+		// Check whether the full name is sent by user and is valid or not.
+		if ( $full_name ) {
+			$full_name = self::sanitize_full_name( $full_name );
+
+			// Add the full name to the metadata, if it is not empty.
+			if ( $full_name ) {
+				$meta_value['rt-person-meta-basic-full-name'] = $full_name;
 			}
 		}
 
