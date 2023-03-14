@@ -9,8 +9,12 @@
  * Use anonymous function to prevent client from accessing the function
  */
 (function () {
+	const { __ } = wp.i18n;
+
 	wp.i18n.setLocaleData({
-		Excerpt: ['Synopsis'],
-		'Write an excerpt (optional)': ['Write a synopsis'],
+		Excerpt: [__('Synopsis', 'movie-library')],
+		'Write an excerpt (optional)': [
+			__('Write a synopsis', 'movie-library'),
+		],
 	});
 })();

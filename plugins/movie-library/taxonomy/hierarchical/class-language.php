@@ -7,12 +7,20 @@
 
 namespace Movie_Library\Taxonomy\Hierarchical;
 
+use Movie_Library\Custom_Post_Type\Movie;
+
 /**
  * Class Language
  *
  * Create the Language taxonomy.
  */
 abstract class Language {
+	/**
+	 * The slug of the taxonomy.
+	 *
+	 * @var string
+	 */
+	const SLUG = 'rt-movie-language';
 
 	/**
 	 * Initialize the class.
@@ -30,8 +38,8 @@ abstract class Language {
 	 */
 	public static function register_language_taxonomy(): void {
 		$labels = array(
-			'name'              => _x( 'Languages', 'taxonomy general name', 'movie-library' ),
-			'singular_name'     => _x( 'Language', 'taxonomy singular name', 'movie-library' ),
+			'name'              => __( 'Languages', 'movie-library' ),
+			'singular_name'     => __( 'Language', 'movie-library' ),
 			'search_items'      => __( 'Search Languages', 'movie-library' ),
 			'all_items'         => __( 'All Languages', 'movie-library' ),
 			'parent_item'       => __( 'Parent Language', 'movie-library' ),
@@ -59,6 +67,6 @@ abstract class Language {
 			'show_admin_column'  => true,
 		);
 
-		register_taxonomy( 'rt-movie-language', array( 'rt-movie' ), $args );
+		register_taxonomy( self::SLUG, array( Movie::SLUG ), $args );
 	}
 }

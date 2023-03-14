@@ -7,6 +7,10 @@
 
 namespace Movie_Library\Shortcode;
 
+use Movie_Library\Custom_Post_Type\Movie;
+use Movie_Library\Custom_Post_Type\Person;
+use Movie_Library\Shadow_Taxonomy\Non_Hierarchical\Shadow_Person;
+
 /**
  * Class Movie_Shortcode
  * Add the 'movie' shortcode to show the movie list using given filters.
@@ -22,7 +26,7 @@ abstract class Movie_Shortcode {
 	 * @access public
 	 * @static
 	 */
-	public static array $attributes_name = array( // phpcs:ignore
+	public static $attributes_name = array(
 		'person',
 		'genre',
 		'label',
@@ -186,7 +190,7 @@ abstract class Movie_Shortcode {
 
 		// Return the query.
 		$query_args = array(
-			'post_type'   => 'rt-movie',
+			'post_type'   => Movie::SLUG,
 			'post_status' => 'publish',
 			'orderby'     => 'title',
 			'order'       => 'ASC',
@@ -215,7 +219,7 @@ abstract class Movie_Shortcode {
 			$result_name = new \WP_Query(
 				array(
 					'title'       => $args['person'],
-					'post_type'   => 'rt-person',
+					'post_type'   => Person::SLUG,
 					'post_status' => 'publish',
 				)
 			);
@@ -230,7 +234,7 @@ abstract class Movie_Shortcode {
 			$result_slug = new \WP_Query(
 				array(
 					'name'        => $args['person'],
-					'post_type'   => 'rt-person',
+					'post_type'   => Person::SLUG,
 					'post_status' => 'publish',
 				)
 			);
@@ -280,7 +284,7 @@ abstract class Movie_Shortcode {
 		if ( isset( $args['person'] ) && ! empty( $args['person'] ) ) {
 			// Add the person query for term id.
 			return array(
-				'taxonomy' => '_rt-movie-person',
+				'taxonomy' => Shadow_Person::SLUG,
 				'field'    => 'slug',
 				'terms'    => (array) $args['person'],
 			);
@@ -410,9 +414,12 @@ abstract class Movie_Shortcode {
 			$actors = get_post_meta( $movie->ID, 'rt-movie-meta-crew-actor', true );
 			$actors = maybe_unserialize( $actors ) ?? array();
 
-			foreach ( $actors as &$actor_value ) {
-				$actor_value = get_the_title( $actor_value );
+			$actor_names = array();
+
+			foreach ( $actors as $actor_key => $actor_value ) {
+				$actor_names[] = get_the_title( $actor_key );
 			}
+			$actors = $actor_names;
 
 			// Limit the actors to 2.
 			if ( is_array( $actors ) ) {

@@ -7,6 +7,8 @@
 
 namespace Movie_Library\Meta_Box;
 
+use Movie_Library\Custom_Post_Type\Movie;
+
 /**
  * Class Basic_Meta_Box
  *
@@ -17,10 +19,14 @@ abstract class Basic_Meta_Box {
 
 	/**
 	 * Initialize the class and add callbacks to hooks.
+	 *
+	 * @return void
 	 */
 	public static function init() : void {
 		add_action( 'add_meta_boxes', array( __CLASS__, 'add_basic_meta_box' ) );
 		add_action( 'save_post_rt-movie', array( __CLASS__, 'save_basic_meta_data' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'movie_meta_enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'movie_meta_enqueue_styles' ) );
 	}
 
 	/**
@@ -31,8 +37,43 @@ abstract class Basic_Meta_Box {
 			'rt-movie-meta-basic',
 			__( 'Basic', 'movie-library' ),
 			array( __CLASS__, 'render_basic_meta_box' ),
-			'rt-movie',
+			Movie::SLUG,
 			'side',
+		);
+	}
+
+	/**
+	 * Enqueue movie meta box validation scripts.
+	 */
+	public static function movie_meta_enqueue_scripts() : void {
+		// only enqueue scripts on rt-movie post type.
+		if ( Movie::SLUG !== get_post_type() || ! is_admin() ) {
+			return;
+		}
+
+		wp_enqueue_script(
+			'rt-movie-validation',
+			MOVIE_LIBRARY_PLUGIN_URL . 'admin/js/movie-validation.js',
+			array( 'wp-i18n' ),
+			filemtime( MOVIE_LIBRARY_PLUGIN_DIR . 'admin/js/movie-validation.js' ),
+			true
+		);
+	}
+
+	/**
+	 * Enqueue movie meta box styles.
+	 */
+	public static function movie_meta_enqueue_styles() : void {
+		// only enqueue styles on rt-movie post type.
+		if ( Movie::SLUG !== get_post_type() || ! is_admin() ) {
+			return;
+		}
+
+		wp_enqueue_style(
+			'rt-movie-meta-box-css',
+			MOVIE_LIBRARY_PLUGIN_URL . 'admin/css/meta-box.css',
+			array(),
+			filemtime( MOVIE_LIBRARY_PLUGIN_DIR . 'admin/css/meta-box.css' ),
 		);
 	}
 
@@ -51,27 +92,37 @@ abstract class Basic_Meta_Box {
 
 		// add html tags.
 		?>
+		<div id="rt-movie-meta-basic-rating-error" class="rt-error">
+		</div>
 		<label for='rt-movie-meta-basic-rating' >
-			<?php esc_html_e( 'Rating', 'movie-library' ); ?>
+			<?php esc_html_e( 'Rating ( Between 0 to 10 )', 'movie-library' ); ?>
 		</label>
 		<input
 			type='number'
 			class='widefat'
 			name='rt-movie-meta-basic-rating'
 			id='rt-movie-meta-basic-rating'
+			placeholder='Rating'
+			autoComplete='off'
 			min='0'
 			max='10'
 			value=<?php echo esc_attr( $basic_meta_data['rt-movie-meta-basic-rating'] ); ?>
 		/>
 
+		<div id="rt-movie-meta-basic-runtime-error" class="rt-error">
+		</div>
 		<label for='rt-movie-meta-basic-runtime' >
 			<?php esc_html_e( 'Runtime', 'movie-library' ); ?>
 		</label>
 		<input
-			type='text'
+			type='number'
 			class='widefat'
 			name='rt-movie-meta-basic-runtime'
 			id='rt-movie-meta-basic-runtime'
+			placeholder='Runtime in minutes'
+			autoComplete='off'
+			min='0'
+			max='5000'
 			value='<?php echo esc_attr( $basic_meta_data['rt-movie-meta-basic-runtime'] ); ?>'
 		/>
 
@@ -97,14 +148,21 @@ abstract class Basic_Meta_Box {
 	 * @return array
 	 */
 	public static function get_basic_meta_data( int $post_id ) : array {
-		$data = get_post_meta( $post_id, 'rt-movie-meta-basic', true );
-
-		// if metadata is not set, return empty string.
-		return array(
-			'rt-movie-meta-basic-rating'       => $data['rt-movie-meta-basic-rating'] ?? '',
-			'rt-movie-meta-basic-runtime'      => $data['rt-movie-meta-basic-runtime'] ?? '',
-			'rt-movie-meta-basic-release-date' => $data['rt-movie-meta-basic-release-date'] ?? '',
+		$meta_keys = array(
+			'rt-movie-meta-basic-rating',
+			'rt-movie-meta-basic-runtime',
+			'rt-movie-meta-basic-release-date',
 		);
+
+		$data = array();
+		foreach ( $meta_keys as $meta_key ) {
+			$meta_value = get_post_meta( $post_id, $meta_key, true );
+
+			// If the meta value is empty, set it to empty string.
+			$data[ $meta_key ] = $meta_value ?? '';
+		}
+
+		return $data;
 	}
 
 	/**
@@ -118,7 +176,7 @@ abstract class Basic_Meta_Box {
 			return;
 		}
 
-		$nonce = filter_input( INPUT_POST, 'rt-movie-meta-basic-nonce', FILTER_SANITIZE_STRING );
+		$nonce = filter_input( INPUT_POST, 'rt-movie-meta-basic-nonce', FILTER_DEFAULT );
 
 		// check if the nonce is set and valid.
 		if ( ! wp_verify_nonce( $nonce, 'rt-movie-meta-basic' )
@@ -136,20 +194,41 @@ abstract class Basic_Meta_Box {
 			return;
 		}
 
-		// sanitize and add data to array.
-		$meta_value = array();
-		$meta_value = self::add_rating_to_meta_value( $meta_value );
-		$meta_value = self::add_runtime_to_meta_value( $meta_value );
-		$meta_value = self::add_release_date_to_meta_value( $meta_value );
+		$meta_data = array();
 
-		// delete the metadata if the array is empty.
-		if ( count( $meta_value ) === 0 ) {
-			delete_post_meta( $post_id, 'rt-movie-meta-basic' );
+		$rating       = self::add_rating_to_meta_value();
+		$runtime      = self::add_runtime_to_meta_value();
+		$release_date = self::add_release_date_to_meta_value();
+
+		$meta_data['rt-movie-meta-basic-rating']       = $rating;
+		$meta_data['rt-movie-meta-basic-runtime']      = $runtime;
+		$meta_data['rt-movie-meta-basic-release-date'] = $release_date;
+
+		foreach ( $meta_data as $meta_key => $meta_value ) {
+			self::add_meta_data_to_database( $meta_key, $meta_value, $post_id );
+		}
+	}
+
+	/**
+	 * Add the meta data to database.
+	 *
+	 * @param string $meta_key The meta key.
+	 * @param string $meta_value The meta value.
+	 * @param int    $post_id The post id.
+	 * @return void
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 */
+	public static function add_meta_data_to_database( string $meta_key, string $meta_value, int $post_id ) : void {
+		// Delete the meta data if no data is sent by user.
+		if ( empty( $meta_value ) ) {
+			delete_post_meta( $post_id, $meta_key );
 			return;
 		}
 
-		// update the metadata.
-		update_post_meta( $post_id, 'rt-movie-meta-basic', $meta_value );
+		// Update the metadata.
+		update_post_meta( $post_id, $meta_key, $meta_value );
 	}
 
 	/**
@@ -174,26 +253,19 @@ abstract class Basic_Meta_Box {
 	}
 
 	/**
-	 * Add the rating to the meta value array.
+	 * Add the rating to the meta value.
 	 *
-	 * @param array $meta_value The meta value array.
-	 *
-	 * @return array
+	 * @return string
 	 */
-	public static function add_rating_to_meta_value( array $meta_value ) : array {
-		$rating = filter_input( INPUT_POST, 'rt-movie-meta-basic-rating', FILTER_SANITIZE_STRING );
+	public static function add_rating_to_meta_value() : string {
+		$rating = filter_input( INPUT_POST, 'rt-movie-meta-basic-rating', FILTER_DEFAULT );
 
 		// check if the rating is set and not empty.
 		if ( $rating ) {
-			$rating = self::sanitize_rating( $rating );
+			return self::sanitize_rating( $rating );
 		}
 
-		// add the rating to the array.
-		if ( $rating ) {
-			$meta_value['rt-movie-meta-basic-rating'] = $rating;
-		}
-
-		return $meta_value;
+		return '';
 	}
 
 	/**
@@ -207,7 +279,11 @@ abstract class Basic_Meta_Box {
 		$runtime = sanitize_text_field( $runtime );
 
 		// check if the runtime is in the format hh:mm.
-		if ( preg_match( '/^[0-9]{2}:[0-9]{2}$/', $runtime ) ) {
+		if (
+			preg_match( '/^[0-9]+$/', $runtime ) &&
+			(int) $runtime >= 0 &&
+			(int) $runtime <= 5000
+		) {
 			return $runtime;
 		}
 
@@ -215,26 +291,19 @@ abstract class Basic_Meta_Box {
 	}
 
 	/**
-	 * Add the runtime to the meta value array.
+	 * Add the runtime to the meta value.
 	 *
-	 * @param array $meta_value The meta value array.
-	 *
-	 * @return array
+	 * @return string
 	 */
-	public static function add_runtime_to_meta_value( array $meta_value ) : array {
-		$runtime = filter_input( INPUT_POST, 'rt-movie-meta-basic-runtime', FILTER_SANITIZE_STRING );
+	public static function add_runtime_to_meta_value() : string {
+		$runtime = filter_input( INPUT_POST, 'rt-movie-meta-basic-runtime', FILTER_DEFAULT );
 
 		// check if the runtime is not empty.
 		if ( $runtime ) {
-			$runtime = self::sanitize_runtime( $runtime );
-
-			// add the runtime to the array.
-			if ( $runtime ) {
-				$meta_value['rt-movie-meta-basic-runtime'] = $runtime;
-			}
+			return self::sanitize_runtime( $runtime );
 		}
 
-		return $meta_value;
+		return '';
 	}
 
 	/**
@@ -256,25 +325,17 @@ abstract class Basic_Meta_Box {
 	}
 
 	/**
-	 * Add the release date to the meta value array.
+	 * Add the release date to the meta value.
 	 *
-	 * @param array $meta_value The meta value array.
-	 *
-	 * @return array
+	 * @return string
 	 */
-	public static function add_release_date_to_meta_value( array $meta_value ) : array {
-		$release_date = filter_input( INPUT_POST, 'rt-movie-meta-basic-release-date', FILTER_SANITIZE_STRING );
+	public static function add_release_date_to_meta_value() : string {
+		$release_date = filter_input( INPUT_POST, 'rt-movie-meta-basic-release-date', FILTER_DEFAULT );
 
-		// check if the release date is not empty.
 		if ( $release_date ) {
-			$release_date = self::sanitize_release_date( $release_date );
-
-			// add the release date to the array.
-			if ( $release_date ) {
-				$meta_value['rt-movie-meta-basic-release-date'] = $release_date;
-			}
+			return self::sanitize_release_date( $release_date );
 		}
 
-		return $meta_value;
+		return '';
 	}
 }

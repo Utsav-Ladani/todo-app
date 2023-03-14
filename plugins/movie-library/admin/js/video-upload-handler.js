@@ -4,19 +4,34 @@
  * @version 1.0.0
  */
 
-// call the function with jQuery
-jQuery(function ($) {
+// call anonymous function to avoid global scope access by user.
+(function () {
 	// run it after the DOM is ready
-	$(document).ready(function () {
+	document.addEventListener('DOMContentLoaded', () => {
 		// get i18n functions
 		const { __ } = wp.i18n;
 
 		// get DOM objects
-		const metaBox = $('#movie-library-video-upload-handler');
-		const addVideoButton = metaBox.find('#add-videos-custom-btn');
-		const videoPreviewContainer = metaBox.find('#video-preview-container');
-		const videoInput = metaBox.find('#rt-upload-videos');
-		const removeVideoButton = metaBox.find('.rt-remove-video-btn');
+		const addVideoButton = document.getElementById('add-videos-custom-btn');
+		const videoPreviewContainer = document.getElementById(
+			'video-preview-container'
+		);
+		const videoInput = document.getElementById('rt-upload-videos');
+		const removeVideoButton = document.getElementsByClassName(
+			'rt-remove-video-btn'
+		);
+
+		// add attributes to an element
+		const addAttribute = (element, attributes) => {
+			Object.keys(attributes).forEach((attribute) => {
+				if (attribute === 'innerText') {
+					element.innerText = attributes[attribute];
+					return;
+				}
+
+				element.setAttribute(attribute, attributes[attribute]);
+			});
+		};
 
 		// init frame object
 		let frame = null;
@@ -25,26 +40,30 @@ jQuery(function ($) {
 		const removeVideoHandler = function (eventRemove) {
 			eventRemove.preventDefault();
 
-			let id = $(this).attr('data-video-id');
+			const { target } = eventRemove;
+
+			let id = target.getAttribute('data-video-id');
 			id = parseInt(id);
 
-			let value = videoInput.val();
+			let value = videoInput.value;
 			value = value.split(',');
 			value = value.filter(function (item) {
 				return item !== String(id);
 			});
 
 			value = value.join(',');
-			videoInput.val(value);
+			videoInput.value = value;
 
-			$(this).parent().remove();
+			target.parentNode.remove();
 		};
 
 		// add listener on remove image button
-		removeVideoButton.on('click', removeVideoHandler);
+		[...removeVideoButton].forEach(function (item) {
+			item.addEventListener('click', removeVideoHandler);
+		});
 
 		// add listener on add image button
-		addVideoButton.on('click', function (event) {
+		addVideoButton.addEventListener('click', function (event) {
 			event.preventDefault();
 
 			// open media frame if already exists
@@ -71,7 +90,7 @@ jQuery(function ($) {
 				const videos = frame.state().get('selection').toJSON();
 
 				// get current value
-				let rawValue = videoInput.val().split(',');
+				let rawValue = videoInput.value.split(',');
 
 				// remove empty values
 				rawValue = rawValue.filter(function (item) {
@@ -79,7 +98,7 @@ jQuery(function ($) {
 				});
 
 				const videoIDs = rawValue;
-				const videoTags = [];
+				const videoTags = document.createDocumentFragment();
 
 				// create video preview container
 				videos.forEach(function (video) {
@@ -98,42 +117,54 @@ jQuery(function ($) {
 					}
 
 					// create video tag
-					const videoTag = $('<video />', {
+					const videoTag = document.createElement('video');
+					const videoAttributes = {
 						controls: true,
 						class: 'widefat',
-					});
+					};
+
+					addAttribute(videoTag, videoAttributes);
 
 					// create source tag
-					const source = $('<source />', {
+					const source = document.createElement('source');
+					const sourceAttributes = {
 						src: videoURL,
 						type: video.mime,
-					});
+					};
+
+					addAttribute(source, sourceAttributes);
 
 					// append source tag to video tag
 					videoTag.append(source);
 
 					// create remove button
-					const btn = $('<button />', {
+					const btn = document.createElement('button');
+					const btnAttributes = {
 						class: 'button rt-remove-video-btn widefat',
 						'data-video-id': video.id,
-						text: __('Remove', 'movie-library'),
-					});
+						innerText: __('Remove', 'movie-library'),
+					};
+
+					addAttribute(btn, btnAttributes);
 
 					// add listener on remove button
-					btn.on('click', removeVideoHandler);
+					btn.addEventListener('click', removeVideoHandler);
 
 					// create video container
-					const div = $('<div />', {
+					const div = document.createElement('div');
+					const divAttributes = {
 						class: 'video-item',
 						'data-video-id': video.id,
-					});
+					};
+
+					addAttribute(div, divAttributes);
 
 					// append video tag and remove button to container
 					div.append(videoTag);
 					div.append(btn);
 
 					// append container to video preview container
-					videoTags.push(div);
+					videoTags.append(div);
 
 					// add video id to video ids array
 					if (parseInt(video.id)) {
@@ -143,7 +174,7 @@ jQuery(function ($) {
 
 				// add listener on remove image button
 				const value = videoIDs.join(',');
-				videoInput.val(value);
+				videoInput.value = value;
 
 				// append video preview container to DOM
 				videoPreviewContainer.append(videoTags);
@@ -153,4 +184,4 @@ jQuery(function ($) {
 			frame.open();
 		});
 	});
-});
+})();

@@ -2,22 +2,22 @@
  * Character Name Handler
  */
 
-// Call function using jQuery
-jQuery(function ($) {
+// call anonymous function to avoid global scope access by user
+(function () {
 	// run on document ready
-	$(document).ready(function () {
+	document.addEventListener('DOMContentLoaded', () => {
 		// get the translation function
 		const { __ } = wp.i18n;
 
 		// get DOM objects
-		const actorInput = $('#rt-movie-meta-crew-actor');
-		const charactersName = $('#rt-characters-name');
-		const characterNameInput = $(
-			'#rt-movie-meta-crew-actor-character-name'
+		const actorInput = document.getElementById('rt-movie-meta-crew-actor');
+		const charactersName = document.getElementById('rt-characters-name');
+		const characterNameInput = document.getElementById(
+			'rt-movie-meta-crew-actor-character-name'
 		);
 
 		// get the values from the input
-		let characterRawValues = characterNameInput.val();
+		let characterRawValues = characterNameInput.value;
 
 		if (characterRawValues !== '') {
 			characterRawValues = JSON.parse(characterRawValues);
@@ -27,12 +27,16 @@ jQuery(function ($) {
 		const characterValues = characterRawValues;
 
 		// record the change in the input for character name
-		const recordChange = function () {
+		const recordChange = (event) => {
+			event.preventDefault();
+
+			const { target } = event;
+
 			// get the id
-			const id = $(this).attr('id');
+			const id = target.getAttribute('id');
 
 			// get the list of actor ids
-			const actorIDs = actorInput.val();
+			const actorIDs = actorInput.value;
 
 			// if the id is not in the list of actor ids, return
 			if (id === '' || actorIDs.indexOf(id) === -1) {
@@ -40,62 +44,79 @@ jQuery(function ($) {
 			}
 
 			// record the change
-			characterValues[id] = $(this).val();
+			characterValues[id] = target.value;
 
 			// update the input
 			const strValue = JSON.stringify(characterValues);
-			characterNameInput.val(strValue);
+			characterNameInput.value = strValue;
+		};
+
+		// get the selected options from the select box in {id, name} format
+		const getOptionsValueArray = (options) => {
+			return [...options]
+				.filter((option) => option.selected)
+				.map((option) => ({
+					id: option.value,
+					name: option.text,
+				}));
+		};
+
+		// add attributes to an element
+		const addAttribute = (element, attributes) => {
+			Object.keys(attributes).forEach((attribute) => {
+				if (attribute === 'innerText') {
+					element.innerText = attributes[attribute];
+					return;
+				}
+
+				element.setAttribute(attribute, attributes[attribute]);
+			});
 		};
 
 		// set the character name box
 		const setCharactersNameBox = () => {
-			const actorIDs = actorInput.val();
+			const actors = getOptionsValueArray(actorInput.options);
 
 			// create the empty list
-			const characterNameList = $('<ul>');
+			const characterNameList = document.createElement('ul');
 
 			// loop through the actor ids
-			actorIDs.forEach(function (actorID) {
+			actors.forEach(function (actor) {
 				// if the actor id is empty, return
-				if (actorID === '') {
-					return;
-				}
-
-				// get the actor name from html
-				const actorName = $('#rt-movie-meta-crew-actor')
-					.find('option[value="' + actorID + '"]')
-					.prop('selected', true)
-					.text();
-
-				// if the actor name is empty, return
-				if (actorName === '') {
+				if (actor.id === '' || actor.name === '') {
 					return;
 				}
 
 				// create the input to enter the character name
-				const input = $('<input />', {
+				const input = document.createElement('input');
+				const inputAttributes = {
 					type: 'text',
-					name: actorID,
-					id: actorID,
+					name: actor.name,
+					id: actor.id,
 					value:
-						actorID in characterValues
-							? characterValues[actorID]
+						actor.id in characterValues
+							? characterValues[actor.id]
 							: '',
 					placeholder: __('Enter Character Name'),
-					autocomplete: false,
-				});
+					autocomplete: 'off',
+				};
+
+				addAttribute(input, inputAttributes);
 
 				// add the listener to record the change
-				input.on('change', recordChange);
+				input.addEventListener('change', recordChange);
 
 				// create the label
-				const label = $('<label />', {
-					for: actorID,
-					text: actorName,
-				});
+				const label = document.createElement('label');
+				const labelAttributes = {
+					for: actor.id,
+					innerText: actor.name,
+				};
+
+				addAttribute(label, labelAttributes);
 
 				// create the list item
-				const item = $('<li />');
+				const item = document.createElement('li');
 				item.append(label);
 				item.append(input);
 
@@ -104,13 +125,13 @@ jQuery(function ($) {
 			});
 
 			// render the list
-			charactersName.html(characterNameList);
+			charactersName.replaceChildren(characterNameList);
 		};
 
 		// run this on page load to set up the character name box
 		setCharactersNameBox();
 
 		// update the value and ui when selected box value changes
-		actorInput.on('change', setCharactersNameBox);
+		actorInput.addEventListener('change', setCharactersNameBox);
 	});
-});
+})();

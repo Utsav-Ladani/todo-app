@@ -11,7 +11,7 @@ jobs:
         ref: ${{ github.event.pull_request.head.sha }}
 
     - name: Run Lint on JS and CSS
-      uses: docker://ghcr.io/rtcamp/action-js-css-lint:v0.0.1
+      uses: docker://ghcr.io/rtcamp/action-js-css-lint:v0.0.2
       env:
         GH_TOKEN: ${{ secrets.TRAINEE_RTBOT_TOKEN }}
 

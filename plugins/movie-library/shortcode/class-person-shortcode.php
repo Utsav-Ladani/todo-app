@@ -7,6 +7,9 @@
 
 namespace Movie_Library\Shortcode;
 
+use Movie_Library\Custom_Post_Type\Person;
+use Movie_Library\Taxonomy\Hierarchical\Career;
+
 /**
  * Class Person_Shortcode
  * It add the 'person' shortcode and render the person post for given career in filter.
@@ -137,14 +140,14 @@ abstract class Person_Shortcode {
 		if ( isset( $args['career'] ) && ! empty( $args['career'] ) ) {
 			// add tax query for career using term_id.
 			$tax_query[] = array(
-				'taxonomy' => 'rt-person-career',
+				'taxonomy' => Career::SLUG,
 				'field'    => 'term_id',
 				'terms'    => $args['career'],
 			);
 
 			// add tax query for career using name.
 			$tax_query[] = array(
-				'taxonomy' => 'rt-person-career',
+				'taxonomy' => Career::SLUG,
 				'field'    => 'name',
 				'terms'    => $args['career'],
 			);
@@ -155,7 +158,7 @@ abstract class Person_Shortcode {
 			 */
 			if ( ! str_contains( $args['career'], ' ' ) ) {
 				$tax_query[] = array(
-					'taxonomy' => 'rt-person-career',
+					'taxonomy' => Career::SLUG,
 					'field'    => 'slug',
 					'terms'    => $args['career'],
 				);
@@ -167,7 +170,7 @@ abstract class Person_Shortcode {
 
 		// Return the query arguments.
 		return array(
-			'post_type'   => 'rt-person',
+			'post_type'   => Person::SLUG,
 			'post_status' => 'publish',
 			'orderby'     => 'title',
 			'order'       => 'ASC',
@@ -250,7 +253,7 @@ abstract class Person_Shortcode {
 		$career = '';
 
 		// Get the career terms.
-		$terms = get_the_terms( $person_id, 'rt-person-career' );
+		$terms = get_the_terms( $person_id, Career::SLUG );
 
 		// Check if the career terms are set or not.
 		if ( $terms ) {

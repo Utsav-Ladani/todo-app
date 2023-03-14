@@ -7,6 +7,8 @@
 
 namespace Movie_Library\Meta_Box;
 
+use Movie_Library\Custom_Post_Type\Person;
+
 /**
  * Class Person_Basic_Meta_Box
  * Add the basic information about the person like birthdate, birthplace.
@@ -26,6 +28,8 @@ abstract class Person_Basic_Meta_Box {
 	public static function init() : void {
 		add_action( 'add_meta_boxes', array( __CLASS__, 'add_person_basic_meta_box' ) );
 		add_action( 'save_post_rt-person', array( __CLASS__, 'save_person_basic_meta_data' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'person_meta_enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'person_meta_enqueue_styles' ) );
 	}
 
 	/**
@@ -42,8 +46,43 @@ abstract class Person_Basic_Meta_Box {
 			'rt-person-meta-basic',
 			__( 'Basic', 'movie-library' ),
 			array( __CLASS__, 'render_person_basic_meta_box' ),
-			'rt-person',
+			Person::SLUG,
 			'side',
+		);
+	}
+
+	/**
+	 * Enqueue person meta box validation scripts.
+	 */
+	public static function person_meta_enqueue_scripts() : void {
+		// only enqueue script on rt-person post type.
+		if ( Person::SLUG !== get_post_type() || ! is_admin() ) {
+			return;
+		}
+
+		wp_enqueue_script(
+			'rt-person-validation',
+			MOVIE_LIBRARY_PLUGIN_URL . 'admin/js/person-validation.js',
+			array( 'wp-i18n' ),
+			filemtime( MOVIE_LIBRARY_PLUGIN_DIR . 'admin/js/person-validation.js' ),
+			true
+		);
+	}
+
+	/**
+	 * Enqueue person meta box styles.
+	 */
+	public static function person_meta_enqueue_styles() : void {
+		// only enqueue styles on rt-person post type.
+		if ( Person::SLUG !== get_post_type() || ! is_admin() ) {
+			return;
+		}
+
+		wp_enqueue_style(
+			'rt-person-meta-box-css',
+			MOVIE_LIBRARY_PLUGIN_URL . 'admin/css/meta-box.css',
+			array(),
+			filemtime( MOVIE_LIBRARY_PLUGIN_DIR . 'admin/css/meta-box.css' ),
 		);
 	}
 
@@ -79,6 +118,8 @@ abstract class Person_Basic_Meta_Box {
 			value=<?php echo esc_attr( $person_basic_meta_data['rt-person-meta-basic-birth-date'] ); ?>
 		/>
 
+		<div id="rt-person-meta-basic-birth-place-error" class="rt-error">
+		</div>
 		<label for='rt-person-meta-basic-birth-place' >
 			<?php esc_html_e( 'Birth Place', 'movie-library' ); ?>
 		</label>
@@ -87,7 +128,24 @@ abstract class Person_Basic_Meta_Box {
 			class='widefat'
 			name='rt-person-meta-basic-birth-place'
 			id='rt-person-meta-basic-birth-place'
+			placeholder='Birth Place'
+			autocomplete='off'
 			value='<?php echo esc_attr( $person_basic_meta_data['rt-person-meta-basic-birth-place'] ); ?>'
+		/>
+
+		<div id="rt-person-meta-basic-full-name-error" class="rt-error">
+		</div>
+		<label for='rt-person-meta-basic-full-name' >
+			<?php esc_html_e( 'Full Name', 'movie-library' ); ?>
+		</label>
+		<input
+			type='text'
+			class='widefat'
+			name='rt-person-meta-basic-full-name'
+			id='rt-person-meta-basic-full-name'
+			placeholder='Full Name'
+			autocomplete='off'
+			value='<?php echo esc_attr( $person_basic_meta_data['rt-person-meta-basic-full-name'] ); ?>'
 		/>
 		<?php
 	}
@@ -102,14 +160,21 @@ abstract class Person_Basic_Meta_Box {
 	 * @static
 	 */
 	public static function get_person_basic_meta_data( int $post_id ) : array {
-		// Get the metadata for the person.
-		$data = get_post_meta( $post_id, 'rt-person-meta-basic', true );
-
-		// sanitize data to avoid errors.
-		return array(
-			'rt-person-meta-basic-birth-date'  => $data['rt-person-meta-basic-birth-date'] ?? '',
-			'rt-person-meta-basic-birth-place' => $data['rt-person-meta-basic-birth-place'] ?? '',
+		$meta_keys = array(
+			'rt-person-meta-basic-birth-date',
+			'rt-person-meta-basic-birth-place',
+			'rt-person-meta-basic-full-name',
 		);
+
+		$data = array();
+		foreach ( $meta_keys as $meta_key ) {
+			$meta_value = get_post_meta( $post_id, $meta_key, true );
+
+			// If the meta value is empty, set it to empty string.
+			$data[ $meta_key ] = $meta_value ?? '';
+		}
+
+		return $data;
 	}
 
 	/**
@@ -137,26 +202,51 @@ abstract class Person_Basic_Meta_Box {
 			return;
 		}
 
-		$nonce = filter_input( INPUT_POST, 'rt-person-basic-meta-box-nonce', FILTER_SANITIZE_STRING );
+		$nonce = filter_input( INPUT_POST, 'rt-person-basic-meta-box-nonce', FILTER_DEFAULT );
 
 		// Check whether the nonce is set and verify it.
 		if ( ! wp_verify_nonce( $nonce, 'rt-person-basic-meta-box' ) ) {
 			return;
 		}
 
-		// Add the data if sent by user.
-		$meta_value = array();
-		$meta_value = self::add_birth_date_to_meta_data( $meta_value );
-		$meta_value = self::add_birth_place_to_meta_data( $meta_value );
+		$meta_data = array();
 
+		// collect the meta data.
+		$birth_date  = self::add_birth_date_to_meta_data();
+		$birth_place = self::add_birth_place_to_meta_data();
+		$full_name   = self::add_full_name_to_meta_data();
+
+		// put it all in an array.
+		$meta_data['rt-person-meta-basic-birth-date']  = $birth_date;
+		$meta_data['rt-person-meta-basic-birth-place'] = $birth_place;
+		$meta_data['rt-person-meta-basic-full-name']   = $full_name;
+
+		// add the meta data to database.
+		foreach ( $meta_data as $meta_key => $meta_value ) {
+			self::add_meta_data_to_database( $meta_key, $meta_value, $post_id );
+		}
+	}
+
+	/**
+	 * Add the meta data to database.
+	 *
+	 * @param string $meta_key The meta key.
+	 * @param string $meta_value The meta value.
+	 * @param int    $post_id The post id.
+	 * @return void
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 */
+	public static function add_meta_data_to_database( string $meta_key, string $meta_value, int $post_id ) : void {
 		// Delete the meta data if no data is sent by user.
-		if ( count( $meta_value ) === 0 ) {
-			delete_post_meta( $post_id, 'rt-person-meta-basic' );
+		if ( empty( $meta_value ) ) {
+			delete_post_meta( $post_id, $meta_key );
 			return;
 		}
 
 		// Update the metadata.
-		update_post_meta( $post_id, 'rt-person-meta-basic', $meta_value );
+		update_post_meta( $post_id, $meta_key, $meta_value );
 	}
 
 	/**
@@ -198,8 +288,32 @@ abstract class Person_Basic_Meta_Box {
 		 * Check whether the birthplace contains only alphabets and spaces.
 		 * The birthplace can contain multiple words.
 		 */
-		if ( preg_match( '/^\w+(  ?\w+)*$/', $birth_place ) ) {
+		if ( preg_match( '/^[a-zA-Z, ]+$/', $birth_place ) ) {
 			return $birth_place;
+		}
+
+		return '';
+	}
+
+	/**
+	 * Sanitize the full name.
+	 *
+	 * @param string $full_name The full name.
+	 * @return string
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 */
+	public static function sanitize_full_name( string $full_name ) : string {
+		// Remove all whitespace from the string.
+		$full_name = trim( $full_name );
+
+		/**
+		 * Check whether the full name contains only alphabets, numbers, and spaces.
+		 * The full name can contain multiple words.
+		 */
+		if ( preg_match( '/^[a-zA-Z0-9 ]+$/', $full_name ) ) {
+			return $full_name;
 		}
 
 		return '';
@@ -208,63 +322,76 @@ abstract class Person_Basic_Meta_Box {
 	/**
 	 * Add the birthdate to the metadata, if sent by user.
 	 *
-	 * @param array $meta_value The meta data.
-	 * @return array
+	 * @return string
 	 * @since 1.0.0
 	 * @access public
 	 * @static
 	 */
-	public static function add_birth_date_to_meta_data( array $meta_value ) : array {
-		$nonce = filter_input( INPUT_POST, 'rt-person-basic-meta-box-nonce', FILTER_SANITIZE_STRING );
+	public static function add_birth_date_to_meta_data() : string {
+		$nonce = filter_input( INPUT_POST, 'rt-person-basic-meta-box-nonce', FILTER_DEFAULT );
 
 		if ( ! wp_verify_nonce( $nonce, 'rt-person-basic-meta-box' ) ) {
-			return $meta_value;
+			return '';
 		}
 
-		$birth_date = filter_input( INPUT_POST, 'rt-person-meta-basic-birth-date', FILTER_SANITIZE_STRING );
+		$birth_date = filter_input( INPUT_POST, 'rt-person-meta-basic-birth-date', FILTER_DEFAULT );
 
 		// Check whether the birthdate is sent by user and is valid or not.
 		if ( $birth_date ) {
-			$birth_date = self::sanitize_birth_date( $birth_date );
-
-			// Add the birthdate to the metadata, if it is not empty.
-			if ( '' !== $birth_date ) {
-				$meta_value['rt-person-meta-basic-birth-date'] = $birth_date;
-			}
+			return self::sanitize_birth_date( $birth_date );
 		}
 
-		return $meta_value;
+		return '';
 	}
 
 	/**
 	 * Add the birthplace to the metadata, if sent by user.
 	 *
-	 * @param array $meta_value The meta data.
-	 * @return array
+	 * @return string
 	 * @since 1.0.0
 	 * @access public
 	 * @static
 	 */
-	public static function add_birth_place_to_meta_data( array $meta_value ) : array {
-		$nonce = filter_input( INPUT_POST, 'rt-person-basic-meta-box-nonce', FILTER_SANITIZE_STRING );
+	public static function add_birth_place_to_meta_data() : string {
+		$nonce = filter_input( INPUT_POST, 'rt-person-basic-meta-box-nonce', FILTER_DEFAULT );
 
 		if ( ! wp_verify_nonce( $nonce, 'rt-person-basic-meta-box' ) ) {
-			return $meta_value;
+			return '';
 		}
 
-		$birth_place = filter_input( INPUT_POST, 'rt-person-meta-basic-birth-place', FILTER_SANITIZE_STRING );
+		$birth_place = filter_input( INPUT_POST, 'rt-person-meta-basic-birth-place', FILTER_DEFAULT );
 
 		// Check whether the birthplace is sent by user and is valid or not.
 		if ( $birth_place ) {
-			$birth_place = self::sanitize_birth_place( $birth_place );
-
-			// Add the birthplace to the metadata, if it is not empty.
-			if ( $birth_place ) {
-				$meta_value['rt-person-meta-basic-birth-place'] = $birth_place;
-			}
+			return self::sanitize_birth_place( $birth_place );
 		}
 
-		return $meta_value;
+		return '';
+	}
+
+	/**
+	 * Add the full name to the metadata, if sent by user.
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 */
+	public static function add_full_name_to_meta_data(): string {
+		$nonce = filter_input( INPUT_POST, 'rt-person-basic-meta-box-nonce', FILTER_DEFAULT );
+
+		if ( ! wp_verify_nonce( $nonce, 'rt-person-basic-meta-box' ) ) {
+			return '';
+		}
+
+		$full_name = filter_input( INPUT_POST, 'rt-person-meta-basic-full-name', FILTER_DEFAULT );
+
+		// Check whether the full name is sent by user and is valid or not.
+		if ( $full_name ) {
+			return self::sanitize_full_name( $full_name );
+		}
+
+		return '';
 	}
 
 }

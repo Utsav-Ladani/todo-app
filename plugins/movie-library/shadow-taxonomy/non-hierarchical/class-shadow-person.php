@@ -7,12 +7,20 @@
 
 namespace Movie_Library\Shadow_Taxonomy\Non_Hierarchical;
 
+use Movie_Library\Custom_Post_Type\Movie;
+
 /**
  * Class Shadow_Person
  *
  * Create the Person shadow taxonomy.
  */
 abstract class Shadow_Person {
+	/**
+	 * The slug of the shadow taxonomy.
+	 *
+	 * @var string
+	 */
+	const SLUG = '_rt-movie-person';
 
 	/**
 	 * Initialize the class.
@@ -30,8 +38,8 @@ abstract class Shadow_Person {
 	 */
 	public static function register_shadow_person_taxonomy(): void {
 		$labels = array(
-			'name'              => _x( 'Persons', 'taxonomy general name', 'movie-library' ),
-			'singular_name'     => _x( 'Person', 'taxonomy singular name', 'movie-library' ),
+			'name'              => __( 'Persons', 'movie-library' ),
+			'singular_name'     => __( 'Person', 'movie-library' ),
 			'search_items'      => __( 'Search Persons', 'movie-library' ),
 			'all_items'         => __( 'All Persons', 'movie-library' ),
 			'parent_item'       => __( 'Parent Person', 'movie-library' ),
@@ -53,6 +61,6 @@ abstract class Shadow_Person {
 			'rewrite'            => false,
 		);
 
-		register_taxonomy( '_rt-movie-person', array( 'rt-movie' ), $args );
+		register_taxonomy( self::SLUG, array( Movie::SLUG ), $args );
 	}
 }

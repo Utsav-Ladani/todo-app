@@ -13,7 +13,12 @@ namespace Movie_Library\Custom_Post_Type;
  * Create the custom post type for movie.
  */
 abstract class Movie {
-
+	/**
+	 * Post type slug.
+	 *
+	 * @var string
+	 */
+	const SLUG = 'rt-movie';
 
 	/**
 	 * Initialize the class.
@@ -34,10 +39,10 @@ abstract class Movie {
 	 */
 	public static function register_movie_post_type(): void {
 		$labels = array(
-			'name'                  => _x( 'Movies', 'Post Type General Name', 'movie-library' ),
-			'singular_name'         => _x( 'Movie', 'Post Type Singular Name', 'movie-library' ),
-			'menu_name'             => _x( 'Movies', 'Admin Menu text', 'movie-library' ),
-			'name_admin_bar'        => _x( 'Movie', 'Add New on Toolbar', 'movie-library' ),
+			'name'                  => __( 'Movies', 'movie-library' ),
+			'singular_name'         => __( 'Movie', 'movie-library' ),
+			'menu_name'             => __( 'Movies', 'movie-library' ),
+			'name_admin_bar'        => __( 'Movie', 'movie-library' ),
 			'archives'              => __( 'Movie Archives', 'movie-library' ),
 			'attributes'            => __( 'Movie Attributes', 'movie-library' ),
 			'parent_item_colon'     => __( 'Parent Movie:', 'movie-library' ),
@@ -64,23 +69,22 @@ abstract class Movie {
 		);
 
 		$args = array(
-			'labels'                => $labels,
-			'public'                => true,
-			'hierarchical'          => false,
-			'show_ui'               => true,
-			'show_in_nav_menus'     => true,
-			'supports'              => array( 'title', 'editor', 'excerpt', 'thumbnail', 'author', 'comments' ),
-			'has_archive'           => true,
-			'rewrite'               => array( 'slug' => 'rt-movie' ),
-			'query_var'             => true,
-			'menu_position'         => null,
-			'menu_icon'             => 'dashicons-editor-video',
-			'show_in_rest'          => true,
-			'rest_base'             => 'movie',
-			'rest_controller_class' => 'WP_REST_Posts_Controller',
+			'labels'            => $labels,
+			'public'            => true,
+			'hierarchical'      => false,
+			'show_ui'           => true,
+			'show_in_nav_menus' => true,
+			'supports'          => array( 'title', 'editor', 'excerpt', 'thumbnail', 'author', 'comments' ),
+			'has_archive'       => true,
+			'query_var'         => true,
+			'menu_position'     => null,
+			'menu_icon'         => 'dashicons-editor-video',
+			'show_in_rest'      => true,
+			'rest_base'         => 'movie',
 		);
 
-		register_post_type( 'rt-movie', $args );
+		// phpcs:ignore WordPress.NamingConventions.ValidPostTypeSlug.NotStringLiteral
+		register_post_type( self::SLUG, $args );
 	}
 
 	/**
@@ -91,8 +95,8 @@ abstract class Movie {
 	 * @return string
 	 */
 	public static function change_enter_title_here( string $title ) : string {
-		if ( 'rt-movie' === get_post_type() ) {
-			return 'Title';
+		if ( self::SLUG === get_post_type() ) {
+			return __( 'Title', 'movie-library' );
 		}
 		return $title;
 	}
@@ -105,8 +109,8 @@ abstract class Movie {
 	 * @return string
 	 */
 	public static function change_write_your_story( string $post_content ) : string {
-		if ( 'rt-movie' === get_post_type() ) {
-			return 'Plot';
+		if ( self::SLUG === get_post_type() ) {
+			return __( 'Plot', 'movie-library' );
 		}
 		return $post_content;
 	}
@@ -118,7 +122,7 @@ abstract class Movie {
 	 */
 	public static function custom_excerpt_heading() : void {
 		// return if post type is not rt-movie.
-		if ( 'rt-movie' !== get_post_type() ) {
+		if ( self::SLUG !== get_post_type() ) {
 			return;
 		}
 
@@ -127,7 +131,7 @@ abstract class Movie {
 			'movie-library-admin',
 			MOVIE_LIBRARY_PLUGIN_URL . 'admin/js/movie-library-admin.js',
 			array( 'wp-i18n' ),
-			MOVIE_LIBRARY_VERSION,
+			filemtime( MOVIE_LIBRARY_PLUGIN_DIR . 'admin/js/movie-library-admin.js' ),
 			true
 		);
 	}

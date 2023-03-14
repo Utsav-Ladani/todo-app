@@ -7,12 +7,20 @@
 
 namespace Movie_Library\Taxonomy\Non_Hierarchical;
 
+use Movie_Library\Custom_Post_Type\Movie;
+
 /**
  * Class Tag
  *
  * Create the Tag taxonomy.
  */
 abstract class Tag {
+	/**
+	 * The slug of the taxonomy.
+	 *
+	 * @var string
+	 */
+	const SLUG = 'rt-movie-tag';
 
 	/**
 	 * Initialize the class.
@@ -30,8 +38,8 @@ abstract class Tag {
 	 */
 	public static function register_tag_taxonomy(): void {
 		$labels = array(
-			'name'              => _x( 'Tags', 'taxonomy general name', 'movie-library' ),
-			'singular_name'     => _x( 'Tag', 'taxonomy singular name', 'movie-library' ),
+			'name'              => __( 'Tags', 'movie-library' ),
+			'singular_name'     => __( 'Tag', 'movie-library' ),
 			'search_items'      => __( 'Search Tags', 'movie-library' ),
 			'all_items'         => __( 'All Tags', 'movie-library' ),
 			'parent_item'       => __( 'Parent Tag', 'movie-library' ),
@@ -59,6 +67,6 @@ abstract class Tag {
 			'show_admin_column'  => true,
 		);
 
-		register_taxonomy( 'rt-movie-tag', array( 'rt-movie' ), $args );
+		register_taxonomy( self::SLUG, array( Movie::SLUG ), $args );
 	}
 }
