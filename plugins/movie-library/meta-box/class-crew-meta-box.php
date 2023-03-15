@@ -230,6 +230,7 @@ abstract class Crew_Meta_Box {
 				'post_type' => Person::SLUG,
 				'orderby'   => 'name',
 				'order'     => 'ASC',
+				'posts_per_page' => -1,
 				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				'tax_query' => array(
 					array(
