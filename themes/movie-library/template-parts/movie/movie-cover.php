@@ -66,7 +66,7 @@ require_once get_stylesheet_directory() . '/includes/common-utility.php';
 
 				foreach ( $directors as $director ) :
 					?>
-					<li class="movie-director-item"><?php get_the_title( $director ); ?></li>
+					<li class="movie-director-item"><?php echo esc_html( get_the_title( $director ) ); ?></li>
 					<?php
 				endforeach;
 				?>

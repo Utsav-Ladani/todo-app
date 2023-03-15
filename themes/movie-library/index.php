@@ -5,3 +5,6 @@
  *
  * @package Movie Library
  */
+
+// show the archive page by default.
+get_template_part( '/archive-rt-movie' );
