@@ -6,5 +6,14 @@
  * @package Movie Library
  */
 
-// show the archive page by default.
-get_template_part( '/archive-rt-movie' );
+get_header();
+?>
+
+<div class="section">
+	<h2 class="section-title">
+		This is the index.php file for Movie Library theme.
+	</h2>
+</div>
+
+<?php
+get_footer();
