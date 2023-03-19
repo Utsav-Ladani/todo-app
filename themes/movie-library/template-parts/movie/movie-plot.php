@@ -8,7 +8,7 @@
 
 ?>
 
-<div class="plot-with-sidebar section">
+<div class="section section-with-sidebar">
 	<div>
 		<h3 class="section-title"><?php esc_html_e( 'Synopsis', 'movie-library' ); ?></h3>
 		<div class="the-content">

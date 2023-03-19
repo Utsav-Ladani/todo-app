@@ -66,7 +66,7 @@ if ( ! function_exists( 'get_post_runtime' ) ) {
 	 *
 	 * @return string
 	 */
-	function get_post_runtime( int $id, string $hour_tag = 'hr', string $minute_tag = 'min', string $post_type = 'rt-movie' ) : string {
+	function get_post_runtime( int $id, string $hour_tag = ' hr', string $minute_tag = ' min', string $post_type = 'rt-movie' ) : string {
 		$meta_keys = array(
 			'rt-movie'  => 'rt-movie-meta-basic-runtime',
 			'rt-person' => 'rt-person-meta-basic-runtime',

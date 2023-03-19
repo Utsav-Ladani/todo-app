@@ -45,7 +45,7 @@ require_once get_stylesheet_directory() . '/includes/common-utility.php';
 				$runtime = get_post_runtime( $movie->ID );
 
 				// get the release date and format it.
-				$release_date = get_post_release_date( $movie->ID, 'jS M Y' );
+				$release_date = get_post_release_date( $movie->ID );
 
 				// get the terms.
 				$term_names = get_terms_list( $movie->ID, 'rt-movie-genre' );
@@ -70,7 +70,7 @@ require_once get_stylesheet_directory() . '/includes/common-utility.php';
 							?>
 						</ul>
 						<span class="movie-date">
-							<?php echo wp_kses( $release_date, array( 'span' => array( 'class' ) ) ); ?>
+							<?php echo esc_html( $release_date ); ?>
 						</span>
 					</div>
 				</li>

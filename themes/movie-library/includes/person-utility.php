@@ -180,12 +180,12 @@ if ( ! function_exists( 'get_archive_cast_crew' ) ) {
 	/**
 	 * Get the archive cast crew.
 	 *
-	 * @param int $movie_id movie id.
-	 * @param int $limit limit.
+	 * @param mixed $movie_id movie id.
+	 * @param int   $limit limit.
 	 *
 	 * @return array
 	 */
-	function get_archive_cast_crew( int $movie_id, int $limit = 12 ) {
+	function get_archive_cast_crew( $movie_id, int $limit = 12 ) : array {
 		// if movie id is not empty.
 		if ( $movie_id ) {
 			$persons = get_post_meta( $movie_id, 'rt-movie-meta-crew-actor', true );

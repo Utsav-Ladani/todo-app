@@ -22,7 +22,7 @@
 			<span class="user-svg"></span>
 			<?php esc_html_e( 'Sign In', 'movie-library' ); ?>
 		</span>
-		<span class="header-btn" ><?php esc_html( 'ENG ▼' ); ?></span>
+		<span class="header-btn" >ENG ▼</span>
 	</div>
 </header>
 

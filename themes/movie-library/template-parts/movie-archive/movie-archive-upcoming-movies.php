@@ -59,7 +59,7 @@ require_once get_stylesheet_directory() . '/includes/common-utility.php';
 						<span class="movie-genre-item"><?php echo esc_html( $term_name ); ?></span>
 						<span class="movie-date">
 							<?php esc_html_e( 'Release', 'movie-library' ); ?>:
-							<?php echo wp_kses( $release_date, array( 'span' => array( 'class' ) ) ); ?>
+							<?php echo wp_kses( $release_date, array( 'span' => array( 'class' => array() ) ) ); ?>
 						</span>
 						<span class="movie-tag">PG-13</span>
 					</div>

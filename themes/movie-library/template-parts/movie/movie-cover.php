@@ -23,7 +23,7 @@ require_once get_stylesheet_directory() . '/includes/common-utility.php';
 	$rating = get_post_rating( get_the_ID() );
 
 	// get the runtime and format it.
-	$runtime = get_post_runtime( get_the_ID() );
+	$runtime = get_post_runtime( get_the_ID(), 'H', 'M' );
 
 	// get the release date and format it.
 	$release_date = get_post_release_date( get_the_ID() );

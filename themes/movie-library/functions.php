@@ -80,57 +80,30 @@ if ( ! function_exists( 'enqueue_script' ) ) {
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_script' );
 
+
 // check before declaring the function.
-if ( ! function_exists( 'register_primary_menu_for_movie' ) ) {
+if ( ! function_exists( 'setup_movie_library_theme' ) ) {
 	/**
-	 * Register primary menu for movie.
+	 * Set up the theme.
+	 * Register menus, load translation files, add theme supports, etc.
+	 *
+	 * @return void
+	 * @hooks after_setup_theme
 	 */
-	function register_primary_menu_for_movie() {
+	function setup_movie_library_theme() {
+		// load translation files.
+		load_theme_textdomain( 'movie-library', get_stylesheet_directory() . '/languages' );
+
+		// primary menus.
 		register_nav_menu( 'primary-menu-movie', __( 'Primary Menu For Movie', 'movie-library' ) );
-	}
-}
-add_action( 'after_setup_theme', 'register_primary_menu_for_movie' );
 
-// check before declaring the function.
-if ( ! function_exists( 'register_footer_menu_for_company' ) ) {
-	/**
-	 * Register footer menu for company.
-	 */
-	function register_footer_menu_for_company() {
+		// footer menus.
 		register_nav_menu( 'footer-menu-company', __( 'Company Menu', 'movie-library' ) );
-	}
-}
-add_action( 'after_setup_theme', 'register_footer_menu_for_company' );
-
-// check before declaring the function.
-if ( ! function_exists( 'register_footer_menu_for_explore' ) ) {
-	/**
-	 * Register footer menu for explore.
-	 */
-	function register_footer_menu_for_explore() {
 		register_nav_menu( 'footer-menu-explore', __( 'Explore Menu', 'movie-library' ) );
-	}
-}
-add_action( 'after_setup_theme', 'register_footer_menu_for_explore' );
 
-// check before declaring the function.
-if ( ! function_exists( 'register_quick_link_menu_for_movie' ) ) {
-	/**
-	 * Register quick link menu for movie.
-	 */
-	function register_quick_link_menu_for_movie() {
+		// quick links menus shown in the sidebar.
 		register_nav_menu( 'quick-link-menu-movie', __( 'Quick Links Movie', 'movie-library' ) );
-	}
-}
-add_action( 'after_setup_theme', 'register_quick_link_menu_for_movie' );
-
-// check before declaring the function.
-if ( ! function_exists( 'register_quick_link_menu_for_person' ) ) {
-	/**
-	 * Register quick link menu for person.
-	 */
-	function register_quick_link_menu_for_person() {
 		register_nav_menu( 'quick-link-menu-person', __( 'Quick Links Person', 'movie-library' ) );
 	}
 }
-add_action( 'after_setup_theme', 'register_quick_link_menu_for_person' );
+add_action( 'after_setup_theme', 'setup_movie_library_theme' );

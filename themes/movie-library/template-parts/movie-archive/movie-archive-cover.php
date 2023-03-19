@@ -35,7 +35,7 @@ require_once get_stylesheet_directory() . '/includes/common-utility.php';
 			$src = get_thumbnail_attachment_url( $movie->ID );
 
 			// get the runtime and format it.
-			$runtime = get_post_runtime( $movie->ID );
+			$runtime = get_post_runtime( $movie->ID, 'H', 'M' );
 
 			// get the release date and format it.
 			$release_date = get_post_release_date( $movie->ID );
@@ -55,7 +55,7 @@ require_once get_stylesheet_directory() . '/includes/common-utility.php';
 							PG-13
 						</span>
 						<span class="basic-meta-item">
-							<?php echo esc_html( $release_date ); ?>
+							<?php echo esc_html( $runtime ); ?>
 						</span>
 					</div>
 					<ul class="movie-genre">
@@ -64,7 +64,7 @@ require_once get_stylesheet_directory() . '/includes/common-utility.php';
 
 						foreach ( $term_names as $term_name ) :
 							?>
-							<li class="movie-genre-item"><?php esc_html( $term_name ); ?></li>
+							<li class="movie-genre-item"><?php echo esc_html( $term_name ); ?></li>
 							<?php
 						endforeach;
 						?>
