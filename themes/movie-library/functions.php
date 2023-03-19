@@ -21,14 +21,6 @@ if ( ! function_exists( 'enqueue_style' ) ) {
 			array(),
 			filemtime( get_stylesheet_directory() . '/style.css' )
 		);
-
-		// enqueue mobile stylesheet.
-		wp_enqueue_style(
-			'style-mobile',
-			get_stylesheet_directory_uri() . '/style-mobile.css',
-			array(),
-			filemtime( get_stylesheet_directory() . '/style-mobile.css' )
-		);
 	}
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_style' );

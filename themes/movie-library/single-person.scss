@@ -1,5 +1,7 @@
-@import 'global';
-
+/**
+ * Person single page
+ * It contains styles for cover and video section.
+ */
 
 /** Person */
 
@@ -71,11 +73,19 @@
 	}
 }
 
+/** Person videos section */
+
 .person-videos-section {
 	margin-bottom: 120px;
 }
 
+
+/** Media Query for cover na video section */
+
 @media screen and (max-width: $mobile-break-point) {
+
+	/** Person */
+
 	.person-cover {
 		flex-direction: column;
 		row-gap: 16px;
@@ -132,6 +142,9 @@
 			}
 		}
 	}
+
+
+	/** Person videos section */
 
 	.person-videos-section {
 		margin-bottom: 64px;

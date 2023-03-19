@@ -1,7 +1,10 @@
-@import 'global';
+/**
+ * Archive Movie page styles.
+ * It contains styles for the slider.
+ */
 
+/** Movie Slider */
 
-/** Movie archive */
 .slider-container {
 	width: 100%;
 	overflow: scroll;
@@ -87,6 +90,8 @@
 	}
 }
 
+/** Slider dots */
+
 .dots-wrapper {
 	display: flex;
 	justify-content: center;
@@ -106,13 +111,17 @@
 	}
 }
 
+/** Trending movies section */
+
 .trending-movies {
 	padding-bottom: 120px;
 }
 
+/** Media query for the mobile view */
+
 @media screen and (max-width: $mobile-break-point) {
 
-	/** Movie Archive */
+	/** Movie Slider */
 
 	.slide-content {
 		padding: 110px 24px 32px 24px;
@@ -161,6 +170,8 @@
 		}
 	}
 
+	/** Slider dots */
+
 	.dots-wrapper {
 		column-gap: 12px;
 		margin-top: 24px;
@@ -170,6 +181,8 @@
 		width: 8px;
 		height: 8px;
 	}
+
+	/** Trending movies section */
 
 	.trending-movies {
 		padding-bottom: 64px;

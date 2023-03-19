@@ -1,7 +1,9 @@
-@import 'global';
+/**
+ * Archive Person page
+ * It contains styles of person list on archive page.
+ */
 
-
-/** Archive Person page */
+/** Archive Person section */
 
 .archive-section {
 	padding-bottom: 120px;
@@ -98,6 +100,7 @@
 	object-fit: cover;
 }
 
+/** Load More Button */
 
 .center-div {
 	display: flex;
@@ -113,6 +116,8 @@
 	background-color: transparent !important;
 	justify-self: center;
 }
+
+/** Media Query for mobile view */
 
 @media screen and (max-width: $mobile-break-point) {
 

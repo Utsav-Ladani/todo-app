@@ -1,4 +1,7 @@
-@import 'global';
+/**
+ * Media Styles
+ * It contains styles for the image gallery, video gallery and lightbox.
+ */
 
 /** Snapshots Styles */
 
@@ -101,7 +104,12 @@
 
 }
 
+/** Media Query for the image and video gallery for mobile view. */
+
 @media screen and (max-width: $mobile-break-point) {
+
+	/** Snapshots Styles */
+
 	.snapshots-list {
 		column-gap: 14px;
 		row-gap: 16px;
