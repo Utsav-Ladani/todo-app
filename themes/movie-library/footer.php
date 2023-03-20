@@ -8,7 +8,7 @@
  */
 
 ?>
-<div id="lightbox" class="display-none">
+<div id="lightbox" class="lightbox display-none">
 	<button id="lightbox-close-btn" class="close-btn">
 		<img src="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/svg/close.svg" alt="close" />
 	</button>
@@ -21,10 +21,10 @@
 	<div class="widgets">
 		<div class="widget-left">
 			<h2 class="main-title" >
-				<span>Screen</span>
-				<span class="text-color-accent" >Time</span>
+				<span><?php esc_html_e( 'Screen', 'movie-library' ); ?></span>
+				<span class="text-color-accent" ><?php esc_html_e( 'Time', 'movie-library' ); ?></span>
 			</h2>
-			<h4 class="social-title" >Follow Us</h4>
+			<h4 class="social-title" ><?php esc_html_e( 'Follow Us', 'movie-library' ); ?></h4>
 			<ul class="social">
 				<li class="social-item">
 					<a href="#" class="social-link" >
@@ -54,7 +54,7 @@
 			</ul>
 		</div>
 		<div class="widget-company">
-			<h3 class="widget-title">Company</h3>
+			<h3 class="widget-title"><?php esc_html_e( 'Company', 'movie-library' ); ?></h3>
 			<?php
 			wp_nav_menu(
 				array(
@@ -66,7 +66,7 @@
 			?>
 		</div>
 		<div class="widget-company">
-			<h3 class="widget-title">Explore</h3>
+			<h3 class="widget-title"><?php esc_html_e( 'Explore', 'movie-library' ); ?></h3>
 			<?php
 			wp_nav_menu(
 				array(
@@ -79,8 +79,11 @@
 		</div>
 	</div>
 	<hr class="footer-hr" />
-	<p class="footer-text" >&#169; 2022 ScreenTime. All Rights Reserved.
-		Terms of Service  |  Privacy Policy
+	<p class="footer-text" >&#169;
+		<?php
+		/* translators: %s: current year. */
+		printf( esc_html__( '%s ScreenTime. All Rights Reserved. Terms of Service  |  Privacy Policy', 'movie-library' ), esc_html( date_i18n( 'Y' ) ) );
+		?>
 	</p>
 </footer>
 <?php wp_footer(); ?>

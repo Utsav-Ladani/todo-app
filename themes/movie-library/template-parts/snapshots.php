@@ -1,7 +1,7 @@
 <?php
 /**
  * Movie Library Snapshot section.
- * It displays the movie responsive snapshot gallery.
+ * It displays the movie responsive snapshot gallery for movie.
  *
  * @package Movie Library
  */
@@ -10,7 +10,7 @@
 
 <div class="section">
 	<h3 class="section-title">
-		<?php esc_html_e( 'Snapshots', 'movie-library' ); ?>
+		<?php echo esc_html( $args['Title'] ?? esc_html__( 'Snapshots', 'movie-library' ) ); ?>
 	</h3>
 	<ul class="snapshots-list">
 	<?php

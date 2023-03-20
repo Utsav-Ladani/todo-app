@@ -10,6 +10,11 @@
 
 <?php
 require_once get_stylesheet_directory() . '/includes/common-utility.php';
+
+use Movie_Library\Custom_Post_Type\Movie;
+use Movie_Library\Taxonomy\Non_Hierarchical\Tag;
+use Movie_Library\Taxonomy\Hierarchical\Genre;
+
 ?>
 <div class="section">
 	<h3 class="section-title">
@@ -21,12 +26,12 @@ require_once get_stylesheet_directory() . '/includes/common-utility.php';
 			// get upcoming movies.
 			$movies = get_posts(
 				array(
-					'post_type'      => 'rt-movie',
+					'post_type'      => Movie::SLUG,
 					'posts_per_page' => 6,
                     // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 					'tax_query'      => array(
 						array(
-							'taxonomy' => 'rt-movie-tag',
+							'taxonomy' => Tag::SLUG,
 							'field'    => 'slug',
 							'terms'    => 'upcoming',
 						),
@@ -46,7 +51,7 @@ require_once get_stylesheet_directory() . '/includes/common-utility.php';
 				$release_date = get_post_release_date( $movie->ID, 'jS M Y' );
 
 				// get the terms.
-				$term_names = get_terms_list( $movie->ID, 'rt-movie-genre' );
+				$term_names = get_terms_list( $movie->ID, Genre::SLUG );
 				$term_names = array_slice( $term_names, 0, 1 );
 
 				?>
@@ -71,7 +76,7 @@ require_once get_stylesheet_directory() . '/includes/common-utility.php';
 							?>
 						</ul>
 						<span class="movie-date">
-							<?php echo wp_kses( $release_date, array( 'span' => array( 'class' ) ) ); ?>
+							<?php echo wp_kses( $release_date, array( 'span' => array( 'class' => array() ) ) ); ?>
 						</span>
 					</div>
 				</li>

@@ -6,6 +6,11 @@
  * @package Movie Library
  */
 
+use Movie_Library\Custom_Post_Type\Movie;
+use Movie_Library\Custom_Post_Type\Person;
+use Movie_Library\Shadow_Taxonomy\Non_Hierarchical\Shadow_Person;
+use Movie_Library\Taxonomy\Non_Hierarchical\Tag;
+
 // check if the function exists.
 if ( ! function_exists( 'get_cast_crew' ) ) {
 	/**
@@ -61,12 +66,12 @@ if ( ! function_exists( 'get_post_birth_date' ) ) {
 	 *
 	 * @return string
 	 */
-	function get_post_birth_date( int $id, string $format = 'Y', string $post_type = 'rt-person' ) : string {
+	function get_post_birth_date( int $id, string $format = 'Y', string $post_type = Person::SLUG ) : string {
 		$meta_keys = array(
-			'rt-person' => 'rt-person-meta-basic-birth-date',
+			Person::SLUG => 'rt-person-meta-basic-birth-date',
 		);
 
-		if ( ! array_key_exists( $post_type, $meta_keys ) ) {
+		if ( ! isset( $meta_keys[ $post_type ] ) ) {
 			return '';
 		}
 
@@ -89,7 +94,7 @@ if ( ! function_exists( 'get_first_movie' ) ) {
 	 */
 	function get_first_movie( int $id ) {
 		$args = array(
-			'post_type'      => 'rt-movie',
+			'post_type'      => Movie::SLUG,
 			'posts_per_page' => 1,
 			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 			'meta_key'       => 'rt-movie-meta-basic-release-date',
@@ -99,7 +104,7 @@ if ( ! function_exists( 'get_first_movie' ) ) {
 			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 			'tax_query'      => array(
 				array(
-					'taxonomy' => '_rt-movie-person',
+					'taxonomy' => Shadow_Person::SLUG,
 					'field'    => 'slug',
 					'terms'    => sprintf( 'person-%d', $id ),
 				),
@@ -121,7 +126,7 @@ if ( ! function_exists( 'get_last_movie' ) ) {
 	 */
 	function get_last_movie( int $id ) {
 		$args = array(
-			'post_type'      => 'rt-movie',
+			'post_type'      => Movie::SLUG,
 			'posts_per_page' => 1,
 			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 			'meta_key'       => 'rt-movie-meta-basic-release-date',
@@ -131,7 +136,7 @@ if ( ! function_exists( 'get_last_movie' ) ) {
 			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 			'tax_query'      => array(
 				array(
-					'taxonomy' => '_rt-movie-person',
+					'taxonomy' => Shadow_Person::SLUG,
 					'field'    => 'slug',
 					'terms'    => sprintf( 'person-%d', $id ),
 				),
@@ -153,18 +158,18 @@ if ( ! function_exists( 'get_upcoming_movies_of_person' ) ) {
 	 */
 	function get_upcoming_movies_of_person( int $id ) {
 		$args = array(
-			'post_type'      => 'rt-movie',
+			'post_type'      => Movie::SLUG,
 			'posts_per_page' => 1,
 			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 			'tax_query'      => array(
 				'relation' => 'AND',
 				array(
-					'taxonomy' => '_rt-movie-person',
+					'taxonomy' => Shadow_Person::SLUG,
 					'field'    => 'slug',
 					'terms'    => sprintf( 'person-%d', $id ),
 				),
 				array(
-					'taxonomy' => 'rt-movie-tag',
+					'taxonomy' => Tag::SLUG,
 					'field'    => 'slug',
 					'terms'    => 'upcoming',
 				),
@@ -200,7 +205,7 @@ if ( ! function_exists( 'get_archive_cast_crew' ) ) {
 		// else get the latest persons.
 		$posts = get_posts(
 			array(
-				'post_type'      => 'rt-person',
+				'post_type'      => Person::SLUG,
 				'posts_per_page' => $limit,
 				'fields'         => 'ids',
 			)

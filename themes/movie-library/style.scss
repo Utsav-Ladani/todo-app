@@ -10,6 +10,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: movie-library
 */
 
+/**
+ * Import the fonts.
+ * It contains common styles for the theme.
+ */
+
 @import url(https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100;200;300;400;500;600;700;800;900&family=Heebo:wght@100;200;300;400;500;600;700;800;900&display=swap);
 
 /** Global Variables */
@@ -29,9 +34,15 @@ $mobile-break-point: 768px;
 #page {
 	background-color: $primary-bg-color;
 	overflow-y: hidden;
+
+	font-family: Heebo, cursive;
+	font-style: normal;
 }
 
-@import 'header-footer';
+button {
+	color: #fff;
+	background-color: transparent;
+}
 
 /** Section Styles */
 
@@ -60,6 +71,10 @@ $mobile-break-point: 768px;
 	margin-bottom: 48px;
 }
 
+.section-padding-bottom {
+	padding-bottom: 120px;
+}
+
 /** section with sidebar and content */
 
 .section-with-sidebar {
@@ -70,6 +85,7 @@ $mobile-break-point: 768px;
 }
 
 .the-content {
+	max-width: 798px;
 	font-family: Heebo, cursive;
 	font-style: normal;
 	font-weight: 400;
@@ -149,6 +165,8 @@ $mobile-break-point: 768px;
 	//max-width: 384px;
 	overflow: hidden;
 	font-family: Heebo, cursive;
+	display: flex;
+	flex-direction: column;
 
 	.movie-image {
 		width: 100%;
@@ -225,24 +243,8 @@ $mobile-break-point: 768px;
 	}
 }
 
-/** Hide the elements */
-
-.display-none {
-	display: none;
-}
-
-.hidden-desktop {
-	display: none;
-}
-
-.date-th {
-	font-size: 12px;
-	line-height: 20px;
-	vertical-align: text-top;
-}
-
-
 @media screen and (max-width: $mobile-break-point) {
+
 	.section {
 		margin-top: 64px;
 		padding: 0 24px;
@@ -252,6 +254,10 @@ $mobile-break-point: 768px;
 	.section-title {
 		font-size: 24px;
 		line-height: 32px;
+	}
+
+	.section-padding-bottom {
+		padding-bottom: 64px;
 	}
 
 	.section-with-sidebar {
@@ -352,6 +358,27 @@ $mobile-break-point: 768px;
 			line-height: 12px;
 		}
 	}
+}
+
+/** Hide the elements */
+
+.display-none {
+	display: none;
+}
+
+.hidden-desktop {
+	display: none;
+}
+
+.date-th {
+	font-size: 12px;
+	line-height: 20px;
+	vertical-align: text-top;
+}
+
+/** Media query for hidden elements */
+
+@media screen and (max-width: $mobile-break-point) {
 
 	.hidden-desktop {
 		display: unset;
@@ -361,12 +388,8 @@ $mobile-break-point: 768px;
 		font-size: 6px;
 		line-height: 10px;
 	}
+
+	.close {
+		display: none;
+	}
 }
-
-
-//@import 'movie-cover';
-@import 'media';
-@import 'single-movie';
-@import 'single-person';
-@import 'archive-movie';
-@import 'archive-person';

@@ -11,14 +11,14 @@
 		// get all the drop-down menus
 		const menus = document.getElementsByClassName('drop-down-menu');
 
+		if (!menus) return;
+
 		// if there are no drop-down menus, return
 		for (let i = 0; i < menus.length; i++) {
 			// add event listener to each drop-down menu
 			menus[i].addEventListener('click', function () {
 				// get the arrow and the menu
-				const menuBtn = this.getElementsByClassName(
-					'drop-down-arrow-svg'
-				);
+				const menuBtn = this.getElementsByClassName('drop-down-btn');
 				const menuContent = this.getElementsByTagName('nav');
 
 				// if there is no arrow or menu, return

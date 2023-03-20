@@ -3,6 +3,15 @@
  * It contains styles for cover and video section.
  */
 
+/** Variables */
+
+$primary-bg-color: #1f1f1f;
+$accent-color: #d13223;
+$mobile-break-point: 768px;
+$nav-bg-color: #111;
+
+@import "media";
+
 /** Person */
 
 .person-cover {

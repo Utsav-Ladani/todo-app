@@ -3,6 +3,13 @@
  * It contains styles of person list on archive page.
  */
 
+/** Variables */
+
+$primary-bg-color: #1f1f1f;
+$accent-color: #d13223;
+$mobile-break-point: 768px;
+$nav-bg-color: #111;
+
 /** Archive Person section */
 
 .archive-section {
@@ -113,7 +120,7 @@
 	margin: 56px 0 0 0;
 	border: 1px solid #fff;
 	border-radius: 30px;
-	background-color: transparent !important;
+	background-color: transparent;
 	justify-self: center;
 }
 
@@ -154,6 +161,10 @@
 	.person-info-wrapper {
 		padding: 12px;
 		row-gap: 16px;
+
+		.hidden {
+			display: none;
+		}
 	}
 
 	.person-title {

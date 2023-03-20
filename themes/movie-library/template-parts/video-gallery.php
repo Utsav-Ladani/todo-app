@@ -8,9 +8,9 @@
 
 ?>
 
-<div class="section">
+<div class="section  <?php echo esc_attr( $args['class'] ?? '' ); ?>">
 	<h3 class="section-title">
-		<?php esc_html_e( 'Trailers & Clips', 'movie-library' ); ?>
+		<?php echo esc_html( $args['Title'] ?? esc_html__( 'Videos', 'movie-library' ) ); ?>
 	</h3>
 	<ul class="videos-list">
 		<?php
@@ -29,7 +29,7 @@
 			?>
 			<li class="video-item"  style="background-image: url('<?php echo esc_url( $video_poster_url ); ?>')">
 				<button class="video-btn" video-src="<?php echo esc_url( $video_src ); ?>">
-					<img class="video-svg" src="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/svg/play.svg" />
+					<img class="video-svg" src="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/svg/play.svg" alt="" />
 				</button>
 			</li>
 			<?php

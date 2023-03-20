@@ -11,13 +11,16 @@
 <?php
 require_once get_stylesheet_directory() . '/includes/common-utility.php';
 require_once get_stylesheet_directory() . '/includes/person-utility.php';
+
+use Movie_Library\Custom_Post_Type\Person;
+
 ?>
 
 <div class="section movie-cast-crew">
 	<div class="section-title-wrap">
 		<h3 class="section-title"><?php esc_html_e( 'Cast & Crew', 'movie-library' ); ?></h3>
 		<?php
-		$archive_link = get_post_type_archive_link( 'rt-person' );
+		$archive_link = get_post_type_archive_link( Person::SLUG );
 		$archive_link = add_query_arg( 'movie-id', get_the_ID(), $archive_link );
 		?>
 		<a href="<?php echo esc_url( $archive_link ); ?>" class="view-all hidden"><?php esc_html_e( 'View All', 'movie-library' ); ?></a>

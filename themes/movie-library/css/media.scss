@@ -3,6 +3,14 @@
  * It contains styles for the image gallery, video gallery and lightbox.
  */
 
+/** Variables */
+
+$primary-bg-color: #1f1f1f;
+$accent-color: #d13223;
+$mobile-break-point: 768px;
+$nav-bg-color: #111;
+
+
 /** Snapshots Styles */
 
 .snapshots-list {
@@ -54,7 +62,7 @@
 		height: 56px;
 		width: 56px;
 		border-radius: 50%;
-		background-color: #d13223 !important;
+		background-color: #d13223;
 
 		display: grid;
 		place-items: center;
@@ -63,46 +71,50 @@
 	.video-svg {
 		transform: translate(3px, 0);
 	}
-
-	/** Lightbox Styles */
-
-	#lightbox {
-		position: fixed;
-		top: 0;
-		left: 0;
-		padding: 50px;
-		width: 100%;
-		height: 100vh;
-		background-color: #000000e8;
-		z-index: 10;
-		display: grid;
-		place-items: center;
-
-		.video-player {
-			width: 100%;
-			max-height: calc(100vh - 100px);
-			background-color: #000;
-		}
-	}
-
-	.close-btn {
-		padding: 0;
-		margin: 0;
-		border: none;
-		height: 48px;
-		width: 48px;
-		border-radius: 50%;
-		background-color: #ffffff21 !important;
-
-		display: grid;
-		place-items: center;
-
-		position: absolute;
-		top: 16px;
-		right: 16px;
-	}
-
 }
+
+/** Lightbox Styles */
+
+.lightbox {
+	position: fixed;
+	top: 0;
+	left: 0;
+	padding: 50px;
+	width: 100%;
+	height: 100vh;
+	background-color: #000000e8;
+	z-index: 10;
+	display: grid;
+	place-items: center;
+
+	.video-player {
+		width: 100%;
+		max-height: calc(100vh - 100px);
+		background-color: #000;
+	}
+}
+
+.close-btn {
+	padding: 0;
+	margin: 0;
+	border: none;
+	height: 48px;
+	width: 48px;
+	border-radius: 50%;
+	background-color: #ffffff21;
+
+	display: grid;
+	place-items: center;
+
+	position: absolute;
+	top: 16px;
+	right: 16px;
+}
+
+.display-none {
+	display: none;
+}
+
 
 /** Media Query for the image and video gallery for mobile view. */
 

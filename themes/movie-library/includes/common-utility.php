@@ -6,6 +6,9 @@
  * @package Movie Library
  */
 
+use Movie_Library\Custom_Post_Type\Movie;
+use Movie_Library\Custom_Post_Type\Person;
+
 // check if the function exists.
 if ( ! function_exists( 'get_thumbnail_attachment_url' ) ) {
 	/**
@@ -15,7 +18,7 @@ if ( ! function_exists( 'get_thumbnail_attachment_url' ) ) {
 	 *
 	 * @return string
 	 */
-	function get_thumbnail_attachment_url( $attachment_id ) {
+	function get_thumbnail_attachment_url( int $attachment_id ) : string {
 		$thumbnail_id = get_post_thumbnail_id( $attachment_id );
 
 		if ( $thumbnail_id ) {
@@ -36,13 +39,13 @@ if ( ! function_exists( 'get_post_rating' ) ) {
 	 *
 	 * @return string
 	 */
-	function get_post_rating( int $id, string $post_type = 'rt-movie' ) : string {
+	function get_post_rating( int $id, string $post_type = Movie::SLUG ) : string {
 		$meta_keys = array(
-			'rt-movie'  => 'rt-movie-meta-basic-rating',
-			'rt-person' => 'rt-person-meta-basic-rating',
+			Movie::SLUG  => 'rt-movie-meta-basic-rating',
+			Person::SLUG => 'rt-person-meta-basic-rating',
 		);
 
-		if ( ! array_key_exists( $post_type, $meta_keys ) ) {
+		if ( ! isset( $meta_keys[ $post_type ] ) ) {
 			return '';
 		}
 
@@ -66,13 +69,13 @@ if ( ! function_exists( 'get_post_runtime' ) ) {
 	 *
 	 * @return string
 	 */
-	function get_post_runtime( int $id, string $hour_tag = ' hr', string $minute_tag = ' min', string $post_type = 'rt-movie' ) : string {
+	function get_post_runtime( int $id, string $hour_tag = ' hr', string $minute_tag = ' min', string $post_type = Movie::SLUG ) : string {
 		$meta_keys = array(
-			'rt-movie'  => 'rt-movie-meta-basic-runtime',
-			'rt-person' => 'rt-person-meta-basic-runtime',
+			Movie::SLUG  => 'rt-movie-meta-basic-runtime',
+			Person::SLUG => 'rt-person-meta-basic-runtime',
 		);
 
-		if ( ! array_key_exists( $post_type, $meta_keys ) ) {
+		if ( ! isset( $meta_keys[ $post_type ] ) ) {
 			return '';
 		}
 
@@ -113,12 +116,12 @@ if ( ! function_exists( 'get_post_release_date' ) ) {
 	 *
 	 * @return string
 	 */
-	function get_post_release_date( int $id, string $format = 'Y', string $post_type = 'rt-movie' ) : string {
+	function get_post_release_date( int $id, string $format = 'Y', string $post_type = Movie::SLUG ) : string {
 		$meta_keys = array(
-			'rt-movie' => 'rt-movie-meta-basic-release-date',
+			Movie::SLUG => 'rt-movie-meta-basic-release-date',
 		);
 
-		if ( ! array_key_exists( $post_type, $meta_keys ) ) {
+		if ( ! isset( $meta_keys[ $post_type ] ) ) {
 			return '';
 		}
 

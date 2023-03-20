@@ -7,12 +7,17 @@
  * @package Movie Library
  */
 
+use \Movie_Library\Custom_Post_Type\Movie;
+use \Movie_Library\Custom_Post_Type\Person;
+
 // check before declaring the function.
 if ( ! function_exists( 'enqueue_style' ) ) {
 	/**
 	 * Enqueue all stylesheets.
 	 */
 	function enqueue_style() {
+		// dequeue parent theme's style.
+		wp_dequeue_style( 'twenty-twenty-one-style' );
 
 		// enqueue main stylesheet.
 		wp_enqueue_style(
@@ -21,9 +26,58 @@ if ( ! function_exists( 'enqueue_style' ) ) {
 			array(),
 			filemtime( get_stylesheet_directory() . '/style.css' )
 		);
+
+		wp_enqueue_style(
+			'header-footer-style',
+			get_stylesheet_directory_uri() . '/css/header-footer.css',
+			array(),
+			filemtime( get_stylesheet_directory() . '/css/header-footer.css' )
+		);
+
+		// enqueue style for movie archive page.
+		if ( is_post_type_archive( Movie::SLUG ) ) {
+			wp_enqueue_style(
+				'movie-archive-style',
+				get_stylesheet_directory_uri() . '/css/archive-movie.css',
+				array(),
+				filemtime( get_stylesheet_directory() . '/css/archive-movie.css' )
+			);
+		}
+
+		// enqueue style for person archive page.
+		if ( is_post_type_archive( Person::SLUG ) ) {
+			wp_enqueue_style(
+				'person-archive-style',
+				get_stylesheet_directory_uri() . '/css/archive-person.css',
+				array(),
+				filemtime( get_stylesheet_directory() . '/css/archive-person.css' )
+			);
+		}
+
+		// enqueue style for single movie page.
+		if ( is_singular( Movie::SLUG ) ) {
+			wp_enqueue_style(
+				'single-movie-style',
+				get_stylesheet_directory_uri() . '/css/single-movie.css',
+				array(),
+				filemtime( get_stylesheet_directory() . '/css/single-movie.css' )
+			);
+		}
+
+		// enqueue style for single person page.
+		if ( is_singular( Person::SLUG ) ) {
+			wp_enqueue_style(
+				'single-person-style',
+				get_stylesheet_directory_uri() . '/css/single-person.css',
+				array(),
+				filemtime( get_stylesheet_directory() . '/css/single-person.css' )
+			);
+		}
 	}
 }
-add_action( 'wp_enqueue_scripts', 'enqueue_style' );
+
+// use lower priority to override the parent theme's style.
+add_action( 'wp_enqueue_scripts', 'enqueue_style', 20 );
 
 // check before declaring the function.
 if ( ! function_exists( 'enqueue_script' ) ) {
@@ -32,7 +86,7 @@ if ( ! function_exists( 'enqueue_script' ) ) {
 	 */
 	function enqueue_script() {
 		// slider script.
-		if ( get_post_type() === 'rt-movie' && is_archive() ) {
+		if ( is_post_type_archive( Movie::SLUG ) ) {
 			wp_enqueue_script(
 				'slider-script',
 				get_stylesheet_directory_uri() . '/js/slider.js',
@@ -61,13 +115,15 @@ if ( ! function_exists( 'enqueue_script' ) ) {
 		);
 
 		// enqueue lightbox script to play the video.
-		wp_enqueue_script(
-			'lightbox-script',
-			get_stylesheet_directory_uri() . '/js/lightbox.js',
-			array(),
-			filemtime( get_stylesheet_directory() . '/js/lightbox.js' ),
-			true
-		);
+		if ( is_single() ) {
+			wp_enqueue_script(
+				'lightbox-script',
+				get_stylesheet_directory_uri() . '/js/lightbox.js',
+				array(),
+				filemtime( get_stylesheet_directory() . '/js/lightbox.js' ),
+				true
+			);
+		}
 	}
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_script' );

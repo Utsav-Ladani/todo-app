@@ -64,7 +64,7 @@ require_once get_stylesheet_directory() . '/includes/person-utility.php';
 			<tr>
 			</tr>
 			<tr>
-				<td>Occupation:</td>
+				<td><?php esc_html_e( 'Occupation', 'movie-library' ); ?>:</td>
 				<td>
 					<?php
 					$occupations = get_terms_list( get_the_ID(), 'rt-person-career' );
@@ -73,28 +73,32 @@ require_once get_stylesheet_directory() . '/includes/person-utility.php';
 				</td>
 			</tr>
 			<tr>
-				<td>Born:</td>
+				<td><?php esc_html_e( 'Born', 'movie-library' ); ?>:</td>
 				<td>
-					<?php echo esc_html( $date ); ?>
-					(age <?php echo esc_html( $age ); ?> years)
+					<?php echo esc_html( $date ); ?> (
+					<?php
+					/* translators: %d: age in integer */
+					printf( esc_html__( 'age %d years', 'movie-library' ), (int) $age );
+					?>
+					)
 				</td>
 			</tr>
 			<tr>
-				<td>Birthplace:</td>
+				<td><?php esc_html_e( 'Birthplace', 'movie-library' ); ?>:</td>
 				<td>
 					<?php echo esc_html( $birth_place ); ?>
 				</td>
 			</tr>
 			<tr>
-				<td>Years Active:</td>
+				<td><?php esc_html_e( 'Years Active', 'movie-library' ); ?>:</td>
 				<td><?php echo esc_html( $active_years ); ?></td>
 			</tr>
 			<tr>
-				<td>Debut Movie:</td>
+				<td><?php esc_html_e( 'Debut Movie', 'movie-library' ); ?>:</td>
 				<td><?php echo esc_html( $debut_movie ); ?></td>
 			</tr>
 			<tr>
-				<td>Upcoming Movies:</td>
+				<td><?php esc_html_e( 'Upcoming Movie', 'movie-library' ); ?>:</td>
 				<td>
 					<?php
 						$count = count( $upcoming_movies );
@@ -114,7 +118,7 @@ require_once get_stylesheet_directory() . '/includes/person-utility.php';
 				</td>
 			</tr>
 			<tr>
-				<td>Socials:</td>
+				<td><?php esc_html_e( 'Socials', 'movie-library' ); ?>:</td>
 				<td class="person-social-list">
 					<?php
 					$social_arr = array(
@@ -126,16 +130,6 @@ require_once get_stylesheet_directory() . '/includes/person-utility.php';
 							'type' => 'twitter',
 							'id'   => 'rt-person-meta-social-twitter',
 						),
-                    // phpcs:ignore Squiz.PHP.CommentedOutCode.Found
-					// array(
-					// 'type' => 'facebook',
-					// 'id'   => 'rt-person-meta-social-facebook',
-					// ),
-					// array(
-					// 'type' => 'rss',
-					// 'id'   => 'rt-person-meta-social-web',
-					// ),
-					// svg images are not available for these.
 					);
 
 					$social_meta = get_post_meta( get_the_ID(), 'rt-person-meta-social', true );
@@ -150,7 +144,7 @@ require_once get_stylesheet_directory() . '/includes/person-utility.php';
 							$src = get_stylesheet_directory_uri() . '/assets/svg/' . $social['type'] . '-small.svg';
 							?>
 							<a class="person-social-item" href="<?php echo esc_url( $url ); ?>" target="_blank">
-								<img src="<?php echo esc_attr( $src ); ?>"></i>
+								<img src="<?php echo esc_attr( $src ); ?>" alt="" />
 							</a>
 							<?php
 						}

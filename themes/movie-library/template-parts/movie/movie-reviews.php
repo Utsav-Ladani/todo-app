@@ -28,7 +28,8 @@
 				<img class="review-avatar" src="<?php echo esc_url( get_avatar_url( $review->comment_author_email ) ); ?>" alt="">
 				<div class="review-author-name"><?php echo esc_html( $review->comment_author ); ?></div>
 				<span class="review-rating">
-					<img class="star-icon" src="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/svg/star.svg" /> 8.4/10
+					<img class="star-icon" src="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/svg/star.svg" />
+					<?php echo esc_html( '8.4/10' ); ?>
 				</span>
 			</div>
 			<div class="review-content">

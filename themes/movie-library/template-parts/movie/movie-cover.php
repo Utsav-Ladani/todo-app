@@ -10,6 +10,8 @@
 
 <?php
 require_once get_stylesheet_directory() . '/includes/common-utility.php';
+
+use Movie_Library\Taxonomy\Hierarchical\Genre;
 ?>
 
 <div class="movie-cover">
@@ -37,17 +39,17 @@ require_once get_stylesheet_directory() . '/includes/common-utility.php';
 			<span class="basic-meta-item rating">
 				<img class="rating-icon" src="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/svg/star.svg" alt="Rating" /><?php echo esc_html( $rating ) . '/10'; ?>
 			</span>
-			<span class="basic-meta-item"><?php echo wp_kses( $release_date, array( 'span' => array( 'class' ) ) ); ?></span>
-			<span class="basic-meta-item">PG-13</span>
+			<span class="basic-meta-item"><?php echo wp_kses( $release_date, array( 'span' => array( 'class' => array() ) ) ); ?></span>
+			<span class="basic-meta-item"><?php echo esc_html( 'PG-13' ); ?></span>
 			<span class="basic-meta-item"><?php echo esc_html( $runtime ); ?></span>
 		</div>
 		<div class="movie-cover-description">
-			<?php the_excerpt(); ?>
+			<?php echo wp_kses_post( get_the_excerpt() ); ?>
 		</div>
 		<ul class="movie-genre">
 			<?php
 			// get the terms.
-			$term_names = get_terms_list( get_the_ID(), 'rt-movie-genre' );
+			$term_names = get_terms_list( get_the_ID(), Genre::SLUG );
 
 			foreach ( $term_names as $term_name ) :
 				echo '<li class="movie-genre-item">' . esc_html( $term_name ) . '</li>';
