@@ -8,6 +8,7 @@
 $primary-bg-color: #1f1f1f;
 $accent-color: #d13223;
 $mobile-break-point: 768px;
+$desktop-break-point: 1200px;
 $nav-bg-color: #111;
 
 @import "media";
@@ -89,9 +90,9 @@ $nav-bg-color: #111;
 }
 
 
-/** Media Query for cover na video section */
+/** Media Query for cover video section for desktop devices */
 
-@media screen and (max-width: $mobile-break-point) {
+@media screen and (max-width: $desktop-break-point) {
 
 	/** Person */
 
@@ -102,8 +103,8 @@ $nav-bg-color: #111;
 	}
 
 	.person-image {
-		height: 286px;
-		width: 224px;
+		height: 600px;
+		width: 500px;
 		object-fit: cover;
 	}
 
@@ -157,5 +158,17 @@ $nav-bg-color: #111;
 
 	.person-videos-section {
 		margin-bottom: 64px;
+	}
+}
+
+
+/** Media Query for cover video section for mobile devices */
+
+@media screen and (max-width: $mobile-break-point) {
+
+	.person-image {
+		height: 286px;
+		width: 224px;
+		object-fit: cover;
 	}
 }

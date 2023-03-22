@@ -7,8 +7,8 @@
  * @package Movie Library
  */
 
-use \Movie_Library\Custom_Post_Type\Movie;
-use \Movie_Library\Custom_Post_Type\Person;
+use Movie_Library\Custom_Post_Type\Movie;
+use Movie_Library\Custom_Post_Type\Person;
 
 // check before declaring the function.
 if ( ! function_exists( 'enqueue_style' ) ) {

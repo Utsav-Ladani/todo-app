@@ -54,21 +54,35 @@ use \Movie_Library\Taxonomy\Hierarchical\Genre;
 				// get the terms.
 				$term_names = get_terms_list( $movie->ID, Genre::SLUG );
 
+				// get the permalink.
+				$permalink = get_permalink( $movie->ID );
+
 				?>
 				<li class="movie-card-item">
-					<img class="movie-image" src="<?php echo esc_url( $src ); ?>" alt="" />
+					<a class="link-flex" href="<?php echo esc_url( $permalink ); ?>">
+						<img class="movie-image" src="<?php echo esc_url( $src ); ?>" alt="" />
+					</a>
 					<div class="movie-info">
+						<a href="<?php echo esc_url( $permalink ); ?>">
 						<h4 class="movie-title">
 							<?php echo esc_html( $name ); ?>
 						</h4>
+						</a>
 						<span class="movie-runtime">
 							<?php echo esc_html( $runtime ); ?>
 						</span>
 						<ul class="movie-genre-list">
 							<?php
 							foreach ( $term_names as $term_name ) {
+								// create the term link.
+								$term_link = get_term_link( $term_name, Genre::SLUG );
+
 								?>
-								<li class="movie-genre-item"><?php echo esc_html( $term_name ); ?></li>
+								<li>
+									<a class="movie-genre-item" href="<?php echo esc_url( $term_link ); ?>">
+										<?php echo esc_html( $term_name ); ?>
+									</a>
+								</li>
 								<?php
 							}
 							?>

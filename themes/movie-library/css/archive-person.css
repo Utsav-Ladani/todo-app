@@ -22,7 +22,10 @@
 .person-archive-list {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(min(100%, max(500px, 33.3333333333%)), 1fr));
-	align-items: flex-start;
+	justify-content: center;
+	align-items: start;
+	align-content: start;
+	justify-items: center;
 	row-gap: 32px;
 	column-gap: 32px;
 	padding: 0;
@@ -30,6 +33,8 @@
 
 .person-archive-item {
 	height: 100%;
+	width: 100%;
+	max-width: 700px;
 	display: flex;
 	background-color: #2a2a2a;
 }
@@ -97,6 +102,11 @@
 	object-fit: cover;
 }
 
+.person-archive-image-link {
+	width: 153px;
+	height: 100%;
+}
+
 /** Load More Button */
 .center-div {
 	display: flex;
@@ -133,6 +143,7 @@
 	}
 
 	.person-archive-item {
+		max-width: 400px;
 		flex-direction: column;
 	}
 
@@ -190,5 +201,10 @@
 		height: 100%;
 		min-height: 105px;
 		object-fit: cover;
+	}
+
+	.person-archive-image-link {
+		width: 72px;
+		height: 100%;
 	}
 }

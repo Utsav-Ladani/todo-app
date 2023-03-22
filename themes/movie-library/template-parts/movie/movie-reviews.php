@@ -8,7 +8,7 @@
 
 ?>
 
-<div class="section movie-review">
+<div id="reviews" class="section movie-review">
 	<h3 class="section-title"><?php esc_html_e( 'Reviews', 'movie-library' ); ?></h3>
 	<ul class="review-list">
 	<?php
@@ -22,11 +22,17 @@
 	);
 
 	foreach ( $reviews as $review ) {
+		// author link.
+		$author_link = get_comment_author_url( $review->comment_ID );
 		?>
 		<li class="review-item">
 			<div class="review-header">
-				<img class="review-avatar" src="<?php echo esc_url( get_avatar_url( $review->comment_author_email ) ); ?>" alt="">
-				<div class="review-author-name"><?php echo esc_html( $review->comment_author ); ?></div>
+				<a href="<?php echo esc_url( $author_link ); ?>" >
+					<img class="review-avatar" src="<?php echo esc_url( get_avatar_url( $review->comment_author_email ) ); ?>" alt="">
+				</a>
+				<a href="<?php echo esc_url( $author_link ); ?>" >
+					<div class="review-author-name"><?php echo esc_html( $review->comment_author ); ?></div>
+				</a>
 				<span class="review-rating">
 					<img class="star-icon" src="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/svg/star.svg" />
 					<?php echo esc_html( '8.4/10' ); ?>

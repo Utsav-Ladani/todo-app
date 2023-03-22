@@ -8,7 +8,7 @@
 
 ?>
 
-<div class="section  <?php echo esc_attr( $args['class'] ?? '' ); ?>">
+<div id="videos" class="section  <?php echo esc_attr( $args['class'] ?? '' ); ?>">
 	<h3 class="section-title">
 		<?php echo esc_html( $args['Title'] ?? esc_html__( 'Videos', 'movie-library' ) ); ?>
 	</h3>

@@ -12,14 +12,14 @@ get_template_part( 'template-parts/person/person-cover' );
 ?>
 
 
-	<div class="section section-with-sidebar">
+	<div id="about" class="section section-with-sidebar">
 		<div>
 			<h3 class="section-title"> <?php esc_html_e( 'About Us', 'movie-library' ); ?> </h3>
 			<div class="the-content">
 				<?php echo wp_kses_post( get_the_content( 'Read more...' ) ); ?>
 			</div>
 		</div>
-		<div class="hidden">
+		<div class="hidden-sidebar">
 			<?php
 			if ( has_nav_menu( 'quick-link-menu-person' ) ) :
 				?>

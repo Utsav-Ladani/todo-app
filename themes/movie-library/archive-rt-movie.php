@@ -52,35 +52,47 @@ get_header();
 					// get the release date and format it.
 					$release_date = get_post_release_date( $movie->ID );
 
+					// get the permalink.
+					$permalink = get_permalink( $movie->ID );
+
 					?>
-					<div style='background-image: url("<?php echo esc_url( $src ); ?>")' class="slide">
-						<div class="slide-content">
-							<h2 class="movie-cover-title"><?php echo esc_html( $movie->post_title ); ?></h2>
-							<div class="movie-cover-description">
-								<?php echo wp_kses_post( get_the_excerpt( $movie->ID ) ); ?>
-							</div>
-							<div class="meta-info-wrapper">
+					<div style='background-image: url("<?php echo esc_url( $src ); ?>")' class="slide" onclick="window.location='<?php echo esc_url( $permalink ); ?>'">
+						<div class="slide-content-wrapper">
+							<div class="slide-content">
+								<h2 class="movie-cover-title"><?php echo esc_html( $movie->post_title ); ?></h2>
+								<div class="movie-cover-description">
+									<?php echo wp_kses_post( get_the_excerpt( $movie->ID ) ); ?>
+								</div>
+								<div class="meta-info-wrapper">
 						<span class="basic-meta-item">
 							<?php echo esc_html( $release_date ); ?>
 						</span>
-								<span class="basic-meta-item">
+									<span class="basic-meta-item">
 							<?php echo esc_html( 'PG-13' ); ?>
 						</span>
-								<span class="basic-meta-item">
+									<span class="basic-meta-item">
 							<?php echo esc_html( $runtime ); ?>
 						</span>
-							</div>
-							<ul class="movie-genre">
-								<?php
-								$term_names = get_terms_list( $movie->ID, Genre::SLUG );
-
-								foreach ( $term_names as $term_name ) :
-									?>
-									<li class="movie-genre-item"><?php echo esc_html( $term_name ); ?></li>
+								</div>
+								<ul class="movie-genre">
 									<?php
-								endforeach;
-								?>
-							</ul>
+									$term_names = get_terms_list( $movie->ID, Genre::SLUG );
+
+									foreach ( $term_names as $term_name ) :
+										// create the archive page link of term.
+										$term_link = get_term_link( $term_name, Genre::SLUG );
+
+										?>
+										<li class="movie-genre-item hover-btn">
+											<a href="<?php echo esc_url( $term_link ); ?>">
+												<?php echo esc_html( $term_name ); ?>
+											</a>
+										</li>
+										<?php
+									endforeach;
+									?>
+								</ul>
+							</div>
 						</div>
 					</div>
 					<?php
@@ -135,14 +147,26 @@ get_header();
 					$term_names = get_terms_list( $movie->ID, Genre::SLUG );
 					$term_name  = $term_names[0] ?? '';
 
+					// get the permalink.
+					$permalink = get_permalink( $movie->ID );
+
+					// get the term link.
+					$term_link = get_term_link( $term_name, Genre::SLUG );
+
 					?>
 					<li class="movie-card-item">
-						<img class="movie-image" src="<?php echo esc_url( $src ); ?>" alt="" />
+						<a class="link-flex" href="<?php echo esc_url( $permalink ); ?>">
+							<img class="movie-image" src="<?php echo esc_url( $src ); ?>" alt="" />
+						</a>
 						<div class="movie-info">
-							<h4 class="movie-title">
-								<?php echo esc_html( $name ); ?>
-							</h4>
-							<span class="movie-genre-item"><?php echo esc_html( $term_name ); ?></span>
+							<a href="<?php echo esc_url( $permalink ); ?>">
+								<h4 class="movie-title">
+									<?php echo esc_html( $name ); ?>
+								</h4>
+							</a>
+							<a class="movie-genre-item" href="<?php echo esc_url( $term_link ); ?>">
+								<?php echo esc_html( $term_name ); ?>
+							</a>
 							<span class="movie-date">
 							<?php esc_html_e( 'Release', 'movie-library' ); ?>:
 							<?php echo wp_kses( $release_date, array( 'span' => array( 'class' => array() ) ) ); ?>

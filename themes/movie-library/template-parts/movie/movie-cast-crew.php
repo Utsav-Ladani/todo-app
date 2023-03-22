@@ -16,7 +16,7 @@ use Movie_Library\Custom_Post_Type\Person;
 
 ?>
 
-<div class="section movie-cast-crew">
+<div id="cast-and-crew" class="section movie-cast-crew">
 	<div class="section-title-wrap">
 		<h3 class="section-title"><?php esc_html_e( 'Cast & Crew', 'movie-library' ); ?></h3>
 		<?php
@@ -34,11 +34,13 @@ use Movie_Library\Custom_Post_Type\Person;
 		$person_name = get_the_title( $person_id );
 		$person_link = get_permalink( $person_id );
 		?>
-				<li class="movie-cast-crew-item">
-					<img class="movie-cast-crew-image" src="<?php echo esc_url( $src ); ?>" alt="<?php echo esc_attr( $person_name ); ?>">
-					<div class="movie-cast-crew-name">
-						<?php echo esc_html( $person_name ); ?>
-					</div>
+				<li>
+					<a class="movie-cast-crew-item" href="<?php echo esc_url( $person_link ); ?>" >
+						<img class="movie-cast-crew-image" src="<?php echo esc_url( $src ); ?>" alt="<?php echo esc_attr( $person_name ); ?>">
+						<div class="movie-cast-crew-name">
+							<?php echo esc_html( $person_name ); ?>
+						</div>
+					</a>
 				</li>
 			<?php
 		endforeach;

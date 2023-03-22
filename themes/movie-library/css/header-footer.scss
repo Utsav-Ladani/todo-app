@@ -15,13 +15,16 @@ $nav-bg-color: #111;
 /** Footer */
 
 footer {
-	padding: 0 110px;
 	background-color: #2a2a2a;
 	font-family: Heebo, cursive;
 
 	* {
 		color: #fff;
 	}
+}
+
+.footer-wrapper {
+	padding: 0 110px;
 }
 
 .widgets {
@@ -110,7 +113,7 @@ header * {
 }
 
 .search-svg {
-	content: url(./assets/svg/search.svg);
+	content: url(../assets/svg/search.svg);
 }
 
 .text-color-accent {
@@ -151,11 +154,11 @@ header * {
 	}
 
 	.user-svg {
-		content: url(./assets/svg/user.svg);
+		content: url(../assets/svg/user.svg);
 	}
 
 	.negative-triangle-svg {
-		content: url(./assets/svg/negative-triangle.svg);
+		content: url(../assets/svg/negative-triangle.svg);
 		height: 16px;
 		width: 16px;
 		transform: rotate(90deg);
@@ -257,11 +260,11 @@ header * {
 		}
 
 		.close-svg {
-			content: url(./assets/svg/close.svg);
+			content: url(../assets/svg/close.svg);
 		}
 
 		.bar-svg {
-			content: url(./assets/svg/bar.svg);
+			content: url(../assets/svg/bar.svg);
 		}
 
 		.mobile-header-btns {
@@ -334,7 +337,7 @@ header * {
 		}
 
 		.drop-down-arrow-svg {
-			content: url(./assets/svg/drop-down-arrow.svg);
+			content: url(../assets/svg/drop-down-arrow.svg);
 			transition: transform 200ms ease-in-out;
 		}
 

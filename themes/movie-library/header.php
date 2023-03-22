@@ -24,15 +24,17 @@
 <?php wp_body_open(); ?>
 <div id="page" class="site">
 	<div class="header-nav">
-
+		<div class="max-container">
 		<header class="desktop-header" >
 			<div class="header-btn" >
 				<span class="search-svg"></span>
 				<?php esc_html_e( 'Search', 'movie-library' ); ?>
 			</div>
 			<h2 class="main-title" >
-				<span><?php esc_html_e( 'Screen', 'movie-library' ); ?></span>
-				<span class="text-color-accent" ><?php esc_html_e( 'Time', 'movie-library' ); ?></span>
+				<a href="/">
+					<span><?php esc_html_e( 'Screen', 'movie-library' ); ?></span>
+					<span class="text-color-accent" ><?php esc_html_e( 'Time', 'movie-library' ); ?></span>
+				</a>
 			</h2>
 			<div class="header-span-gap">
 		<span class="header-btn" >
@@ -70,8 +72,8 @@
 					<?php esc_html_e( 'Register for FREE', 'movie-library' ); ?>
 				</button>
 			</div>
+		</div>
 		</header>
-
 
 		<div class="mobile-menu position-hover mobile-toggle close">
 			<hr class="mobile-menu-line" />
@@ -142,4 +144,4 @@
 			?>
 		</div>
 	</div>
-
+	<div class="container" >

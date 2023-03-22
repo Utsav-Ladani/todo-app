@@ -8,13 +8,16 @@
 
 /** Footer */
 footer {
-	padding: 0 110px;
 	background-color: #2a2a2a;
 	font-family: Heebo, cursive;
 }
 
 footer * {
 	color: #fff;
+}
+
+.footer-wrapper {
+	padding: 0 110px;
 }
 
 .widgets {
@@ -98,7 +101,7 @@ header * {
 }
 
 .search-svg {
-	content: url(./assets/svg/search.svg);
+	content: url(../assets/svg/search.svg);
 }
 
 .text-color-accent {
@@ -138,11 +141,11 @@ header * {
 }
 
 .desktop-header .user-svg {
-	content: url(./assets/svg/user.svg);
+	content: url(../assets/svg/user.svg);
 }
 
 .desktop-header .negative-triangle-svg {
-	content: url(./assets/svg/negative-triangle.svg);
+	content: url(../assets/svg/negative-triangle.svg);
 	height: 16px;
 	width: 16px;
 	transform: rotate(90deg);
@@ -233,11 +236,11 @@ header * {
 	}
 
 	.mobile-header .close-svg {
-		content: url(./assets/svg/close.svg);
+		content: url(../assets/svg/close.svg);
 	}
 
 	.mobile-header .bar-svg {
-		content: url(./assets/svg/bar.svg);
+		content: url(../assets/svg/bar.svg);
 	}
 
 	.mobile-header .mobile-header-btns {
@@ -310,7 +313,7 @@ header * {
 
 	.explore-menu .drop-down-arrow-svg,
 	.settings-menu .drop-down-arrow-svg {
-		content: url(./assets/svg/drop-down-arrow.svg);
+		content: url(../assets/svg/drop-down-arrow.svg);
 		transition: transform 200ms ease-in-out;
 	}
 

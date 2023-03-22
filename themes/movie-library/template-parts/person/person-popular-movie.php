@@ -16,7 +16,7 @@ use Movie_Library\Taxonomy\Non_Hierarchical\Tag;
 use Movie_Library\Taxonomy\Hierarchical\Genre;
 
 ?>
-<div class="section">
+<div id="family" class="section">
 	<h3 class="section-title">
 		<?php esc_html_e( 'Popular Movies', 'movie-library' ); ?>
 	</h3>

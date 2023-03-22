@@ -14,7 +14,7 @@ require_once get_stylesheet_directory() . '/includes/common-utility.php';
 use Movie_Library\Taxonomy\Hierarchical\Genre;
 ?>
 
-<div class="movie-cover">
+<div class="movie-cover max-container">
 	<?php $src = get_thumbnail_attachment_url( get_the_ID() ); ?>
 
 	<img class="cover-image" src="<?php echo esc_url( $src ); ?>" alt="<?php get_the_title(); ?>" />
@@ -29,6 +29,18 @@ use Movie_Library\Taxonomy\Hierarchical\Genre;
 
 	// get the release date and format it.
 	$release_date = get_post_release_date( get_the_ID() );
+
+	// get video link.
+	$videos = get_post_meta( get_the_ID(), 'rt-media-meta-videos', true );
+
+	if ( ! is_array( $videos ) ) {
+		$videos = array();
+	}
+
+	$videos = array_slice( $videos, 0, 3 );
+	$video  = array_shift( $videos );
+
+	$video_src = wp_get_attachment_url( $video );
 
 	?>
 	<div class="info">
@@ -52,7 +64,16 @@ use Movie_Library\Taxonomy\Hierarchical\Genre;
 			$term_names = get_terms_list( get_the_ID(), Genre::SLUG );
 
 			foreach ( $term_names as $term_name ) :
-				echo '<li class="movie-genre-item">' . esc_html( $term_name ) . '</li>';
+				// create the archive page link of term.
+				$term_link = get_term_link( $term_name, Genre::SLUG );
+
+				?>
+				<li class="movie-genre-item hover-btn">
+					<a href="<?php echo esc_url( $term_link ); ?>">
+						<?php echo esc_html( $term_name ); ?>
+					</a>
+				</li>
+				<?php
 			endforeach;
 			?>
 		</ul>
@@ -67,14 +88,21 @@ use Movie_Library\Taxonomy\Hierarchical\Genre;
 				}
 
 				foreach ( $directors as $director ) :
+					// get the permalink of the director.
+					$director_link = get_permalink( $director );
+
 					?>
-					<li class="movie-director-item"><?php echo esc_html( get_the_title( $director ) ); ?></li>
+					<li class="movie-director-item">
+						<a href="<?php echo esc_url( $director_link ); ?>">
+							<?php echo esc_html( get_the_title( $director ) ); ?>
+						</a>
+					</li>
 					<?php
 				endforeach;
 				?>
 			</ul>
 		</div>
-		<button class="movie-watch-btn">
+		<button class="video-btn movie-watch-btn" video-src="<?php echo esc_url( $video_src ); ?>" >
 			<span class="circle-in-btn">
 				<img class="play-icon" src="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/svg/watch.svg" alt="Play" />
 			</span>

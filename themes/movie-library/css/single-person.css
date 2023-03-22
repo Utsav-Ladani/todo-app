@@ -36,9 +36,10 @@
 
 /** Videos Styles */
 .videos-list {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(min(50%, max(384px, 16.6666666667%)), 1fr));
+	justify-items: center;
 	column-gap: 32px;
 	row-gap: 24px;
 	padding: 0;
@@ -46,12 +47,13 @@
 }
 
 .videos-list .video-item {
-	height: 246px;
-	width: 384px;
+	width: 100%;
+	aspect-ratio: 384/246;
 	display: grid;
 	place-items: center;
 	background-position: center;
 	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 .videos-list .video-btn {
@@ -79,7 +81,7 @@
 	width: 100%;
 	height: 100vh;
 	background-color: rgba(0, 0, 0, 0.9098039216);
-	z-index: 10;
+	z-index: 99999;
 	display: grid;
 	place-items: center;
 }
@@ -110,7 +112,7 @@
 }
 
 /** Media Query for the image and video gallery for mobile view. */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1200px) {
 
 	/** Snapshots Styles */
 	.snapshots-list {
@@ -129,13 +131,14 @@
 
 	/** Videos Styles */
 	.videos-list {
-		flex-direction: row;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, max(327px, 33.3333333333%)), 1fr));
 		column-gap: 16px;
 	}
 
 	.videos-list .video-item {
-		height: 210px;
-		width: 100%;
+		min-height: 210px;
+		max-width: 400px;
+		aspect-ratio: 327/210;
 	}
 
 	.videos-list .video-btn {
@@ -218,8 +221,8 @@
 	margin-bottom: 120px;
 }
 
-/** Media Query for cover na video section */
-@media screen and (max-width: 768px) {
+/** Media Query for cover video section for desktop devices */
+@media screen and (max-width: 1200px) {
 
 	/** Person */
 	.person-cover {
@@ -229,8 +232,8 @@
 	}
 
 	.person-image {
-		height: 286px;
-		width: 224px;
+		height: 600px;
+		width: 500px;
 		object-fit: cover;
 	}
 
@@ -282,5 +285,15 @@
 	/** Person videos section */
 	.person-videos-section {
 		margin-bottom: 64px;
+	}
+}
+
+/** Media Query for cover video section for mobile devices */
+@media screen and (max-width: 768px) {
+
+	.person-image {
+		height: 286px;
+		width: 224px;
+		object-fit: cover;
 	}
 }

@@ -25,6 +25,7 @@ Text Domain: movie-library
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
+	scroll-behavior: smooth;
 }
 
 #page {
@@ -32,6 +33,18 @@ Text Domain: movie-library
 	overflow-y: hidden;
 	font-family: Heebo, cursive;
 	font-style: normal;
+	display: grid;
+	grid-template-rows: auto 1fr auto;
+	min-height: 100vh;
+}
+
+a {
+	text-decoration: none;
+	color: unset;
+}
+
+.link-flex {
+	display: flex;
 }
 
 button {
@@ -39,9 +52,30 @@ button {
 	background-color: transparent;
 }
 
+button:hover,
+.hover-btn:hover {
+	cursor: pointer;
+	border-color: #ff6a6a;
+	color: #ff6a6a;
+}
+
+img {
+	content: url(./assets/svg/placeholder-image.svg);
+}
+
+img[src*="http"] {
+	content: unset;
+}
+
+.max-container {
+	max-width: 1440px;
+	margin: 0 auto;
+}
+
 /** Section Styles */
 .section {
-	margin-top: 120px;
+	max-width: 1440px;
+	margin: 120px auto 0 auto;
 	padding: 0 112px;
 	color: #fff;
 }
@@ -85,6 +119,25 @@ button {
 
 .the-content a {
 	color: #e46d62;
+}
+
+/** Media Query for the desktop  */
+@media screen and (max-width: 1200px) {
+
+	.section-with-sidebar {
+		display: block;
+		column-gap: 0;
+	}
+
+	.the-content {
+		max-width: 100%;
+		font-size: 14px;
+		line-height: 24px;
+	}
+
+	.hidden-sidebar {
+		display: none;
+	}
 }
 
 /** Sidebar Styles */
@@ -138,7 +191,7 @@ button {
 	padding: 0;
 	list-style: none;
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(min(100%, max(384px, 10%)), 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(min(50%, max(384px, 10%)), 1fr));
 	justify-items: center;
 	row-gap: 32px;
 	column-gap: 32px;
@@ -146,6 +199,7 @@ button {
 
 .movie-card-item {
 	width: 100%;
+	max-width: 600px;
 	overflow: hidden;
 	font-family: Heebo, cursive;
 	display: flex;
@@ -207,7 +261,7 @@ button {
 .movie-card-item .movie-genre-list :not(:first-child)::before {
 	line-height: 12px;
 	content: "•";
-	padding: 0 4px;
+	padding: 0 4px 0 8px;
 }
 
 .movie-card-item .movie-runtime {
@@ -238,16 +292,6 @@ button {
 
 	.section-padding-bottom {
 		padding-bottom: 64px;
-	}
-
-	.section-with-sidebar {
-		display: block;
-		column-gap: 0;
-	}
-
-	.the-content {
-		font-size: 14px;
-		line-height: 24px;
 	}
 
 	.hidden {

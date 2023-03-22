@@ -11,14 +11,14 @@ get_header();
 get_template_part( 'template-parts/movie/movie-cover' );
 
 ?>
-	<div class="section section-with-sidebar">
+	<div id="synopsis" class="section section-with-sidebar">
 		<div>
 			<h3 class="section-title"><?php esc_html_e( 'Synopsis', 'movie-library' ); ?></h3>
 			<div class="the-content">
 				<?php echo wp_kses_post( get_the_content() ); ?>
 			</div>
 		</div>
-		<div class="hidden">
+		<div class="hidden-sidebar">
 			<?php
 			if ( has_nav_menu( 'quick-link-menu-movie' ) ) :
 				?>

@@ -40,16 +40,20 @@ get_header();
 			?>
 			<li class="person-archive-item">
 				<div class="person-archive-item-first">
-					<img class="person-archive-image" src="<?php echo esc_url( $src ); ?>" alt="<?php echo esc_html( $person_name ); ?>" />
+					<a class="person-archive-image-link" href="<?php echo esc_url( $person_link ); ?>" >
+						<img class="person-archive-image" src="<?php echo esc_url( $src ); ?>" alt="<?php echo esc_html( $person_name ); ?>" />
+					</a>
 					<div class="person-info-wrapper">
-						<h3 class="person-title">
-							<span><?php echo esc_html( $person_name ); ?></span>
-							<?php
-							if ( $movie_id && $character_name ) {
-								echo '<span class="character-name">(' . esc_html( $character_name ) . ')</span>';
-							}
-							?>
-						</h3>
+						<a href="<?php echo esc_url( $person_link ); ?>" >
+							<h3 class="person-title">
+								<span><?php echo esc_html( $person_name ); ?></span>
+								<?php
+								if ( $movie_id && $character_name ) {
+									echo '<span class="character-name">(' . esc_html( $character_name ) . ')</span>';
+								}
+								?>
+							</h3>
+						</a>
 						<div class="person-born">
 							<?php echo esc_html__( 'Born', 'movie-library' ) . ' - ' . esc_html( $birth_date ); ?>
 						</div>

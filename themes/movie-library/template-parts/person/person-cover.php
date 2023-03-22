@@ -13,7 +13,7 @@ require_once get_stylesheet_directory() . '/includes/common-utility.php';
 require_once get_stylesheet_directory() . '/includes/person-utility.php';
 ?>
 
-<div class="person-cover">
+<div class="person-cover max-container">
 	<?php $src = get_thumbnail_attachment_url( get_the_ID() ); ?>
 
 	<img class="person-image" src="<?php echo esc_url( $src ); ?>" alt="">
@@ -129,6 +129,14 @@ require_once get_stylesheet_directory() . '/includes/person-utility.php';
 						array(
 							'type' => 'twitter',
 							'id'   => 'rt-person-meta-social-twitter',
+						),
+						array(
+							'type' => 'facebook',
+							'id'   => 'rt-person-meta-social-facebook',
+						),
+						array(
+							'type' => 'web',
+							'id'   => 'rt-person-meta-social-web',
 						),
 					);
 
