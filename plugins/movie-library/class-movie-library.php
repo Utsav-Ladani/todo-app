@@ -43,6 +43,9 @@ use Movie_Library\Shortcode\Person_Shortcode;
 // setting.
 use Movie_Library\Setting\Setting;
 
+// widget.
+use Movie_Library\Widget\IMDB_Dashboard_Widget;
+
 /**
  * Main class of the plugin.
  *
@@ -89,6 +92,9 @@ abstract class Movie_Library {
 
 		// add setting.
 		Setting::init();
+
+		// add widget.
+		IMDB_Dashboard_Widget::init();
 	}
 
 	/**
