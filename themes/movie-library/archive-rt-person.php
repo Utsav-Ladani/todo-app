@@ -71,7 +71,7 @@ get_header();
 						</div>
 						<a href="<?php echo esc_url( get_permalink( $person_id ) ); ?>" class="archive-page-link">
 							<span><?php esc_html_e( 'Learn More', 'movie-library' ); ?></span>
-							<img src="<?php echo esc_html( get_stylesheet_directory_uri() ); ?>/assets/svg/arrow-red-small.svg" alt="" />
+							<img src="<?php echo esc_html( get_stylesheet_directory_uri() ); ?>/assets/svg/arrow-red-small.svg" alt="<?php esc_html_e( 'Learn more arrow', 'movie-library' ); ?>" />
 						</a>
 					</div>
 				</li>

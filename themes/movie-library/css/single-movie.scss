@@ -145,7 +145,7 @@ $nav-bg-color: #111;
 }
 
 .movie-director-item:not(:first-child)::before {
-	content: '\2022';
+	content: "\2022";
 	margin: 0 8px;
 }
 

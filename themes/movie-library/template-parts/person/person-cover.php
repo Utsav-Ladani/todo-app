@@ -14,7 +14,7 @@ require_once get_stylesheet_directory() . '/includes/person-utility.php';
 ?>
 
 <div class="person-cover max-container">
-	<img class="person-image" src="<?php echo esc_url( get_thumbnail_attachment_url( get_the_ID() ) ); ?>" alt="">
+	<img class="person-image" src="<?php echo esc_url( get_thumbnail_attachment_url( get_the_ID() ) ); ?>" alt="<?php esc_html_e( 'Person Image', 'movie-library' ); ?>">
 	<div class="person-info">
 		<div class="person-name-wrap">
 			<?php the_title( '<h1 class="person-name">', '</h1>' ); ?>
@@ -150,7 +150,7 @@ require_once get_stylesheet_directory() . '/includes/person-utility.php';
 							$src = get_stylesheet_directory_uri() . '/assets/svg/' . $social['type'] . '-small.svg';
 							?>
 							<a class="person-social-item" href="<?php echo esc_url( $url ); ?>" target="_blank">
-								<img src="<?php echo esc_attr( $src ); ?>" alt="" />
+								<img src="<?php echo esc_attr( $src ); ?>" alt="<?php esc_html_e( 'Social Icon', 'movie-library' ); ?>" />
 							</a>
 							<?php
 						}

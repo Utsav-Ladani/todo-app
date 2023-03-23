@@ -25,7 +25,7 @@
 		foreach ( $images as $image ) {
 			?>
 			<li class="snapshot-item">
-				<img class="snapshot-image" src="<?php echo esc_url( wp_get_attachment_url( $image ) ); ?>" alt="">
+				<img class="snapshot-image" src="<?php echo esc_url( wp_get_attachment_url( $image ) ); ?>" alt="<?php esc_html_e( 'Snapshot Image', 'movie-library' ); ?>">
 			</li>
 			<?php
 		}

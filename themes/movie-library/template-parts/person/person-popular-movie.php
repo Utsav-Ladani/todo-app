@@ -46,7 +46,7 @@ use Movie_Library\Taxonomy\Hierarchical\Genre;
 
 				?>
 				<li class="movie-card-item">
-					<img class="movie-image" src="<?php echo esc_url( get_thumbnail_attachment_url( $movie->ID ) ); ?>" alt="" />
+					<img class="movie-image" src="<?php echo esc_url( get_thumbnail_attachment_url( $movie->ID ) ); ?>" alt="<?php esc_html_e( 'Movie Image', 'movie-library' ); ?>" />
 					<div class="movie-info">
 						<h4 class="movie-title">
 							<?php echo esc_html( $movie->post_title ); ?>

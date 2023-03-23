@@ -2,6 +2,7 @@ themes/twentytwentyone/
 **/*.js
 **/*.php
 **/*.png
+**/*.jpg
 **/*.svg
 **/*.pot
 **/*.map
