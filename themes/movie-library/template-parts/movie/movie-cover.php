@@ -15,21 +15,9 @@ use Movie_Library\Taxonomy\Hierarchical\Genre;
 ?>
 
 <div class="movie-cover max-container">
-	<?php $src = get_thumbnail_attachment_url( get_the_ID() ); ?>
-
-	<img class="cover-image" src="<?php echo esc_url( $src ); ?>" alt="<?php get_the_title(); ?>" />
+	<img class="cover-image" src="<?php echo esc_url( get_thumbnail_attachment_url( get_the_ID() ) ); ?>" alt="<?php get_the_title(); ?>" />
 
 	<?php
-
-	// get the rating.
-	$rating = get_post_rating( get_the_ID() );
-
-	// get the runtime and format it.
-	$runtime = get_post_runtime( get_the_ID(), 'H', 'M' );
-
-	// get the release date and format it.
-	$release_date = get_post_release_date( get_the_ID() );
-
 	// get video link.
 	$videos = get_post_meta( get_the_ID(), 'rt-media-meta-videos', true );
 
@@ -37,23 +25,19 @@ use Movie_Library\Taxonomy\Hierarchical\Genre;
 		$videos = array();
 	}
 
-	$videos = array_slice( $videos, 0, 3 );
-	$video  = array_shift( $videos );
-
+	$video     = array_shift( $videos );
 	$video_src = wp_get_attachment_url( $video );
 
 	?>
 	<div class="info">
-		<h1 class="movie-cover-title" >
-			<?php the_title(); ?>
-		</h1>
+		<h1 class="movie-cover-title" ><?php the_title(); ?></h1>
 		<div class="basic-meta-info">
 			<span class="basic-meta-item rating">
-				<img class="rating-icon" src="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/svg/star.svg" alt="Rating" /><?php echo esc_html( $rating ) . '/10'; ?>
+				<img class="rating-icon" src="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/svg/star.svg" alt="Rating" /><?php echo esc_html( get_post_rating( get_the_ID() ) ) . '/10'; ?>
 			</span>
-			<span class="basic-meta-item"><?php echo wp_kses( $release_date, array( 'span' => array( 'class' => array() ) ) ); ?></span>
+			<span class="basic-meta-item"><?php echo wp_kses( get_post_release_date( get_the_ID() ), array( 'span' => array( 'class' => array() ) ) ); ?></span>
 			<span class="basic-meta-item"><?php echo esc_html( 'PG-13' ); ?></span>
-			<span class="basic-meta-item"><?php echo esc_html( $runtime ); ?></span>
+			<span class="basic-meta-item"><?php echo esc_html( get_post_runtime( get_the_ID(), 'H', 'M' ) ); ?></span>
 		</div>
 		<div class="movie-cover-description">
 			<?php echo wp_kses_post( get_the_excerpt() ); ?>
@@ -64,12 +48,9 @@ use Movie_Library\Taxonomy\Hierarchical\Genre;
 			$term_names = get_terms_list( get_the_ID(), Genre::SLUG );
 
 			foreach ( $term_names as $term_name ) :
-				// create the archive page link of term.
-				$term_link = get_term_link( $term_name, Genre::SLUG );
-
 				?>
 				<li class="movie-genre-item hover-btn">
-					<a href="<?php echo esc_url( $term_link ); ?>">
+					<a href="<?php echo esc_url( get_term_link( $term_name, Genre::SLUG ) ); ?>">
 						<?php echo esc_html( $term_name ); ?>
 					</a>
 				</li>
@@ -88,14 +69,9 @@ use Movie_Library\Taxonomy\Hierarchical\Genre;
 				}
 
 				foreach ( $directors as $director ) :
-					// get the permalink of the director.
-					$director_link = get_permalink( $director );
-
 					?>
 					<li class="movie-director-item">
-						<a href="<?php echo esc_url( $director_link ); ?>">
-							<?php echo esc_html( get_the_title( $director ) ); ?>
-						</a>
+						<a href="<?php echo esc_url( get_permalink( $director ) ); ?>"><?php echo esc_html( get_the_title( $director ) ); ?></a>
 					</li>
 					<?php
 				endforeach;
@@ -110,6 +86,3 @@ use Movie_Library\Taxonomy\Hierarchical\Genre;
 		</button>
 	</div>
 </div>
-
-
-

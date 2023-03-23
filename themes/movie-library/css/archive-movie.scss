@@ -99,7 +99,7 @@ $nav-bg-color: #111;
 	}
 
 	.basic-meta-item:not(:last-child)::after {
-		content: "•";
+		content: '\2022';
 		padding: 0 8px;
 	}
 

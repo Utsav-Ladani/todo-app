@@ -23,12 +23,9 @@
 		$videos = array_slice( $videos, 0, 3 );
 
 		foreach ( $videos as $video_id ) {
-			$video_poster_url = get_the_post_thumbnail_url( $video_id );
-			$video_src        = wp_get_attachment_url( $video_id );
-
 			?>
-			<li class="video-item"  style="background-image: url('<?php echo esc_url( $video_poster_url ); ?>')">
-				<button class="video-btn" video-src="<?php echo esc_url( $video_src ); ?>">
+			<li class="video-item"  style="background-image: url('<?php echo esc_url( get_the_post_thumbnail_url( $video_id ) ); ?>')">
+				<button class="video-btn" video-src="<?php echo esc_url( wp_get_attachment_url( $video_id ) ); ?>">
 					<img class="video-svg" src="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/svg/play.svg" alt="" />
 				</button>
 			</li>

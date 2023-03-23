@@ -67,11 +67,15 @@ button:hover,
 }
 
 img {
-	content: url(./assets/svg/placeholder-image.svg);
+	content: url(./assets/images/placeholder.jpg);
 }
 
 img[src*="http"] {
 	content: unset;
+}
+
+li {
+	font-size: 0;
 }
 
 .max-container {
@@ -218,7 +222,7 @@ img[src*="http"] {
 
 .movie-card-item {
 	width: 100%;
-	max-width: 600px;
+	max-width: max(450px, min(240px, calc(30%)));
 	overflow: hidden;
 	font-family: Heebo, cursive;
 	display: flex;
@@ -260,7 +264,7 @@ img[src*="http"] {
 		font-size: 16px;
 		line-height: 24px;
 
-		color: #ffffff7f;
+		color: rgba(255, 255, 255, 0.5);
 	}
 
 	.movie-tag {
@@ -269,7 +273,7 @@ img[src*="http"] {
 		line-height: 24px;
 		text-transform: uppercase;
 
-		color: #ffffff7f;
+		color: rgba(255, 255, 255, 0.5);
 	}
 
 	.movie-genre-list {
@@ -279,9 +283,11 @@ img[src*="http"] {
 		list-style: none;
 
 		:not(:first-child)::before {
-			line-height: 12px;
-			content: "•";
-			padding: 0 4px 0 8px;
+			color: rgba(255, 255, 255, 0.5);
+			line-height: 16px;
+			font-size: 16px;
+			content: "\2022";
+			padding: 0 8px;
 		}
 	}
 
@@ -289,13 +295,13 @@ img[src*="http"] {
 		font-weight: 400;
 		font-size: 20px;
 		line-height: 32px;
-		color: #ffffff7f;
+		color: rgba(255, 255, 255, 0.5);
 	}
 
 	.movie-genre-item {
 		font-weight: 400;
 		font-size: 16px;
-		color: #ffffff7f;
+		color: rgba(255, 255, 255, 0.5);
 	}
 }
 
@@ -348,7 +354,7 @@ img[src*="http"] {
 		display: grid;
 		grid-template-columns: unset;
 		grid-auto-flow: column;
-		grid-auto-columns: max(156px, calc(50% - 8px));
+		grid-auto-columns: max(156px, min(200px, calc(50% - 8px)));
 
 		overflow-x: auto;
 
@@ -389,7 +395,8 @@ img[src*="http"] {
 		.movie-genre-list {
 
 			:not(:first-child)::before {
-				line-height: 12px;
+				font-size: 8px;
+				line-height: 8px;
 				padding: 0 2px;
 			}
 		}

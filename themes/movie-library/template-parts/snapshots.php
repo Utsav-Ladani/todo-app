@@ -13,24 +13,22 @@
 		<?php echo esc_html( $args['Title'] ?? esc_html__( 'Snapshots', 'movie-library' ) ); ?>
 	</h3>
 	<ul class="snapshots-list">
-	<?php
+		<?php
 		$images = get_post_meta( get_the_ID(), 'rt-media-meta-images', true );
 
-	if ( ! is_array( $images ) ) {
-		$images = array();
-	}
+		if ( ! is_array( $images ) ) {
+			$images = array();
+		}
 
 		$images = array_slice( $images, 0, 6 );
 
-	foreach ( $images as $image ) {
-		$image = wp_get_attachment_url( $image );
-
-		?>
+		foreach ( $images as $image ) {
+			?>
 			<li class="snapshot-item">
-				<img class="snapshot-image" src="<?php echo esc_url( $image ); ?>" alt="">
+				<img class="snapshot-image" src="<?php echo esc_url( wp_get_attachment_url( $image ) ); ?>" alt="">
 			</li>
 			<?php
-	}
-	?>
+		}
+		?>
 	</ul>
 </div>

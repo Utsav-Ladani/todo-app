@@ -22,15 +22,13 @@
 	);
 
 	foreach ( $reviews as $review ) {
-		// author link.
-		$author_link = get_comment_author_url( $review->comment_ID );
 		?>
 		<li class="review-item">
 			<div class="review-header">
-				<a href="<?php echo esc_url( $author_link ); ?>" >
+				<a href="<?php echo esc_url( get_comment_author_url( $review->comment_ID ) ); ?>" >
 					<img class="review-avatar" src="<?php echo esc_url( get_avatar_url( $review->comment_author_email ) ); ?>" alt="">
 				</a>
-				<a href="<?php echo esc_url( $author_link ); ?>" >
+				<a href="<?php echo esc_url( get_comment_author_url( $review->comment_ID ) ); ?>" >
 					<div class="review-author-name"><?php echo esc_html( $review->comment_author ); ?></div>
 				</a>
 				<span class="review-rating">

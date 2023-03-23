@@ -14,16 +14,14 @@ require_once get_stylesheet_directory() . '/includes/person-utility.php';
 ?>
 
 <div class="person-cover max-container">
-	<?php $src = get_thumbnail_attachment_url( get_the_ID() ); ?>
-
-	<img class="person-image" src="<?php echo esc_url( $src ); ?>" alt="">
+	<img class="person-image" src="<?php echo esc_url( get_thumbnail_attachment_url( get_the_ID() ) ); ?>" alt="">
 	<div class="person-info">
 		<div class="person-name-wrap">
 			<?php the_title( '<h1 class="person-name">', '</h1>' ); ?>
 			<?php
 			$full_name = get_post_meta( get_the_ID(), 'rt-person-meta-basic-full-name', true );
 			$full_name = $full_name ?? '';
-			echo '<span class="person-full-name">' . esc_html( $full_name ) . '</span>';
+			printf( '<span class="person-full-name">%s</span>', esc_html( $full_name ) );
 			?>
 		</div>
 		<?php
@@ -101,7 +99,7 @@ require_once get_stylesheet_directory() . '/includes/person-utility.php';
 				<td><?php esc_html_e( 'Upcoming Movie', 'movie-library' ); ?>:</td>
 				<td>
 					<?php
-						$count = count( $upcoming_movies );
+					$count = count( $upcoming_movies );
 					foreach ( $upcoming_movies as $upcoming_movie ) {
 						echo esc_html( $upcoming_movie->post_title );
 

@@ -2,209 +2,202 @@
  * Archive Person page
  * It contains styles of person list on archive page.
  */
-
 /** Variables */
-
 /** Archive Person section */
 .archive-section {
-	padding-bottom: 120px;
+  padding-bottom: 120px;
 }
 
 .archive-section-title {
-	font-family: "Big Shoulders Display", sans-serif;
-	font-style: normal;
-	font-weight: 700;
-	font-size: 64px;
-	line-height: 72px;
-	margin-bottom: 80px;
+  font-family: "Big Shoulders Display", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 72px;
+  margin-bottom: 80px;
 }
 
 .person-archive-list {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(min(100%, max(500px, 33.3333333333%)), 1fr));
-	justify-content: center;
-	align-items: start;
-	align-content: start;
-	justify-items: center;
-	row-gap: 32px;
-	column-gap: 32px;
-	padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, max(500px, 33.33%)), 1fr));
+  justify-content: center;
+  align-items: start;
+  align-content: start;
+  justify-items: center;
+  row-gap: 32px;
+  column-gap: 32px;
+  padding: 0;
 }
 
 .person-archive-item {
-	height: 100%;
-	width: 100%;
-	max-width: 700px;
-	display: flex;
-	background-color: #2a2a2a;
+  height: 100%;
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  background-color: #2a2a2a;
 }
 
 .person-archive-item-first {
-	height: 100%;
-	display: flex;
-	align-items: center;
+  height: 224px;
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  overflow: hidden;
 }
 
 .person-info-wrapper {
-	font-family: Heebo, cursive;
-	font-style: normal;
-	font-weight: 400;
-	padding: 32px 24px;
-	display: flex;
-	flex-direction: column;
-	row-gap: 8px;
+  font-family: Heebo, cursive;
+  font-style: normal;
+  font-weight: 400;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
 }
 
 .person-title {
-	font-family: "Big Shoulders Display", sans-serif;
-	font-style: normal;
-	font-weight: 700;
-	font-size: 32px;
-	line-height: 40px;
+  font-family: "Big Shoulders Display", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 40px;
 }
-
 .person-title .character-name {
-	font-size: 24px;
-	line-height: 40px;
+  font-size: 24px;
+  line-height: 40px;
 }
 
 .person-born {
-	font-size: 14px;
-	line-height: 24px;
-	color: rgba(255, 255, 255, 0.4980392157);
+  font-size: 14px;
+  line-height: 24px;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .archive-person-excerpt {
-	font-size: 16px;
-	line-height: 24px;
+  font-size: 16px;
+  line-height: 24px;
+  max-height: 48px;
+  overflow: hidden;
 }
 
 .archive-page-link {
-	font-weight: 400;
-	font-size: 14px;
-	line-height: 24px;
-	color: #e46d62;
-	text-decoration: none;
-	display: flex;
-	column-gap: 5px;
-	justify-content: start;
-	align-items: center;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: #e46d62;
+  text-decoration: none;
+  display: flex;
+  column-gap: 5px;
+  justify-content: start;
+  align-items: center;
 }
-
 .archive-page-link .arrow-icon {
-	height: 16px;
-	width: 16px;
-}
-
-.person-archive-image {
-	width: 153px;
-	height: 100%;
-	object-fit: cover;
+  height: 16px;
+  width: 16px;
 }
 
 .person-archive-image-link {
-	width: 153px;
-	height: 100%;
+  display: flex;
+  width: 153px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.person-archive-image {
+  width: 153px;
+  height: 100%;
+  object-fit: cover;
 }
 
 /** Load More Button */
 .center-div {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .load-more-btn {
-	padding: 16px 40px;
-	margin: 56px 0 0 0;
-	border: 1px solid #fff;
-	border-radius: 30px;
-	background-color: transparent;
-	justify-self: center;
+  padding: 16px 40px;
+  margin: 56px 0 0 0;
+  border: 1px solid #fff;
+  border-radius: 30px;
+  background-color: transparent;
+  justify-self: center;
 }
 
 /** Media Query for mobile view */
 @media screen and (max-width: 768px) {
-
-	/** Archive Person page */
-	.archive-section {
-		padding-bottom: 64px;
-	}
-
-	.archive-section-title {
-		font-size: 32px;
-		line-height: 40px;
-		margin-bottom: 48px;
-	}
-
-	.person-archive-list {
-		display: grid;
-		row-gap: 16px;
-	}
-
-	.person-archive-item {
-		max-width: 400px;
-		flex-direction: column;
-	}
-
-	.person-archive-item-second {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		padding: 12px;
-		row-gap: 12px;
-	}
-
-	.person-info-wrapper {
-		padding: 12px;
-		row-gap: 16px;
-	}
-
-	.person-info-wrapper .hidden {
-		display: none;
-	}
-
-	.person-title {
-		font-size: 20px;
-		line-height: 24px;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.person-title .character-name {
-		font-size: 14px;
-		line-height: 24px;
-	}
-
-	.person-born {
-		font-size: 10px;
-		line-height: 16px;
-	}
-
-	.archive-person-excerpt {
-		font-size: 12px;
-		line-height: 18px;
-	}
-
-	.archive-page-link {
-		font-size: 12px;
-		line-height: 16px;
-	}
-
-	.archive-page-link .arrow-icon {
-		height: 14px;
-		width: 14px;
-	}
-
-	.person-archive-image {
-		width: 72px;
-		height: 100%;
-		min-height: 105px;
-		object-fit: cover;
-	}
-
-	.person-archive-image-link {
-		width: 72px;
-		height: 100%;
-	}
+  /** Archive Person page */
+  .archive-section {
+    padding-bottom: 64px;
+  }
+  .archive-section-title {
+    font-size: 32px;
+    line-height: 40px;
+    margin-bottom: 48px;
+  }
+  .person-archive-list {
+    display: grid;
+    row-gap: 16px;
+  }
+  .person-archive-item {
+    max-width: 400px;
+    flex-direction: column;
+  }
+  .person-archive-item-first {
+    height: 105px;
+    justify-content: start;
+    overflow: hidden;
+  }
+  .person-archive-item-second {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    row-gap: 12px;
+  }
+  .person-info-wrapper {
+    padding: 12px;
+    row-gap: 16px;
+  }
+  .person-info-wrapper .hidden {
+    display: none;
+  }
+  .person-title {
+    font-size: 20px;
+    line-height: 24px;
+    display: flex;
+    flex-direction: column;
+  }
+  .person-title .character-name {
+    font-size: 14px;
+    line-height: 24px;
+  }
+  .person-born {
+    font-size: 10px;
+    line-height: 16px;
+  }
+  .archive-person-excerpt {
+    font-size: 12px;
+    line-height: 18px;
+  }
+  .archive-page-link {
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .archive-page-link .arrow-icon {
+    height: 14px;
+    width: 14px;
+  }
+  .person-archive-image {
+    width: 72px;
+    height: 100%;
+    min-height: 105px;
+    object-fit: cover;
+  }
+  .person-archive-image-link {
+    width: 72px;
+  }
 }
+
+/*# sourceMappingURL=archive-person.css.map */

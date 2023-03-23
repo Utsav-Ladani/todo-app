@@ -12,9 +12,9 @@
 <?php
 require_once get_stylesheet_directory() . '/includes/common-utility.php';
 
-use \Movie_Library\Custom_Post_Type\Movie;
-use \Movie_Library\Taxonomy\Non_Hierarchical\Tag;
-use \Movie_Library\Taxonomy\Hierarchical\Genre;
+use Movie_Library\Custom_Post_Type\Movie;
+use Movie_Library\Taxonomy\Non_Hierarchical\Tag;
+use Movie_Library\Taxonomy\Hierarchical\Genre;
 ?>
 
 <div class="section trending-movies section-padding-bottom">
@@ -41,35 +41,22 @@ use \Movie_Library\Taxonomy\Hierarchical\Genre;
 			);
 
 			foreach ( $movies as $movie ) {
-				// get the image and title.
-				$src  = get_thumbnail_attachment_url( $movie->ID );
-				$name = $movie->post_title;
-
-				// get the runtime and format it.
-				$runtime = get_post_runtime( $movie->ID );
-
-				// get the release date and format it.
-				$release_date = get_post_release_date( $movie->ID );
-
 				// get the terms.
 				$term_names = get_terms_list( $movie->ID, Genre::SLUG );
 
-				// get the permalink.
-				$permalink = get_permalink( $movie->ID );
-
 				?>
 				<li class="movie-card-item">
-					<a class="link-flex" href="<?php echo esc_url( $permalink ); ?>">
-						<img class="movie-image" src="<?php echo esc_url( $src ); ?>" alt="" />
+					<a class="link-flex" href="<?php echo esc_url( get_permalink( $movie->ID ) ); ?>">
+						<img class="movie-image" src="<?php echo esc_url( get_thumbnail_attachment_url( $movie->ID ) ); ?>" alt="" />
 					</a>
 					<div class="movie-info">
-						<a href="<?php echo esc_url( $permalink ); ?>">
-						<h4 class="movie-title">
-							<?php echo esc_html( $name ); ?>
-						</h4>
+						<a href="<?php echo esc_url( get_permalink( $movie->ID ) ); ?>">
+							<h4 class="movie-title">
+								<?php echo esc_html( $movie->post_title ); ?>
+							</h4>
 						</a>
 						<span class="movie-runtime">
-							<?php echo esc_html( $runtime ); ?>
+							<?php echo esc_html( get_post_runtime( $movie->ID ) ); ?>
 						</span>
 						<ul class="movie-genre-list">
 							<?php
@@ -88,7 +75,7 @@ use \Movie_Library\Taxonomy\Hierarchical\Genre;
 							?>
 						</ul>
 						<span class="movie-date">
-							<?php echo esc_html( $release_date ); ?>
+							<?php echo esc_html( get_post_release_date( $movie->ID ) ); ?>
 						</span>
 					</div>
 				</li>
