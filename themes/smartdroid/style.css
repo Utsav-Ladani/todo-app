@@ -1,0 +1,329 @@
+/*
+Theme Name: SmartDroid
+Theme URI: https://rtcamp.com/wp-theme/smartdroid/
+Author: rtCamp
+Author URI: https://rtcamp.com/
+Description: These the is a clone of theme smartdroid.de
+Requires at least: 5.3
+Requires PHP: 7.4
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: smartdroid
+Domain Path: /languages
+*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-family: -apple-system, blinkmacsystemfont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+a {
+  text-decoration: unset;
+  color: unset;
+}
+
+ul {
+  list-style: none;
+}
+
+.page {
+  width: 100%;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.mobile {
+  display: none;
+}
+
+/** Header styles */
+header {
+  padding: 0.5rem 0;
+  width: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #ccc;
+}
+
+header {
+  /** Header primary Menu */
+  /** Header search form */
+}
+header .container {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 90vw;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  justify-content: space-between;
+}
+header .primary-menu-container {
+  justify-self: left;
+}
+header .primary-menu-container .primary-menu > .menu-item {
+  display: inline-block;
+  margin: 0 0.5rem;
+  position: relative;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.2;
+  color: #555555;
+}
+header .primary-menu-container .primary-menu > .menu-item:hover > a {
+  opacity: 0.75;
+}
+header .primary-menu-container .menu-item-has-children:hover > .sub-menu::before {
+  top: 12px;
+  left: 10px;
+  content: "";
+  border-style: solid;
+  border-width: 0 8px 8px 8px;
+  border-color: transparent transparent #333 transparent;
+  height: 0;
+  width: 0;
+  position: absolute;
+}
+header .primary-menu-container .menu-item-has-children:hover > .sub-menu {
+  display: inline-block;
+}
+header .primary-menu-container .sub-menu {
+  padding-top: 20px;
+  width: 12.5rem;
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: auto;
+  bottom: auto;
+  color: white;
+}
+header .primary-menu-container .sub-menu .menu-item {
+  font-weight: normal;
+  width: 100%;
+  padding: 16px 20px;
+  background-color: #333;
+}
+header .primary-menu-container .sub-menu > .menu-item:hover {
+  background-color: #020202;
+}
+header .custom-logo-link {
+  justify-self: left;
+}
+header .search-form-wrapper {
+  position: relative;
+  justify-self: right;
+}
+header .search-icon {
+  padding: 10px;
+  background-color: transparent;
+  border: none;
+}
+header .search-icon:hover {
+  opacity: 0.75;
+  cursor: pointer;
+}
+header .search-form {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  display: flex;
+  background-color: white;
+  border: solid 1px gray;
+  padding: 0 8px;
+}
+header .search-form button {
+  padding: 0 8px;
+  background-color: transparent;
+  border: none;
+}
+header .hide {
+  display: none;
+}
+header .search-form:hover {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid black;
+}
+header .search-btn:hover {
+  color: red;
+  cursor: pointer;
+}
+header .search-box {
+  padding: 8px;
+  font-family: georgia, garamond, "Times New Roman", serif;
+  font-size: 20px;
+  line-height: 32px;
+  border: none;
+  outline: none;
+}
+
+/** media query for the header */
+@media screen and (max-width: 1080px) {
+  .desktop {
+    display: none;
+  }
+  .mobile {
+    display: block;
+  }
+  header .container {
+    grid-template-columns: auto auto;
+  }
+  header .custom-logo-link img {
+    width: 140px;
+    height: auto;
+  }
+  header .menu-icon {
+    cursor: pointer;
+  }
+  header .mobile-sidebar-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.35);
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+  header .mobile-overlay {
+    width: 0;
+  }
+  header .mobile-sidebar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: red;
+    max-width: 400px;
+    width: 90%;
+    padding: 16px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s ease-in-out;
+  }
+  header .slide-out {
+    right: -100%;
+  }
+  header .close-icon {
+    align-self: flex-end;
+    cursor: pointer;
+  }
+  header .mobile-search-form {
+    margin: 10px 0;
+    background-color: white;
+    display: grid;
+    grid-template-columns: 1fr auto;
+  }
+  header .mobile-search-box {
+    width: 100%;
+    padding: 8px;
+    font-family: georgia, garamond, "Times New Roman", serif;
+    font-size: 16px;
+    line-height: 20px;
+    border: none;
+    outline: none;
+  }
+  header .mobile-search-btn {
+    padding: 0 8px;
+    background-color: transparent;
+    border: none;
+  }
+  header .mobile-search-btn:hover {
+    color: red;
+    cursor: pointer;
+  }
+  header .primary-mobile-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  header .menu-item > a:hover {
+    text-decoration: underline;
+    opacity: 0.75;
+  }
+  header .menu-item > .sub-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-left: 12px;
+    padding-top: 16px;
+    font-size: 14px;
+    font-weight: normal;
+  }
+  header .menu-item > .sub-menu .menu-item > a:hover {
+    opacity: 1;
+  }
+}
+/** Footer */
+footer {
+  padding: 0.5rem 0;
+  width: 100%;
+}
+
+footer .container {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 90vw;
+}
+footer .footer-site-title {
+  font-size: 16px;
+}
+footer .footer-hr {
+  width: 100%;
+  border: none;
+  height: 2px;
+  background-color: lightgray;
+  margin: 20px 0;
+}
+footer .footer-bottom-wrapper {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  row-gap: 12px;
+  column-gap: 24px;
+  color: rgb(81, 81, 81);
+}
+footer .footer-menu-container {
+  margin-bottom: 10px;
+  color: rgb(81, 81, 81);
+}
+footer .footer-menu {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  column-gap: 24px;
+  row-gap: 8px;
+  font-size: 14px;
+}
+footer .footer-company-name {
+  font-size: 14px;
+}
+footer .privacy-page-link {
+  font-size: 14px;
+}
+footer .privacy-page-link:hover {
+  color: red;
+}
+footer .footer-social {
+  margin-bottom: 24px;
+  transform: translateY(50%);
+  display: flex;
+  gap: 12px;
+}
+
+/** media query for the footer */
+@media screen and (max-width: 768px) {
+  footer .footer-bottom-wrapper {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */
