@@ -9,6 +9,12 @@ if( ! function_exists( 'setup_smartdroid_theme' ) ) {
 	function setup_smartdroid_theme() {
 		add_theme_support( 'custom-logo' );
 
+		// Add support for post thumbnails.
+		add_theme_support( 'post-thumbnails' );
+
+		// Add support for Block Styles.
+		add_theme_support( 'wp-block-styles' );
+
 		register_nav_menus(
 			array(
 				'primary-menu' => esc_html__( 'Primary Menu', 'smartdroid' ),
