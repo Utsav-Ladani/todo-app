@@ -53,13 +53,16 @@
             <div class="container" >
 				<?php echo get_custom_logo(); ?>
                 <span class="menu-icon">
-                    <i class="fa fa-lg fa-bars"></i> Menu
+                    <i class="fa fa-lg fa-bars"></i>
+                    <?php esc_html_e( 'Menu', 'smartdroid' ); ?>
                 </span>
             </div>
             <div class="mobile-sidebar-wrapper mobile-overlay">
                 <aside class="mobile-sidebar slide-out">
                     <span class="close-icon">
-                        <i class="fa fa-close"></i> close
+                        <i class="fa fa-close"></i>
+                        <?php esc_html_e( 'close', 'smartdroid' ); ?>
+
                     </span>
                     <form class="mobile-search-form">
                         <input type="text" name="s" id="s" class="mobile-search-box" placeholder="<?php esc_html_e('Seek...', 'smartdroid'); ?>" />
@@ -81,4 +84,4 @@
             </div>
         </header>
 
-        <div id="content" class="content">
+        <div id="content" class="container content">
