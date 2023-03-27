@@ -854,7 +854,23 @@ footer .footer-social {
 .comments-pagination .nav-links {
   flex-direction: row;
   justify-content: center;
-  column-gap: 2em;
+  column-gap: 0.8em;
+}
+.comments-pagination .page-numbers:not(.dots) {
+  height: 1.8em;
+  width: 1.8em;
+  border: none;
+  color: white;
+  background-color: #515151;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 0.8em;
+}
+.comments-pagination .page-numbers:not(.dots):hover {
+  background-color: #666666;
+  cursor: pointer;
 }
 
 /** media query for Comments */
@@ -909,16 +925,33 @@ footer .footer-social {
   background-color: #515151;
   cursor: pointer;
 }
-.comment-form > * {
-  display: flex;
-  flex-direction: column;
-}
 
 .comment__grid--span-2,
 .comment-form-comment,
 .comment-form-url,
-.comment-form-cookies-consent {
+.comment-form-cookies-consent,
+.logged-in-as {
   grid-column: 1/span 2;
+}
+
+.comment-form-comment {
+  display: flex;
+  flex-direction: column;
+}
+
+.logged-in-as {
+  font-size: 0.8em;
+}
+.logged-in-as a {
+  margin: 0.4em 0;
+  color: #515151;
+  text-decoration: underline;
+}
+.logged-in-as a:hover {
+  color: #d10000;
+}
+.logged-in-as .required-field-message {
+  display: none;
 }
 
 .comment__notes {

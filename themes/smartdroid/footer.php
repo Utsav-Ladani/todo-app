@@ -49,12 +49,7 @@
         </div>
         <div class="footer-bottom-wrapper" >
             <div class="footer-company-name">
-				<?php
-				$company_name = get_theme_mod( 'footer_company_name', esc_html__( 'SmartDroid', 'smartdroid' ) );
-				echo '&copy; ';
-				printf( ' %d ', date( 'Y' ) );
-				echo esc_html( $company_name );
-				?>
+				<?php printf( '&copy; %d %s', date( 'Y' ), get_bloginfo( 'name' ) ); ?>
             </div>
             <a class="privacy-page-link" href="#" >
 				<?php esc_html_e( 'Data protection', 'smartdroid' ); ?>

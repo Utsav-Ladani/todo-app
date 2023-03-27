@@ -968,7 +968,25 @@ footer {
 	.nav-links {
 		flex-direction: row;
 		justify-content: center;
-		column-gap: 2em;
+		column-gap: .8em;
+	}
+
+	.page-numbers:not(.dots) {
+		height: 1.8em;
+		width: 1.8em;
+		border: none;
+		color: white;
+		background-color: #515151;
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 50%;
+		font-size: .8em;
+
+		&:hover {
+			background-color: #666666;
+			cursor: pointer;
+		}
 	}
 }
 
@@ -1032,18 +1050,37 @@ footer {
 			cursor: pointer;
 		}
 	}
-
-	& > * {
-		display: flex;
-		flex-direction: column;
-	}
 }
 
 .comment__grid--span-2,
 .comment-form-comment,
 .comment-form-url,
-.comment-form-cookies-consent,{
+.comment-form-cookies-consent,
+.logged-in-as {
 	grid-column: 1 / span 2;
+}
+
+.comment-form-comment {
+	display: flex;
+	flex-direction: column;
+}
+
+.logged-in-as {
+	font-size: .8em;
+
+	a {
+		margin: .4em 0;
+		color: #515151;
+		text-decoration: underline;
+
+		&:hover {
+			color: #d10000;
+		}
+	}
+
+	.required-field-message {
+		display: none;
+	}
 }
 
 .comment__notes {

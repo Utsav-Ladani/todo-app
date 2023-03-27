@@ -104,21 +104,21 @@ if ( post_password_required() )
 	<?php
 	if ( comments_open() ) {
 		$args = array(
-                            'title_reply' => '<h2 class="comment-form__title" >' . esc_html__( 'Please leave a comment', 'smartdroid' ) . '</h2>',
-                            'comment_notes_before' => sprintf(
-                            '<div class="comment__notes comment__grid--span-2" >
+			'title_reply' => '<h2 class="comment-form__title" >' . esc_html__( 'Please leave a comment', 'smartdroid' ) . '</h2>',
+			'comment_notes_before' => sprintf(
+				'<div class="comment__notes comment__grid--span-2" >
                                 <span>%s</span>
                                 <a href="#">%s %s</a>
                             </div>
-                            <p class="comment__required comment__grid--span-2" >%s</p>',
-                                esc_html__( 'Observe the usual rules for comment columns and be nice to one another. We do not store IP addresses of commenting users.', 'smartdroid' ),
-                                esc_html__( 'This way to the telegram group of', 'smartdroid' ),
-                                esc_html( get_bloginfo( 'name' ) ),
-                                esc_html__( 'Your email address will not be published. Required fields are marked *', 'smartdroid' )
-                            ),
-        );
+                            <div class="comment__required comment__grid--span-2" >%s</div>',
+				esc_html__( 'Observe the usual rules for comment columns and be nice to one another. We do not store IP addresses of commenting users.', 'smartdroid' ),
+				esc_html__( 'This way to the telegram group of', 'smartdroid' ),
+				esc_html( get_bloginfo( 'name' ) ),
+				esc_html__( 'Your email address will not be published. Required fields are marked *', 'smartdroid' )
+			),
+		);
 
-        comment_form( $args );
+		comment_form( $args );
 	}
 	?>
 
