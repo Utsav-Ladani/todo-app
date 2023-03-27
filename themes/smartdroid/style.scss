@@ -348,8 +348,13 @@ footer {
 }
 
 footer {
-	.footer-site-title {
+	.footer-site-breadcrumbs {
 		font-size: 16px;
+	}
+
+	.breadcrumbs__separator {
+		margin: 0 8px;
+		font-size: 1.4em;
 	}
 
 	.footer-hr {
@@ -407,6 +412,11 @@ footer {
 
 @media screen and (max-width: 768px) {
 	footer {
+		.footer-menu {
+			flex-direction: column;
+			row-gap: 1em;
+		}
+
 		.footer-bottom-wrapper {
 			margin-top: 12px;
 			display: flex;
@@ -647,20 +657,20 @@ footer {
 	color: white;
 	background-color: #f92020;
 	border-radius: 14px;
-	font-size: .7rem;
+	font-size: .7em;
 	font-weight: 700;
 	text-transform: uppercase;
 }
 
 .article__title {
-	font-size: 3.2em;
+	font-size: 2.8em;
 	font-weight: 700;
 }
 
 .article__excerpt {
 	margin-top: 0.8em;
 	margin-bottom: 2em;
-	color: #111111;
+	color: #111;
 	font-size: 1em;
 	font-family: "georgia","garamond","Times New Roman",serif;
 }
@@ -691,7 +701,8 @@ footer {
 
 .article__thumbnail-image {
 	width: 100%;
-	aspect-ratio: 800 / 600;
+	height: auto;
+	aspect-ratio: 4 / 3;
 	object-fit: cover;
 	border: none;
 	border-radius: 24px;
@@ -699,6 +710,8 @@ footer {
 }
 
 .article__content {
+	width: 100%;
+	overflow-x: auto;
 	color: #111111;
 	font-size: 1em;
 	font-family: "georgia","garamond","Times New Roman",serif;
@@ -710,25 +723,13 @@ footer {
 	a {
 		color: #f92020;
 	}
-
-	figure {
-		margin: 2em auto;
-		width: 100%;
-		max-width: 600px;
-
-		img {
-			width: 100%;
-			border: none;
-			border-radius: 24px;
-			aspect-ratio: 800 / 600;
-			object-fit: cover;
-		}
-	}
 }
 
 .article__note {
 	color: #111111;
 	margin-bottom: 1em;
+	font-style: italic;
+	font-size: .8em;
 
 	a {
 		color: #f92020;
@@ -780,8 +781,8 @@ footer {
 }
 
 .article__about-author__meta__description {
-	color: #111111;
-	font-size: 1em;
+	color: #111;
+	font-size: .9em;
 	font-family: "georgia","garamond","Times New Roman",serif;
 }
 
@@ -810,11 +811,56 @@ footer {
 
 	.nav-subtitle {
 		color: #515151;
+		font-size: .8em;
 	}
 
 	.nav-title {
+		color: #111;
 		font-size: 1.2em;
 		font-weight: 700;
+	}
+}
+
+/** media query for Single Post page */
+
+@media screen and (max-width: 768px) {
+	.article {
+		font-size: 18px;
+	}
+	.article__category__link {
+		font-size: .7rem;
+	}
+
+	.article__title {
+		font-size: 1.8em;
+	}
+
+	.article__about-author {
+		margin-top: 2em;
+	}
+
+	.article__about-author__avatar {
+		height: 3em;
+	}
+
+	.single-post-page {
+		font-size: 20px;
+
+		.nav-links {
+			margin-top: 2em;
+			margin-bottom: 0;
+			padding: 1.2em 0;
+			flex-direction: column;
+			row-gap: 1.4em;
+		}
+
+		.nav-next {
+			text-align: left;
+		}
+
+		.nav-title {
+			font-size: 1em;
+		}
 	}
 }
 
@@ -827,9 +873,11 @@ footer {
 
 .comments__header {
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: center;
 	margin-bottom: 1em;
+	gap: .2em;
 }
 
 .comments__header__title {
@@ -885,6 +933,7 @@ footer {
 
 .single-comment__content {
 	margin-bottom: 1.5em;
+	font-size: .8em;
 }
 
 .single-comment__like {
@@ -910,6 +959,30 @@ footer {
 	&:hover {
 		color: #d10000;
 	}
+}
+
+.comments-pagination {
+	width: 100%;
+	margin-bottom: 2em;
+
+	.nav-links {
+		flex-direction: row;
+		justify-content: center;
+		column-gap: 2em;
+	}
+}
+
+/** media query for Comments */
+@media screen and (max-width: 768px) {
+	.comments-area {
+		margin-top: 2em;
+		font-size: 18px;
+	}
+
+	.comments__header__title {
+		font-size: 1.2em;
+	}
+
 }
 
 /** Comment form */
@@ -999,6 +1072,20 @@ footer {
 	}
 }
 
+/** media query for comment form */
+
+@media screen and (max-width: 768px) {
+
+	.comment-form {
+		margin-bottom: 2em;
+
+		& > * {
+			grid-column: 1 / span 2;
+		}
+	}
+}
+
+
 /** pagination */
 
 .pagination__wrapper {
@@ -1007,6 +1094,7 @@ footer {
 	justify-content: center;
 	margin-top: 3em;
 	margin-bottom: 2em;
+	padding: 0 1em;
 
 	.nav-links {
 		display: flex;
@@ -1029,6 +1117,23 @@ footer {
 		&:hover {
 			background-color: #666666;
 			cursor: pointer;
+		}
+	}
+}
+
+/** media query for pagination */
+
+@media screen and (max-width: 768px) {
+	.pagination__wrapper {
+		font-size: .9em;
+
+		.nav-links {
+			column-gap: .4em;
+		}
+
+		.page-numbers:not(.dots) {
+			height: 1.8em;
+			width: 1.8em;
 		}
 	}
 }

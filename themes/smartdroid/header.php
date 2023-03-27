@@ -39,7 +39,7 @@
                     <span class="search-icon">
                         <i class="fa fa-lg fa-search"></i>
                     </span>
-                    <form class="search-form hide">
+                    <form action="/" class="search-form hide">
                         <input type="text" name="s" id="s" class="search-box" placeholder="<?php esc_html_e('Seek...', 'smartdroid'); ?>" />
                         <button class="search-btn" type="submit">
                             <i class="fa fa-lg fa-search"></i>
@@ -64,7 +64,7 @@
                         <?php esc_html_e( 'close', 'smartdroid' ); ?>
 
                     </span>
-                    <form class="mobile-search-form">
+                    <form action="/" class="mobile-search-form">
                         <input type="text" name="s" id="s" class="mobile-search-box" placeholder="<?php esc_html_e('Seek...', 'smartdroid'); ?>" />
                         <button class="mobile-search-btn" type="submit">
                             <i class="fa fa-lg fa-search"></i>

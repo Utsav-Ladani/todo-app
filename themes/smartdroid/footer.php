@@ -11,8 +11,28 @@
 
 <footer>
     <div class="container">
-        <div class="footer-site-title">
-			<?php bloginfo( 'name' ); ?>
+        <div class="footer-site-breadcrumbs">
+			<a href="<?php echo esc_url( home_url() ); ?>" rel="nofollow">
+                <?php bloginfo( 'name' ); ?>
+            </a>
+            <?php
+			if ( is_category() || is_single() ) {
+				echo '<span class="breadcrumbs__separator">&#187;</span>';
+				the_category(', ');
+				if ( is_single() ) {
+					echo ' <span class="breadcrumbs__separator">&#187;</span> ';
+					the_title();
+				}
+			} elseif (is_page()) {
+				echo '<span class="breadcrumbs__separator">&#187;</span>';
+				echo the_title();
+			} elseif (is_search()) {
+				echo '<span class="breadcrumbs__separator">&#187;</span>';
+                esc_html_e( 'Search results for', 'smartdroid' );
+                echo ' ... ';
+				printf( '"<em>%s</em>"', get_search_query() );
+			}
+			?>
         </div>
         <hr class="footer-hr" />
         <div class="footer-menu">
