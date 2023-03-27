@@ -999,3 +999,36 @@ footer {
 	}
 }
 
+/** pagination */
+
+.pagination__wrapper {
+	width: 100%;
+	display: grid;
+	justify-content: center;
+	margin-top: 3em;
+	margin-bottom: 2em;
+
+	.nav-links {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		column-gap: 1em;
+	}
+
+	.page-numbers:not(.dots) {
+		height: 2.25em;
+		width: 2.25em;
+		border: none;
+		color: white;
+		background-color: #515151;
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 50%;
+
+		&:hover {
+			background-color: #666666;
+			cursor: pointer;
+		}
+	}
+}

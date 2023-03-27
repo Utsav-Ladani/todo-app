@@ -23,4 +23,14 @@ if ( have_posts() ) {
 
 printf( '</main>' );
 
+printf(
+	'<div class="pagination__wrapper">%s</div>',
+	get_the_posts_pagination(
+		array(
+			'prev_text' => '<i class="fa-sharp fa-solid fa-chevron-left"></i>',
+			'next_text' => '<i class="fa-sharp fa-solid fa-chevron-right"></i>',
+		)
+	)
+);
+
 get_footer();
