@@ -101,49 +101,25 @@ if ( post_password_required() )
 
 	<?php endif; ?>
 
-	<?php if ( comments_open() ) : ?>
+	<?php
+	if ( comments_open() ) {
+		$args = array(
+                            'title_reply' => '<h2 class="comment-form__title" >' . esc_html__( 'Please leave a comment', 'smartdroid' ) . '</h2>',
+                            'comment_notes_before' => sprintf(
+                            '<div class="comment__notes comment__grid--span-2" >
+                                <span>%s</span>
+                                <a href="#">%s %s</a>
+                            </div>
+                            <p class="comment__required comment__grid--span-2" >%s</p>',
+                                esc_html__( 'Observe the usual rules for comment columns and be nice to one another. We do not store IP addresses of commenting users.', 'smartdroid' ),
+                                esc_html__( 'This way to the telegram group of', 'smartdroid' ),
+                                esc_html( get_bloginfo( 'name' ) ),
+                                esc_html__( 'Your email address will not be published. Required fields are marked *', 'smartdroid' )
+                            ),
+        );
 
-        <form action="/wp-comments-post.php" method="post" id="commentform" class="comment-form">
-            <h2 class="comment-form__title">
-				<?php esc_html_e( 'Please leave a comment', 'smartdroid' ); ?>
-            </h2>
-            <p class="comment-form__title">
-                <span><?php esc_html_e( 'Observe the usual rules for comment columns and be nice to one another. We do not store IP addresses of commenting users.', 'smartdroid' ); ?></span>
-                <a href="#">
-					<?php echo esc_html__( 'This way to the telegram group of ', 'smartdroid' ) . ' ' . esc_html( get_bloginfo( 'name' ) ); ?>
-                </a>
-            </p>
-            <div class="comment-form__input__wrapper">
-                <label for="comment" class="comment-form__label" ><?php esc_html_e( 'Comment', 'smartdroid' ); ?> *</label>
-                <textarea name="comment" id="comment" class="comment-form__textarea" required></textarea>
-            </div>
-            <div class="comment-form__input__wrapper">
-                <label for="name" class="comment-form__label" ><?php esc_html_e( 'Name', 'smartdroid' ); ?> *</label>
-                <input type="text" name="name" id="name" class="comment-form__input comment-form__input--half" required />
-            </div>
-            <div class="comment-form__input__wrapper">
-                <label for="email" class="comment-form__label" ><?php esc_html_e( 'Email', 'smartdroid' ); ?> *</label>
-                <input type="email" name="email" id="email" class="comment-form__input comment-form__input--half" required />
-            </div>
-            <div class="comment-form__input__wrapper">
-                <label for="site" class="comment-form__label" ><?php esc_html_e( 'Site', 'smartdroid' ); ?></label>
-                <input type="site" name="site" id="site" class="comment-form__input" />
-            </div>
-            <div class="comment-form__checkbox__wrapper">
-                <input type="checkbox" name="wp-comment-cookies-consent" id="wp-comment-cookies-consent" class="comment-form__checkbox" />
-                <label for="wp-comment-cookies-consent" class="comment-form__checkbox__label" ><?php esc_html_e( 'Save my name, email and website in this browser for the next time I comment.', 'smartdroid' ); ?></label>
-            </div>
-            <div class="comment-form__checkbox__wrapper">
-                <input type="checkbox" name="subscribe_comments" id="subscribe_comments" class="comment-form__checkbox" />
-                <label for="subscribe_comments" class="comment-form__checkbox__label" ><?php esc_html_e( 'Notify me of follow-up comments via email.', 'smartdroid' ); ?></label>
-            </div>
-            <div class="form-submit">
-                <input name="submit" type="submit" id="submit" class="submit" value="Submit comment">
-                <input type="hidden" name="comment_post_ID" value="<?php the_ID(); ?>" id="comment_post_ID">
-                <input type="hidden" name="comment_parent" id="comment_parent" value="0">
-            </div>
-        </form>
-
-	<?php endif; ?>
+        comment_form( $args );
+	}
+	?>
 
 </div>
