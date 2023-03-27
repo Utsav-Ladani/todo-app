@@ -36,14 +36,47 @@ if ( post_password_required() )
 					the_comment();
 					?>
 
-                    <div class="single-comment">
+                    <li class="single-comment">
                         <div class="single-comment__author">
                             <img src="<?php echo esc_url( get_avatar_url( get_the_author_meta( 'ID' ) ) ); ?>" alt="<?php echo esc_attr( get_the_author_meta( 'display_name' ) ); ?>" class="single-comment__author__avatar" />
                             <div class="single-comment__author__meta" >
-
+                                <div class="single-comment__author__meta__name__wrapper">
+                                    <span class="single-comment__author__meta__name">
+                                        <?php
+                                        $comment_author = get_comment_author();
+                                        if( empty( $comment_author ) ) {
+	                                        echo esc_html__( 'Anonymous', 'smartdroid' );
+                                        } else {
+	                                        echo esc_html( $comment_author );
+                                        }
+                                        ?>
+                                    </span>
+									<?php esc_html_e( 'says:', 'smartdroid' ); ?>
+                                </div>
+                                <a href="<?php echo esc_url( get_comment_link() ); ?>" class="single-comment__author__meta__timestamp">
+									<?php printf( esc_html__( '%s at %s', 'smartdroid' ), get_comment_date(), get_comment_time() ); ?>
+                                </a>
                             </div>
                         </div>
-                    </div>
+                        <div class="single-comment__content">
+							<?php comment_text(); ?>
+                        </div>
+						<?php
+						$like_link = get_comment_link();
+						$like_link = add_query_arg(
+							array(
+								'post_id' => get_the_ID(),
+								'comment_id' => get_comment_ID(),
+								'like' => '1',
+								'nonce' => wp_create_nonce( 'like-comment' )
+							), $like_link );
+						?>
+                        <a href="<?php echo esc_url( $like_link ); ?>" class="single-comment__like">
+                            <i class="fa fa-star single-comment__like__star"></i>
+                            <span class="single-comment__like__text" ><?php esc_html_e( 'Like', 'smartdroid' ); ?></span>
+                        </a>
+                        <a href="#respond" class="single-comment__reply-link"><?php esc_html_e( 'Reply', 'smartdroid' ); ?></a>
+                    </li>
 
 					<?php
 				}
@@ -60,8 +93,6 @@ if ( post_password_required() )
 				'next_text' => '<i class="fa-sharp fa-solid fa-chevron-right"></i>',
 			)
 		);
-
-        paginate_comments_links();
 		?>
 
 		<?php if ( ! comments_open() && get_comments_number() ) : ?>
@@ -70,6 +101,49 @@ if ( post_password_required() )
 
 	<?php endif; ?>
 
-	<?php comment_form(); ?>
+	<?php if ( comments_open() ) : ?>
+
+        <form action="/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+            <h2 class="comment-form__title">
+				<?php esc_html_e( 'Please leave a comment', 'smartdroid' ); ?>
+            </h2>
+            <p class="comment-form__title">
+                <span><?php esc_html_e( 'Observe the usual rules for comment columns and be nice to one another. We do not store IP addresses of commenting users.', 'smartdroid' ); ?></span>
+                <a href="#">
+					<?php echo esc_html__( 'This way to the telegram group of ', 'smartdroid' ) . ' ' . esc_html( get_bloginfo( 'name' ) ); ?>
+                </a>
+            </p>
+            <div class="comment-form__input__wrapper">
+                <label for="comment" class="comment-form__label" ><?php esc_html_e( 'Comment', 'smartdroid' ); ?> *</label>
+                <textarea name="comment" id="comment" class="comment-form__textarea" required></textarea>
+            </div>
+            <div class="comment-form__input__wrapper">
+                <label for="name" class="comment-form__label" ><?php esc_html_e( 'Name', 'smartdroid' ); ?> *</label>
+                <input type="text" name="name" id="name" class="comment-form__input comment-form__input--half" required />
+            </div>
+            <div class="comment-form__input__wrapper">
+                <label for="email" class="comment-form__label" ><?php esc_html_e( 'Email', 'smartdroid' ); ?> *</label>
+                <input type="email" name="email" id="email" class="comment-form__input comment-form__input--half" required />
+            </div>
+            <div class="comment-form__input__wrapper">
+                <label for="site" class="comment-form__label" ><?php esc_html_e( 'Site', 'smartdroid' ); ?></label>
+                <input type="site" name="site" id="site" class="comment-form__input" />
+            </div>
+            <div class="comment-form__checkbox__wrapper">
+                <input type="checkbox" name="wp-comment-cookies-consent" id="wp-comment-cookies-consent" class="comment-form__checkbox" />
+                <label for="wp-comment-cookies-consent" class="comment-form__checkbox__label" ><?php esc_html_e( 'Save my name, email and website in this browser for the next time I comment.', 'smartdroid' ); ?></label>
+            </div>
+            <div class="comment-form__checkbox__wrapper">
+                <input type="checkbox" name="subscribe_comments" id="subscribe_comments" class="comment-form__checkbox" />
+                <label for="subscribe_comments" class="comment-form__checkbox__label" ><?php esc_html_e( 'Notify me of follow-up comments via email.', 'smartdroid' ); ?></label>
+            </div>
+            <div class="form-submit">
+                <input name="submit" type="submit" id="submit" class="submit" value="Submit comment">
+                <input type="hidden" name="comment_post_ID" value="<?php the_ID(); ?>" id="comment_post_ID">
+                <input type="hidden" name="comment_parent" id="comment_parent" value="0">
+            </div>
+        </form>
+
+	<?php endif; ?>
 
 </div>

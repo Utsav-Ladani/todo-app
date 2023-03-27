@@ -746,4 +746,65 @@ footer .footer-social {
   font-size: 0.8em;
 }
 
+.single-comment {
+  color: #111111;
+  margin: 2em 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.single-comment__author {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1em;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.single-comment__author__avatar {
+  width: 2.25em;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+}
+
+.single-comment__author__meta__name__wrapper {
+  font-size: 1em;
+}
+
+.single-comment__author__meta__name {
+  font-size: 1.2em;
+  font-weight: 700;
+}
+
+.single-comment__author__meta__timestamp {
+  font-size: 0.7em;
+}
+
+.single-comment__content {
+  margin-bottom: 1.5em;
+}
+
+.single-comment__like {
+  font-size: 0.6em;
+  width: fit-content;
+}
+.single-comment__like:hover > .single-comment__like__star {
+  color: #ffc70f;
+}
+
+.single-comment__like__star {
+  color: #2EA2CC;
+  margin-bottom: 1.6em;
+}
+
+.single-comment__reply-link {
+  color: #515151;
+  font-size: 0.7em;
+  font-weight: 700;
+  width: fit-content;
+}
+.single-comment__reply-link:hover {
+  color: #d10000;
+}
+
 /*# sourceMappingURL=style.css.map */
