@@ -31,16 +31,15 @@ if ( post_password_required() )
 
         <ul class="comment__list">
 			<?php
-			if( have_comments() ) {
-				while( have_comments() ) {
-					the_comment();
-					?>
+			function smartdroid_comment() : void {
+				the_comment();
+				?>
 
-                    <li class="single-comment">
-                        <div class="single-comment__author">
-                            <img src="<?php echo esc_url( get_avatar_url( get_the_author_meta( 'ID' ) ) ); ?>" alt="<?php echo esc_attr( get_the_author_meta( 'display_name' ) ); ?>" class="single-comment__author__avatar" />
-                            <div class="single-comment__author__meta" >
-                                <div class="single-comment__author__meta__name__wrapper">
+                <li class="single-comment">
+                    <div class="single-comment__author">
+                        <img src="<?php echo esc_url( get_avatar_url( get_the_author_meta( 'ID' ) ) ); ?>" alt="<?php echo esc_attr( get_the_author_meta( 'display_name' ) ); ?>" class="single-comment__author__avatar" />
+                        <div class="single-comment__author__meta" >
+                            <div class="single-comment__author__meta__name__wrapper">
                                     <span class="single-comment__author__meta__name">
                                         <?php
                                         $comment_author = get_comment_author();
@@ -51,42 +50,48 @@ if ( post_password_required() )
                                         }
                                         ?>
                                     </span>
-									<?php esc_html_e( 'says:', 'smartdroid' ); ?>
-                                </div>
-                                <a href="<?php echo esc_url( get_comment_link() ); ?>" class="single-comment__author__meta__timestamp">
-									<?php printf( esc_html__( '%s at %s', 'smartdroid' ), get_comment_date(), get_comment_time() ); ?>
-                                </a>
+								<?php esc_html_e( 'says:', 'smartdroid' ); ?>
                             </div>
+                            <a href="<?php echo esc_url( get_comment_link() ); ?>" class="single-comment__author__meta__timestamp">
+								<?php printf( esc_html__( '%s at %s', 'smartdroid' ), get_comment_date(), get_comment_time() ); ?>
+                            </a>
                         </div>
-                        <div class="single-comment__content">
-							<?php comment_text(); ?>
-                        </div>
-						<?php
-						$like_link = get_comment_link();
-						$like_link = add_query_arg(
-							array(
-								'post_id' => get_the_ID(),
-								'comment_id' => get_comment_ID(),
-								'like' => '1',
-								'nonce' => wp_create_nonce( 'like-comment' )
-							), $like_link );
-						?>
-                        <a href="<?php echo esc_url( $like_link ); ?>" class="single-comment__like">
-                            <i class="fa fa-star single-comment__like__star"></i>
-                            <span class="single-comment__like__text" ><?php esc_html_e( 'Like', 'smartdroid' ); ?></span>
-                        </a>
-                        <a href="#respond" class="single-comment__reply-link"><?php esc_html_e( 'Reply', 'smartdroid' ); ?></a>
-                    </li>
-
+                    </div>
+                    <div class="single-comment__content">
+						<?php comment_text(); ?>
+                    </div>
 					<?php
-				}
-			} else {
-				// no comments
+					$like_link = get_comment_link();
+					$like_link = add_query_arg(
+						array(
+							'post_id' => get_the_ID(),
+							'comment_id' => get_comment_ID(),
+							'like' => '1',
+							'nonce' => wp_create_nonce( 'like-comment' )
+						), $like_link );
+					?>
+                    <a href="<?php echo esc_url( $like_link ); ?>" class="single-comment__like">
+                        <i class="fa fa-star single-comment__like__star"></i>
+                        <span class="single-comment__like__text" ><?php esc_html_e( 'Like', 'smartdroid' ); ?></span>
+                    </a>
+                    <a href="#respond" class="single-comment__reply-link"><?php esc_html_e( 'Reply', 'smartdroid' ); ?></a>
+                </li>
+
+				<?php
 			}
+
+			// You can start editing here -- including this comment!
+			wp_list_comments( array(
+				                  'style'      => 'ul',
+				                  'short_ping' => true,
+				                  'avatar_size'=> 60,
+				                  'callback'   => 'smartdroid_comment',
+			                  ) );
 			?>
         </ul>
 
 		<?php
+		//paginate comments
 		the_comments_pagination(
 			array(
 				'prev_text' => '<i class="fa-sharp fa-solid fa-chevron-left"></i>',
@@ -106,6 +111,17 @@ if ( post_password_required() )
 		$args = array(
 			'title_reply' => '<h2 class="comment-form__title" >' . esc_html__( 'Please leave a comment', 'smartdroid' ) . '</h2>',
 			'comment_notes_before' => sprintf(
+				'<div class="comment__notes comment__grid--span-2" >
+                                <span>%s</span>
+                                <a href="#">%s %s</a>
+                            </div>
+                            <div class="comment__required comment__grid--span-2" >%s</div>',
+				esc_html__( 'Observe the usual rules for comment columns and be nice to one another. We do not store IP addresses of commenting users.', 'smartdroid' ),
+				esc_html__( 'This way to the telegram group of', 'smartdroid' ),
+				esc_html( get_bloginfo( 'name' ) ),
+				esc_html__( 'Your email address will not be published. Required fields are marked *', 'smartdroid' )
+			),
+			'logged_in_as' => sprintf(
 				'<div class="comment__notes comment__grid--span-2" >
                                 <span>%s</span>
                                 <a href="#">%s %s</a>
