@@ -18,7 +18,7 @@ if ( have_posts() ) {
 		get_template_part( 'templates/post-card' );
 	}
 } else {
-	// no posts found
+	printf( '<p class="description">%s</p>', esc_html__( 'Sorry, nothing to show.', 'movie-library' ) );
 }
 
 printf( '</main>' );

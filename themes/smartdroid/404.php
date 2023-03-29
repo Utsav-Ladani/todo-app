@@ -14,5 +14,6 @@ get_header();
 </div>
 <?php
 
+// get search form
 get_search_form();
 get_footer();

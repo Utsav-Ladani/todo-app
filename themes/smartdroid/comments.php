@@ -4,6 +4,7 @@
  * The area of the page that contains comments and the comment form.
  */
 
+// return if password is required
 if ( post_password_required() )
 	return;
 ?>
@@ -15,6 +16,7 @@ if ( post_password_required() )
             <h2 class="comments__header__number-of-comments">
                 <i class="fa-sharp fa-solid fa-message"></i>
 				<?php
+                // print the number of comments
 				printf(
 					_nx(
 						'%s comment',
@@ -42,6 +44,7 @@ if ( post_password_required() )
                             <div class="single-comment__author__meta__name__wrapper">
                                     <span class="single-comment__author__meta__name">
                                         <?php
+                                        // show the name of the comment author, if the author is anonymous, show Anonymous
                                         $comment_author = get_comment_author();
                                         if( empty( $comment_author ) ) {
 	                                        echo esc_html__( 'Anonymous', 'smartdroid' );
@@ -61,6 +64,7 @@ if ( post_password_required() )
 						<?php comment_text(); ?>
                     </div>
 					<?php
+                    // get the link to like the comment
 					$like_link = get_comment_link();
 					$like_link = add_query_arg(
 						array(
@@ -80,7 +84,7 @@ if ( post_password_required() )
 				<?php
 			}
 
-			// You can start editing here -- including this comment!
+			// list the comments
 			wp_list_comments( array(
 				                  'style'      => 'ul',
 				                  'short_ping' => true,
@@ -107,6 +111,7 @@ if ( post_password_required() )
 	<?php endif; ?>
 
 	<?php
+    // add the title and notes to the comment form
 	if ( comments_open() ) {
 		$args = array(
 			'title_reply' => '<h2 class="comment-form__title" >' . esc_html__( 'Please leave a comment', 'smartdroid' ) . '</h2>',

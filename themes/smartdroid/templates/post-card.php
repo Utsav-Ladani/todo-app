@@ -3,6 +3,15 @@
  * The template for displaying post card
  */
 
+/**
+ * It renders the post card for the given post on archive pages.
+ *
+ * Available variables:
+ * $args['classes'] - array of classes
+ * $args['show_excerpt'] - boolean
+ * $args['show_category'] - boolean
+ */
+
 // set classes to default value
 if ( ! isset( $args['classes'] ) || ! is_array( $args['classes'] ) ) {
 	$args['classes'] = array();
@@ -33,6 +42,7 @@ if ( ! isset( $args['show_category'] ) ) {
 <article class="<?php echo esc_attr( $args['classes'] ); ?>">
     <a class="post-card__image-wrapper" href="<?php the_permalink(); ?>">
 		<?php
+        // get the post thumbnail url
 		$src = get_the_post_thumbnail_url();
 		if ( ! $src ) {
 			$src = get_template_directory_uri() . '/assets/images/placeholder.png';
@@ -44,6 +54,7 @@ if ( ! isset( $args['show_category'] ) ) {
 		<?php if ( $args['show_category'] ) : ?>
             <ul class="post-card__category-list">
 				<?php
+                // get the first 4 categories
 				$categories = get_the_category();
 				$categories = array_slice($categories, 0, 4);
 				foreach ($categories as $category) :

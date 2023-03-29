@@ -12,7 +12,8 @@
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+    <title><?php wp_title(); ?></title>
 	<?php wp_head(); ?>
 </head>
 
@@ -25,6 +26,7 @@
         <header class="desktop">
             <div class="container" >
 				<?php
+                // Display the Primary Menu in desktop
 				if( has_nav_menu( 'primary-menu' ) ) {
 					wp_nav_menu( array(
 						             'theme_location' => 'primary-menu',
@@ -71,6 +73,7 @@
                         </button>
                     </form>
 					<?php
+                    // Display the Primary Menu in mobile view
 					if( has_nav_menu( 'primary-menu' ) ) {
 						wp_nav_menu( array(
 							             'theme_location' => 'primary-menu',

@@ -16,6 +16,7 @@
                 <?php bloginfo( 'name' ); ?>
             </a>
             <?php
+            // Breadcrumbs
 			if ( is_category() || is_single() ) {
 				echo '<span class="breadcrumbs__separator">&#187;</span>';
 				the_category(', ');
@@ -37,6 +38,7 @@
         <hr class="footer-hr" />
         <div class="footer-menu">
 			<?php
+            // footer nav menu
 			if( has_nav_menu( 'footer-menu' ) ) {
 				wp_nav_menu( array(
 					             'theme_location' => 'footer-menu',
@@ -56,6 +58,7 @@
             </a>
             <div class="footer-social">
 				<?php
+                // social links
 				$arr = array( 'twitter', 'facebook', 'google' );
 
 				foreach ( $arr as $item ) {

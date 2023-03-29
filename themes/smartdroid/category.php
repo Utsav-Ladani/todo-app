@@ -21,6 +21,7 @@ printf( '<main id="category-archive-page" class="category-archive-page">' );
 // The Loop
 if ( have_posts() ) {
 
+    // Load the first post and style it differently
 	if( have_posts() ) {
 		the_post();
 		get_template_part(
@@ -32,6 +33,7 @@ if ( have_posts() ) {
 			) );
 	}
 
+    // load other posts
 	while ( have_posts() ) {
 		the_post();
 		get_template_part(
@@ -43,7 +45,7 @@ if ( have_posts() ) {
 			)  );
 	}
 } else {
-	// no posts found
+	printf( '<p class="description">%s</p>', esc_html__( 'Sorry, nothing to show.', 'movie-library' ) );
 }
 
 printf( '</main>' );
@@ -51,6 +53,7 @@ printf( '</main>' );
 
 printf(
 	'<div class="pagination__wrapper">%s</div>',
+    // pagination
 	get_the_posts_pagination(
 		array(
 			'prev_text' => '<i class="fa-sharp fa-solid fa-chevron-left"></i>',

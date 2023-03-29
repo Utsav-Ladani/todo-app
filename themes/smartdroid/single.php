@@ -13,6 +13,7 @@ get_header();
             <article class="article">
                 <div class="article__categories">
 					<?php
+                    // get post categories
 					$categories = get_the_category();
 					foreach ( $categories as $category ) {
 						printf( '<a href="%s" class="article__category__link">%s</a>', esc_url( get_category_link( $category->term_id ) ), esc_html( $category->name ) );
@@ -31,14 +32,13 @@ get_header();
                         <div class="article__author__timestamp">
 							<?php
 							// get post date and time on single post page
-							$date = get_the_date();
-							$time = get_the_time();
-							printf( '%s - %s', esc_html( $date ), esc_html( $time ) );
+							printf( '%s - %s', esc_html( get_the_date() ), esc_html( get_the_time() ) );
 							?>
                         </div>
                     </div>
                 </div>
 				<?php
+                // get post thumbnail
 				if( has_post_thumbnail() ) {
 					the_post_thumbnail(
 						'full',
@@ -64,6 +64,7 @@ get_header();
                         <hr class="article__about-author__horizontal_line" />
                         <div class="article__about-author__meta__social" >
 							<?php
+                            // get social links
 							$socials = array( 'facebook', 'linkedin', 'twitter', 'instagram', 'youtube' );
 							foreach ( $socials as $social_name ) :
 								?>
