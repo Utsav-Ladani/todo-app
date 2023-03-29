@@ -1186,3 +1186,26 @@ footer {
 		}
 	}
 }
+
+/** Search form */
+
+.searchform {
+	width: fit-content;
+	margin: 0 auto;
+
+	& > div {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+		gap: 1em;
+		margin: 2em 0;
+	}
+
+	input {
+		padding: .6em 1em;
+		border: solid 1px #ccc;
+		border-radius: .2em;
+	}
+}
+
