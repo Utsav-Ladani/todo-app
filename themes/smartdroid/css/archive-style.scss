@@ -37,10 +37,10 @@
 
 .post-card__category-item--link {
 	padding: 4px 6px;
-	color: white;
+	color: #fff;
 	background-color: #f92020;
 	border-radius: 14px;
-	font-size: .65rem;
+	font-size: 0.65rem;
 	font-weight: 700;
 	text-transform: uppercase;
 }
@@ -50,13 +50,13 @@
 }
 
 .post-card__title--link {
-	color: #111111;
+	color: #111;
 	font-size: 1.4em;
 	font-weight: 700;
 	line-height: 1.2;
 }
 
-.post-card__title{
+.post-card__title {
 	font-size: 1em;
 }
 
@@ -70,7 +70,7 @@
 	align-items: center;
 	column-gap: 16px;
 	color: #515151;
-	font-size: .8em;
+	font-size: 0.8em;
 }
 
 .post-card__author {
@@ -83,9 +83,9 @@
 }
 
 .post-card__excerpt {
-	color: #111111;
+	color: #111;
 	font-size: 1em;
-	font-family: "georgia","garamond","Times New Roman",serif;
+	font-family: georgia, garamond, "Times New Roman", serif;
 }
 
 /** Post card variants */
@@ -96,6 +96,7 @@
 }
 
 .post-card--large--first {
+
 	.post-card__title--link {
 		margin-top: 0.4em;
 		font-size: 1.8em;
@@ -105,6 +106,7 @@
 /** media query for the post card */
 
 @media screen and (max-width: 768px) {
+
 	.post-card {
 		grid-template-columns: 1fr;
 		row-gap: 8px;
@@ -154,73 +156,22 @@
 	color: #515151;
 
 	&:hover {
-		color: black;
+		color: #000;
 	}
 }
 
 /** media query for the author archive page */
 
 @media screen and (max-width: 768px) {
+
 	.author__image {
 		height: 4rem;
 	}
 }
 
 @media screen and (max-width: 512px) {
+
 	.author__image {
 		height: 2rem;
-	}
-}
-
-
-/** pagination */
-
-.pagination__wrapper {
-	width: 100%;
-	display: grid;
-	justify-content: center;
-	margin-top: 3em;
-	margin-bottom: 2em;
-	padding: 0 1em;
-
-	.nav-links {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		column-gap: 1em;
-	}
-
-	.page-numbers:not(.dots) {
-		height: 2.25em;
-		width: 2.25em;
-		border: none;
-		color: white;
-		background-color: #515151;
-		display: inline-flex;
-		justify-content: center;
-		align-items: center;
-		border-radius: 50%;
-
-		&:hover {
-			background-color: #666666;
-			cursor: pointer;
-		}
-	}
-}
-
-/** media query for pagination */
-
-@media screen and (max-width: 768px) {
-	.pagination__wrapper {
-		font-size: .9em;
-
-		.nav-links {
-			column-gap: .4em;
-		}
-
-		.page-numbers:not(.dots) {
-			height: 1.8em;
-			width: 1.8em;
-		}
 	}
 }

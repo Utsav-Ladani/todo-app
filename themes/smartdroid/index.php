@@ -11,7 +11,7 @@ get_header();
 
 printf( '<main id="home-page" class="home-page">' );
 
-// The Loop
+// The Loop.
 if ( have_posts() ) {
 	while ( have_posts() ) {
 		the_post();
@@ -23,14 +23,18 @@ if ( have_posts() ) {
 
 printf( '</main>' );
 
-printf(
-	'<div class="pagination__wrapper">%s</div>',
-	get_the_posts_pagination(
-		array(
-			'prev_text' => '<i class="fa-sharp fa-solid fa-chevron-left"></i>',
-			'next_text' => '<i class="fa-sharp fa-solid fa-chevron-right"></i>',
-		)
-	)
-);
+?>
+	<div class="pagination__wrapper">
+		<?php
+		the_posts_pagination(
+			array(
+				'prev_text' => '<i class="fa-sharp fa-solid fa-chevron-left"></i>',
+				'next_text' => '<i class="fa-sharp fa-solid fa-chevron-right"></i>',
+			)
+		);
+		?>
+	</div>
+
+<?php
 
 get_footer();

@@ -2,6 +2,8 @@
 /**
  * 404 Template
  * It renders if nothing is found for requested URL
+ *
+ * @package SmartDroid
  */
 
 get_header();
@@ -14,6 +16,6 @@ get_header();
 </div>
 <?php
 
-// get search form
+// get search form.
 get_search_form();
 get_footer();
