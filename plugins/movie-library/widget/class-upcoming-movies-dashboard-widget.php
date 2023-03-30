@@ -1,6 +1,6 @@
 <?php
 /**
- * Add IMDB widget to the WordPress dashboard.
+ * Add upcoming movies widget to the WordPress dashboard.
  * This widget shows the upcoming and top-rated movies from IMDB APIs.
  *
  * @package Movie Library
@@ -11,7 +11,7 @@ namespace Movie_Library\Widget;
 /**
  * Class Upcoming_Movies_Dashboard_Widget
  * It adds the upcoming movies dashboard widget to the WordPress dashboard.
- * It uses IMDB APIs to fetch the upcoming and top-rated movies.
+ * It uses IMDB APIs to fetch the upcoming movies.
  */
 class Upcoming_Movies_Dashboard_Widget {
 
@@ -22,6 +22,11 @@ class Upcoming_Movies_Dashboard_Widget {
 	 */
 	const UPCOMING_MOVIE_SLUG = 'upcoming_movies_dashboard_widget';
 
+    /**
+     * API data expiration time for transient.
+     *
+     * @var int
+     */
 	const EXPIRATION_TIME = 4 * HOUR_IN_SECONDS;
 
 	/**
@@ -119,7 +124,7 @@ class Upcoming_Movies_Dashboard_Widget {
 	 */
 	public static function get_imdb_upcoming_movies( int $max_items = 6 ) : array {
         // add API key to the URL and sanitize it.
-		$url = 'https://imdb-api.com/en/API/ComingSoon/' . MOVIE_LIBRARY_IMDB_API_KEY;
+		$url = MOVIE_LIBRARY_IMDB_API_URL . MOVIE_LIBRARY_IMDB_API_KEY;
 		$url = sanitize_url( $url );
 
         // set the arguments for the wp_remote_request.
