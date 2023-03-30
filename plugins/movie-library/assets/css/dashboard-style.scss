@@ -1,0 +1,66 @@
+/**
+ * Styles for dashboard widgets
+ */
+
+/** Styles for movie card list */
+
+.movie-card-list {
+	box-sizing: border-box;
+	scroll-behavior: smooth;
+	font-size: 20px;
+
+	columns: 3 180px;
+	gap: .6em;
+
+	.movie-card-item {
+		position: relative;
+		background-color: #e5e5e5;
+		line-height: 100%;
+		margin-bottom: .6em;
+	}
+
+	.movie-card__image {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 3 / 4;
+		object-fit: cover;
+	}
+
+	.movie-card-item__info__title--h1 {
+		font-size: .8em;
+		padding: .4em .6em;
+	}
+
+	.movie-card-item__info {
+		font-size: .6em;
+
+		max-height: 0;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+
+		color: #a4a4a4;
+		background-color: rgba(0, 0, 0, 0.8);
+
+		overflow: hidden;
+		transition: all .3s ease-in;
+
+		padding: 0 1em;
+
+		> * {
+			margin: .6em 0;
+		}
+	}
+
+	:hover {
+		.movie-card-item__info {
+			padding: 1em 1em;
+			max-height: 100%;
+
+			> *:hover {
+				color: #fff;
+			}
+		}
+	}
+}
