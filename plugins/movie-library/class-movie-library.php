@@ -45,6 +45,7 @@ use Movie_Library\Setting\Setting;
 
 // widget.
 use Movie_Library\Widget\Upcoming_Movies_Dashboard_Widget;
+use Movie_Library\Widget\Movies_From_Plugin_Dashboard_Widget;
 
 /**
  * Main class of the plugin.
@@ -95,6 +96,7 @@ abstract class Movie_Library {
 
 		// add widget.
 		Upcoming_Movies_Dashboard_Widget::init();
+		Movies_From_Plugin_Dashboard_Widget::init();
 	}
 
 	/**

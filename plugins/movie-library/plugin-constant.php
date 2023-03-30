@@ -40,6 +40,13 @@ define( 'MOVIE_LIBRARY_NAMESPACE', __NAMESPACE__ );
 define( 'MOVIE_LIBRARY_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 /**
+ * IMDB API URL.
+ *
+ * @const string MOVIE_LIBRARY_IMDB_API_URL IMDB API URL.
+ */
+define( 'MOVIE_LIBRARY_IMDB_API_URL', 'https://imdb-api.com/en/API/ComingSoon/' );
+
+/**
  * IMDB API key.
  *
  * @see https://imdb-api.com/

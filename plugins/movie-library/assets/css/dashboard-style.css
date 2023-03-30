@@ -6,14 +6,19 @@
   box-sizing: border-box;
   scroll-behavior: smooth;
   font-size: 20px;
-  columns: 3 180px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  align-items: start;
   gap: 0.6em;
+  margin: 0;
 }
 .movie-card-list .movie-card-item {
   position: relative;
   background-color: #e5e5e5;
   line-height: 100%;
   margin-bottom: 0.6em;
+  display: inline-block;
+  width: 100%;
 }
 .movie-card-list .movie-card__image {
   width: 100%;
@@ -23,7 +28,7 @@
 }
 .movie-card-list .movie-card-item__info__title--h1 {
   font-size: 0.8em;
-  padding: 0.4em 0.6em;
+  padding: 0.6em;
 }
 .movie-card-list .movie-card-item__info {
   font-size: 0.6em;
@@ -47,6 +52,16 @@
 }
 .movie-card-list :hover .movie-card-item__info > *:hover {
   color: #fff;
+}
+
+/** Styles for most recent and top rated movie */
+.movies-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.4em;
+}
+.movies-wrapper .movies-wrapper__title-h2 {
+  background-color: #e5e5e5;
 }
 
 /*# sourceMappingURL=dashboard-style.css.map */
