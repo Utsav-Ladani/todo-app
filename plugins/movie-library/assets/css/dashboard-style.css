@@ -55,12 +55,11 @@
 }
 
 /** Styles for most recent and top rated movie */
-.movies-wrapper {
-  display: flex;
-  flex-direction: column;
-  row-gap: 0.4em;
-}
-.movies-wrapper .movies-wrapper__title-h2 {
+.movies-wrapper h2.movies-wrapper__title-h2 {
+  margin-top: 0.6em;
+  margin-bottom: 0.4em;
+  padding: 0.4em 0.6em;
+  font-size: 1.6em;
   background-color: #e5e5e5;
 }
 
