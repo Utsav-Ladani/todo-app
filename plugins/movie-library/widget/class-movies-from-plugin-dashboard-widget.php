@@ -46,7 +46,7 @@ class Movies_From_Plugin_Dashboard_Widget {
 	public static function add_movies_from_plugin_dashboard_widget() : void {
 		wp_add_dashboard_widget(
 			self::UPCOMING_MOVIE_SLUG,
-			__( 'Movies recent and Top-rated movies', 'movie-library' ),
+			__( 'Movies Recent and Top-Rated Movies', 'movie-library' ),
 			array( __CLASS__, 'render_movies_from_plugin_dashboard_widget' ),
 		);
 	}
