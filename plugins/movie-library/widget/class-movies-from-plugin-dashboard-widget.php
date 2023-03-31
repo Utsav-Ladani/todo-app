@@ -107,62 +107,63 @@ class Movies_From_Plugin_Dashboard_Widget {
 						$src = MOVIE_LIBRARY_PLUGIN_URL . '/assets/images/placeholder.png';
 					}
 					?>
+                    <a href="<?php the_permalink( $movie ); ?>" class="movie-card__link" >
                     <img class="movie-card__image" src="<?php echo esc_url( $src ); ?>" alt="<?php echo esc_attr( $movie->post_title ); ?>">
-                    <div class="movie-card-item__info-wrapper">
-                        <h1 class="movie-card-item__info__title--h1">
-							<?php echo esc_attr( $movie->post_title ); ?>
-                        </h1>
-						<?php
-						// get the release date and format it.
-						$release_date = get_post_meta( $movie->ID, 'rt-movie-meta-basic-release-date', true );
-						$release_date = gmdate( 'M d, Y', strtotime( $release_date ) );
+                        <div class="movie-card-item__info-wrapper">
+                            <h1 class="movie-card-item__info__title--h1">
+                                <?php echo esc_attr( $movie->post_title ); ?>
+                            </h1>
+                            <?php
+                            // get the release date and format it.
+                            $release_date = get_post_meta( $movie->ID, 'rt-movie-meta-basic-release-date', true );
+                            $release_date = gmdate( 'M d, Y', strtotime( $release_date ) );
 
-						// get the genres and implode them.
-						$genres = get_the_terms( $movie->ID, Genre::SLUG );
-						$genres = implode( ', ', wp_list_pluck( $genres, 'name' ) );
+                            // get the genres and implode them.
+                            $genres = get_the_terms( $movie->ID, Genre::SLUG );
+                            $genres = implode( ', ', wp_list_pluck( $genres, 'name' ) );
 
-						// get the actors from DB.
-						$actors = get_post_meta( $movie->ID, 'rt-movie-meta-crew-actor', true );
+                            // get the actors from DB.
+                            $actors = get_post_meta( $movie->ID, 'rt-movie-meta-crew-actor', true );
 
-						// ensure $actor is an array.
-						if( ! is_array( $actors ) ) {
-							$actors = array();
-						}
+                            // ensure $actor is an array.
+                            if( ! is_array( $actors ) ) {
+                                $actors = array();
+                            }
 
-						// extract ID of actors
-						$actors = array_keys( $actors );
+                            // extract ID of actors
+                            $actors = array_keys( $actors );
 
-						// get the actor name from DB.
-						$actors = array_map( function( $ID ) {
-							return get_the_title( $ID );
-						}, $actors );
+                            // get the actor name from DB.
+                            $actors = array_map( function( $ID ) {
+                                return get_the_title( $ID );
+                            }, $actors );
 
-						// remove empty values.
-						$actors = array_filter( $actors );
+                            // remove empty values.
+                            $actors = array_filter( $actors );
 
-						// implode the actors.
-						$actors = implode( ', ', $actors );
+                            // implode the actors.
+                            $actors = implode( ', ', $actors );
 
-						?>
-                        <div class="movie-card-item__info movie-card-item__show-on-hover">
-							<?php if( $release_date ) : ?>
-                                <div class="movie-card-item__info__release-date">
-									<?php printf( esc_html__( 'Release on: %s' ), esc_attr( $release_date ?? '' ) ); ?>
-                                </div>
-							<?php endif; ?>
-							<?php if( $genres ) : ?>
-                                <div class="movie-card-item__info__genres">
-									<?php printf( esc_html__( 'Genres: %s' ), esc_attr( $genres ?? '' ) ); ?>
-                                </div>
-							<?php endif; ?>
-							<?php if( $actors ) : ?>
-                                <div class="movie-card-item__info__actors">
-									<?php printf( esc_html__( 'Actors: %s' ), esc_attr( $actors ?? '' ) ); ?>
-                                </div>
-							<?php endif; ?>
+                            ?>
+                            <div class="movie-card-item__info movie-card-item__show-on-hover">
+                                <?php if( $release_date ) : ?>
+                                    <div class="movie-card-item__info__release-date">
+                                        <?php printf( esc_html__( 'Release on: %s' ), esc_attr( $release_date ?? '' ) ); ?>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if( $genres ) : ?>
+                                    <div class="movie-card-item__info__genres">
+                                        <?php printf( esc_html__( 'Genres: %s' ), esc_attr( $genres ?? '' ) ); ?>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if( $actors ) : ?>
+                                    <div class="movie-card-item__info__actors">
+                                        <?php printf( esc_html__( 'Actors: %s' ), esc_attr( $actors ?? '' ) ); ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
                         </div>
-
-                    </div>
+                    </a>
                 </li>
 			<?php endforeach; ?>
         </ul>
