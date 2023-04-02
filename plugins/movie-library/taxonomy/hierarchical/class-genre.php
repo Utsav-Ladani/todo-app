@@ -65,7 +65,7 @@ abstract class Genre {
 			'show_tagcloud'      => true,
 			'show_in_quick_edit' => true,
 			'show_admin_column'  => true,
-			'capabilities'         => array(
+			'capabilities'       => array(
 				'manage_terms' => 'manage_genres',
 				'edit_terms'   => 'edit_genres',
 				'delete_terms' => 'delete_genres',

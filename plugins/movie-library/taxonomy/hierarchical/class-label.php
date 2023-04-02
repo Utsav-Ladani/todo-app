@@ -65,7 +65,7 @@ abstract class Label {
 			'show_tagcloud'      => true,
 			'show_in_quick_edit' => true,
 			'show_admin_column'  => true,
-			'capabilities'         => array(
+			'capabilities'       => array(
 				'manage_terms' => 'manage_labels',
 				'edit_terms'   => 'edit_labels',
 				'delete_terms' => 'delete_labels',

@@ -43,10 +43,6 @@ use Movie_Library\Shortcode\Person_Shortcode;
 // setting.
 use Movie_Library\Setting\Setting;
 
-// widget.
-use Movie_Library\Widget\Upcoming_Movies_Dashboard_Widget;
-use Movie_Library\Widget\Movies_From_Plugin_Dashboard_Widget;
-
 // role.
 use Movie_Library\Role\Movie_Manager;
 
@@ -96,10 +92,6 @@ abstract class Movie_Library {
 
 		// add setting.
 		Setting::init();
-
-		// add widget.
-		Upcoming_Movies_Dashboard_Widget::init();
-		Movies_From_Plugin_Dashboard_Widget::init();
 	}
 
 	/**

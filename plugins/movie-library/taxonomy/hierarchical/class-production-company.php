@@ -65,7 +65,7 @@ abstract class Production_Company {
 			'show_tagcloud'      => true,
 			'show_in_quick_edit' => true,
 			'show_admin_column'  => true,
-			'capabilities'         => array(
+			'capabilities'       => array(
 				'manage_terms' => 'manage_production_companies',
 				'edit_terms'   => 'edit_production_companies',
 				'delete_terms' => 'delete_production_companies',
