@@ -23,3 +23,6 @@ require_once __DIR__ . '/class-movie-library.php';
 
 // register activation hook.
 register_activation_hook( __FILE__, array( Movie_Library::class, 'activate' ) );
+
+// register deactivation hook.
+register_deactivation_hook( __FILE__, array( Movie_Library::class, 'deactivate' ) );

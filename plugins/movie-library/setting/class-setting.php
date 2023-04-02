@@ -45,7 +45,7 @@ abstract class Setting {
 		add_options_page(
 			__( 'Movie Library', 'movie-library' ),
 			__( 'Movie Library', 'movie-library' ),
-			'manage_options',
+			'movie_library_settings',
 			'movie-library',
 			array( __CLASS__, 'render_plugin_settings_page' ),
 		);

@@ -47,6 +47,9 @@ use Movie_Library\Setting\Setting;
 use Movie_Library\Widget\Upcoming_Movies_Dashboard_Widget;
 use Movie_Library\Widget\Movies_From_Plugin_Dashboard_Widget;
 
+// role.
+use Movie_Library\Role\Movie_Manager;
+
 /**
  * Main class of the plugin.
  *
@@ -123,7 +126,21 @@ abstract class Movie_Library {
 		// register non-hierarchical shadow taxonomy to flush rewrite rules.
 		Shadow_Person::register_shadow_person_taxonomy();
 
+		// add Movie Manager Role.
+		Movie_Manager::add_movie_manager_role();
+
 		// flush rewrite rules.
 		flush_rewrite_rules();
+	}
+
+	/**
+	 * Do something on deactivation.
+	 * It removes the Movie Manager Role.
+	 *
+	 * @return void
+	 */
+	public static function deactivate() : void {
+		// remove Movie Manager Role.
+		Movie_Manager::remove_movie_manager_role();
 	}
 }
