@@ -191,7 +191,7 @@ class Movies_From_Plugin_Dashboard_Widget {
 			'meta_query'              => array(
 				array(
 					'key'       => 'rt-movie-meta-basic-release-date',
-					'value'     => date( 'Y-m-d' ),
+					'value'     => gmdate( 'Y-m-d' ),
 					'compare'   => '<=',
 					'type'      => 'DATE',
 				),
