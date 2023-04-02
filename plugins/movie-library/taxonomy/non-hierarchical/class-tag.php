@@ -65,6 +65,12 @@ abstract class Tag {
 			'show_tagcloud'      => true,
 			'show_in_quick_edit' => true,
 			'show_admin_column'  => true,
+			'capabilities'         => array(
+				'manage_terms' => 'manage_tags',
+				'edit_terms'   => 'edit_tags',
+				'delete_terms' => 'delete_tags',
+				'assign_terms' => 'assign_tags',
+			),
 		);
 
 		register_taxonomy( self::SLUG, array( Movie::SLUG ), $args );

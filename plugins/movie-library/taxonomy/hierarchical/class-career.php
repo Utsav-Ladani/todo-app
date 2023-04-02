@@ -65,6 +65,12 @@ abstract class Career {
 			'show_tagcloud'      => true,
 			'show_in_quick_edit' => true,
 			'show_admin_column'  => true,
+			'capabilities'         => array(
+				'manage_terms' => 'manage_careers',
+				'edit_terms'   => 'edit_careers',
+				'delete_terms' => 'delete_careers',
+				'assign_terms' => 'assign_careers',
+			),
 		);
 
 		register_taxonomy( self::SLUG, array( Person::SLUG ), $args );
