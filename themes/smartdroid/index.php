@@ -9,7 +9,7 @@
 
 get_header();
 
-printf( '<main id="home-page" class="home-page">' );
+echo '<main id="home-page" class="home-page">';
 
 // The Loop.
 if ( have_posts() ) {
@@ -21,7 +21,7 @@ if ( have_posts() ) {
 	printf( '<p class="description">%s</p>', esc_html__( 'Sorry, nothing to show.', 'smartdroid' ) );
 }
 
-printf( '</main>' );
+echo '</main>';
 
 ?>
 	<div class="pagination__wrapper">
