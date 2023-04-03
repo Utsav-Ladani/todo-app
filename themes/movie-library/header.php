@@ -26,9 +26,15 @@
 	<div class="header-nav">
 		<div class="max-container">
 			<header class="desktop-header" >
-				<div class="header-btn" >
+				<div class="header-btn search-header-btn" >
 					<span class="search-svg"></span>
 					<?php esc_html_e( 'Search', 'movie-library' ); ?>
+					<form acrion="/" class="search-form">
+						<input class="search-form__input" type="text" id="s" name="s" placeholder="Search here" />
+						<button class="search-form__btn" type="submit" class="search-submit">
+							<span class="search-svg"></span>
+						</button>
+					</form>
 				</div>
 				<h2 class="main-title" >
 					<a href="/">
@@ -57,7 +63,16 @@
 
 			<header class="mobile-header" >
 				<div class="mobile-header-main">
-					<span class="search-svg" ></span>
+					<div class="search-header-btn" >
+						<span class="search-svg" ></span>
+						<form acrion="/" class="search-form">
+							<input class="search-form__input" type="text" id="s" name="s" placeholder="Search here" />
+							<button class="search-form__btn" type="submit" class="search-submit">
+								<span class="search-svg"></span>
+							</button>
+						</form>
+					</div>
+
 					<a href="/">
 						<h2 class="main-title" >
 							<span><?php esc_html_e( 'Screen', 'movie-library' ); ?></span>
