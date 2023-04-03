@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying Comments.
+ * Comment Template
  * The area of the page that contains comments and the comment form.
  *
  * @package SmartDroid

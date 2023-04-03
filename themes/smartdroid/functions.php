@@ -1,6 +1,7 @@
 <?php
 /**
  * Functions and definitions
+ * It contains setup theme, enqueue styles and scripts, register nav menus, etc. functions.
  *
  * @package WordPress
  */

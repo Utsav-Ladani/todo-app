@@ -6,3 +6,4 @@ themes/twentytwentyone/
 **/*.md
 **/*.pot
 **/*.map
+**/*.svg

@@ -1,6 +1,7 @@
 <?php
 /**
- * The template for displaying post card
+ * Post card template
+ * It shows the post card with image, title, author, excerpt and category.
  *
  * @package Smartdroid
  */

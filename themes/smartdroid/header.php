@@ -1,13 +1,13 @@
 <?php
 /**
- * The header.
+ * The header
  * This is the template that displays all of the <head> section and everything up until main.
  *
  * @package WordPress
  */
 
 ?>
-<!doctype html>
+<!DOCTYPE html>
 <html <?php language_attributes(); ?> >
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />

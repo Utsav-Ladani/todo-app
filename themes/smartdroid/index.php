@@ -18,7 +18,7 @@ if ( have_posts() ) {
 		get_template_part( 'templates/post-card' );
 	}
 } else {
-	printf( '<p class="description">%s</p>', esc_html__( 'Sorry, nothing to show.', 'movie-library' ) );
+	printf( '<p class="description">%s</p>', esc_html__( 'Sorry, nothing to show.', 'smartdroid' ) );
 }
 
 printf( '</main>' );

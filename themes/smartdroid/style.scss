@@ -22,6 +22,7 @@ Domain Path: /languages
 	padding: 0;
 	box-sizing: border-box;
 	scroll-behavior: smooth;
+	word-wrap: anywhere;
 
 	font-family: "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 }
@@ -94,13 +95,16 @@ header {
 
 
 		.primary-menu > .menu-item {
-			display: inline-block;
 			margin: 0 0.5rem;
 			position: relative;
 			font-weight: 700;
 			font-size: 14px;
 			line-height: 1.2;
 			color: #555;
+
+			display: inline-flex;
+			flex-wrap: wrap;
+			align-items: center;
 		}
 
 		.primary-menu > .menu-item:hover > a {
@@ -136,6 +140,15 @@ header {
 				padding: 16px 20px;
 				background-color: #333;
 			}
+		}
+
+		.menu-item-has-children::after {
+			content: url(./assets/svg/down-arrow.svg);
+			height: 1.6em;
+		}
+
+		.sub-menu > .menu-item-has-children::after {
+			content: "";
 		}
 
 		.menu-item-has-children:hover > .sub-menu {
@@ -641,8 +654,8 @@ footer {
 		height: 2.25em;
 		width: 2.25em;
 		border: none;
-		color: #fff;
-		background-color: #515151;
+		background-color: #e1e1e1;
+
 		display: inline-flex;
 		justify-content: center;
 		align-items: center;
@@ -652,6 +665,11 @@ footer {
 			background-color: #666;
 			cursor: pointer;
 		}
+	}
+
+	.page-numbers.current {
+		color: #fff;
+		background-color: #515151;
 	}
 }
 

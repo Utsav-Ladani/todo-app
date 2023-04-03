@@ -1,7 +1,7 @@
 <?php
 /**
  * 404 Template
- * It renders if nothing is found for requested URL
+ * It renders if nothing is found for requested URL.
  *
  * @package SmartDroid
  */

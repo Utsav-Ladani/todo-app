@@ -1,7 +1,7 @@
 <?php
 /**
  * Single post template
- * It shows single post
+ * It shows single post.
  *
  * @package Smartdroid
  */

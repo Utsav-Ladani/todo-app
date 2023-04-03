@@ -1,21 +1,21 @@
 <?php
 /**
  * Author archive template
- * This shows list of post posted particular author
+ * This shows list of post posted particular author.
  *
  * @package Smartdroid
  */
 
 get_header();
 
-printf( '<main id="author-archive-page" class="author-archive-page">' );
-
 ?>
+
+<main id="author-archive-page" class="author-archive-page">
 
 	<div class="author-meta">
 		<img src="<?php echo esc_url( get_avatar_url( get_the_author_meta( 'ID' ) ) ); ?>" class="author__image" alt="<?php esc_html_e( 'Author Image', 'smartdroid' ); ?>" />
 		<div class="author__info">
-			<h3 class="title-h3"><?php esc_html_e( 'Author-archive:', 'movie-library' ); ?></h3>
+			<h3 class="title-h3"><?php esc_html_e( 'Author-archive:', 'smartdroid' ); ?></h3>
 			<h2 class="title-h1"><?php the_author_meta( 'display_name' ); ?></h2>
 			<div class="description"><?php the_author_meta( 'description' ); ?></div>
 			<ul class="author__info__socials">
@@ -64,12 +64,13 @@ if ( have_posts() ) {
 		);
 	}
 } else {
-	printf( '<p class="description">%s</p>', esc_html__( 'Sorry, nothing to show.', 'movie-library' ) );
+	printf( '<p class="description">%s</p>', esc_html__( 'Sorry, nothing to show.', 'smartdroid' ) );
 }
 
-printf( '</main>' );
-
 ?>
+
+</main>
+
 <div class="pagination__wrapper">
 <?php
 	the_posts_pagination(

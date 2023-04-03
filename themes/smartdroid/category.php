@@ -1,19 +1,18 @@
 <?php
 /**
  * Category archive template
- * This shows list of post for particular category
+ * This shows list of post for particular category.
  *
  * @package SmartDroid
  */
 
 get_header();
-
-printf( '<main id="category-archive-page" class="category-archive-page">' );
-
 ?>
 
+<main id="category-archive-page" class="category-archive-page">
+
 <div class="category-meta">
-	<h3 class="title-h3"><?php esc_html_e( 'Category:', 'movie-library' ); ?></h3>
+	<h3 class="title-h3"><?php esc_html_e( 'Category:', 'smartdroid' ); ?></h3>
 	<h2 class="title-h1"><?php single_cat_title(); ?></h2>
 	<div class="description"><?php echo category_description(); ?></div>
 </div>
@@ -49,12 +48,11 @@ if ( have_posts() ) {
 		);
 	}
 } else {
-	printf( '<p class="description">%s</p>', esc_html__( 'Sorry, nothing to show.', 'movie-library' ) );
+	printf( '<p class="description">%s</p>', esc_html__( 'Sorry, nothing to show.', 'smartdroid' ) );
 }
 
-printf( '</main>' );
-
 ?>
+</main>
 	<div class="pagination__wrapper">
 		<?php
 		the_posts_pagination(
