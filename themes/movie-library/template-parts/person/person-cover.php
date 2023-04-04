@@ -19,7 +19,7 @@ require_once get_stylesheet_directory() . '/includes/person-utility.php';
 		<div class="person-name-wrap">
 			<?php the_title( '<h1 class="person-name">', '</h1>' ); ?>
 			<?php
-			$full_name = get_post_meta( get_the_ID(), 'rt-person-meta-basic-full-name', true );
+			$full_name = \Movie_Library\APIs\Movie_Library_Metadata_API::get_person_meta( get_the_ID(), 'rt-person-meta-basic-full-name', true );
 			$full_name = $full_name ?? '';
 			printf( '<span class="person-full-name">%s</span>', esc_html( $full_name ) );
 			?>
@@ -33,7 +33,7 @@ require_once get_stylesheet_directory() . '/includes/person-utility.php';
 		$age = gmdate( 'Y' ) - gmdate( 'Y', strtotime( $date ) );
 
 		// get the birthplace.
-		$birth_place = get_post_meta( get_the_ID(), 'rt-person-meta-basic-birth-place', true );
+		$birth_place = \Movie_Library\APIs\Movie_Library_Metadata_API::get_person_meta( get_the_ID(), 'rt-person-meta-basic-birth-place', true );
 		$birth_place = $birth_place ?? '';
 
 		$first_movie = get_first_movie( get_the_ID() );
@@ -138,7 +138,7 @@ require_once get_stylesheet_directory() . '/includes/person-utility.php';
 						),
 					);
 
-					$social_meta = get_post_meta( get_the_ID(), 'rt-person-meta-social', true );
+					$social_meta = \Movie_Library\APIs\Movie_Library_Metadata_API::get_person_meta( get_the_ID(), 'rt-person-meta-social', true );
 
 					if ( ! is_array( $social_meta ) ) {
 						$social_meta = array();

@@ -50,7 +50,7 @@ if ( ! function_exists( 'get_post_rating' ) ) {
 		}
 
 		// get the meta value and format it.
-		$rating = get_post_meta( $id, $meta_keys[ $post_type ], true );
+		$rating = \Movie_Library\APIs\Movie_Library_Metadata_API::get_person_meta( $id, $meta_keys[ $post_type ], true );
 		$rating = $rating ?? 0;
 		$rating = (float) $rating;
 		return number_format_i18n( $rating, 1 );
@@ -80,7 +80,12 @@ if ( ! function_exists( 'get_post_runtime' ) ) {
 		}
 
 		// get the meta value and format it.
-		$runtime = get_post_meta( $id, $meta_keys[ $post_type ], true );
+		if ( Movie::SLUG === $post_type ) {
+			$runtime = \Movie_Library\APIs\Movie_Library_Metadata_API::get_movie_meta( $id, $meta_keys[ $post_type ], true );
+		} else {
+			$runtime = \Movie_Library\APIs\Movie_Library_Metadata_API::get_person_meta( $id, $meta_keys[ $post_type ], true );
+		}
+
 		$runtime = $runtime ?? 0;
 		$runtime = (int) $runtime;
 		$runtime = number_format_i18n( $runtime, 1 );
@@ -126,7 +131,12 @@ if ( ! function_exists( 'get_post_release_date' ) ) {
 		}
 
 		// get the meta value and format it.
-		$release_date = get_post_meta( $id, $meta_keys[ $post_type ], true );
+		if ( Movie::SLUG === $post_type ) {
+			$release_date = \Movie_Library\APIs\Movie_Library_Metadata_API::get_movie_meta( $id, $meta_keys[ $post_type ], true );
+		} else {
+			$release_date = \Movie_Library\APIs\Movie_Library_Metadata_API::get_person_meta( $id, $meta_keys[ $post_type ], true );
+		}
+
 		$release_date = $release_date ?? '';
 		$release_date = gmdate( $format, strtotime( $release_date ) );
 

@@ -14,7 +14,11 @@
 	</h3>
 	<ul class="videos-list">
 		<?php
-		$videos = get_post_meta( get_the_ID(), 'rt-media-meta-videos', true );
+		if ( \Movie_Library\Custom_Post_Type\Movie::SLUG === get_post_type( get_the_ID() ) ) {
+			$videos = \Movie_Library\APIs\Movie_Library_Metadata_API::get_movie_meta( get_the_ID(), 'rt-media-meta-videos', true );
+		} else {
+			$videos = \Movie_Library\APIs\Movie_Library_Metadata_API::get_person_meta( get_the_ID(), 'rt-media-meta-videos', true );
+		}
 
 		if ( ! is_array( $videos ) ) {
 			$videos = array();

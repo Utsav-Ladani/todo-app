@@ -14,7 +14,11 @@
 	</h3>
 	<ul class="snapshots-list">
 		<?php
-		$images = get_post_meta( get_the_ID(), 'rt-media-meta-images', true );
+		if ( \Movie_Library\Custom_Post_Type\Movie::SLUG === get_post_type( get_the_ID() ) ) {
+			$images = \Movie_Library\APIs\Movie_Library_Metadata_API::get_movie_meta( get_the_ID(), 'rt-media-meta-images', true );
+		} else {
+			$images = \Movie_Library\APIs\Movie_Library_Metadata_API::get_person_meta( get_the_ID(), 'rt-media-meta-images', true );
+		}
 
 		if ( ! is_array( $images ) ) {
 			$images = array();

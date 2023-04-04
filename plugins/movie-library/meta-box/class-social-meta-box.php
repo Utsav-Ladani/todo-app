@@ -8,6 +8,7 @@
 namespace Movie_Library\Meta_Box;
 
 use Movie_Library\Custom_Post_Type\Person;
+use Movie_Library\APIs\Movie_Library_Metadata_API;
 
 /**
  * Class Social_Meta_Box
@@ -189,7 +190,7 @@ abstract class Social_Meta_Box {
 	 */
 	public static function get_social_meta_data( int $post_id ) : array {
 		// Get the social metadata.
-		$data = get_post_meta( $post_id, 'rt-person-meta-social', true );
+		$data = Movie_Library_Metadata_API::get_person_meta( $post_id, 'rt-person-meta-social', true );
 
 		$value = array();
 
@@ -242,12 +243,12 @@ abstract class Social_Meta_Box {
 
 		// Delete the meta data if there is no social media link.
 		if ( count( $meta_value ) === 0 ) {
-			delete_post_meta( $post_id, 'rt-person-meta-social' );
+			Movie_Library_Metadata_API::delete_person_meta( $post_id, 'rt-person-meta-social' );
 			return;
 		}
 
 		// Update the meta data.
-		update_post_meta( $post_id, 'rt-person-meta-social', $meta_value );
+		Movie_Library_Metadata_API::update_person_meta( $post_id, 'rt-person-meta-social', $meta_value );
 	}
 
 	/**

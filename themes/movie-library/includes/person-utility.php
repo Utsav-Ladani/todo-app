@@ -23,10 +23,10 @@ if ( ! function_exists( 'get_cast_crew' ) ) {
 	 */
 	function get_cast_crew( int $id, int $limit = 4 ): array {
 		// get all meta data.
-		$directors = get_post_meta( $id, 'rt-movie-meta-crew-director', true );
-		$writers   = get_post_meta( $id, 'rt-movie-meta-crew-writer', true );
-		$producers = get_post_meta( $id, 'rt-movie-meta-crew-producer', true );
-		$actors    = get_post_meta( $id, 'rt-movie-meta-crew-actor', true );
+		$directors = \Movie_Library\APIs\Movie_Library_Metadata_API::get_movie_meta( $id, 'rt-movie-meta-crew-director', true );
+		$writers   = \Movie_Library\APIs\Movie_Library_Metadata_API::get_movie_meta( $id, 'rt-movie-meta-crew-writer', true );
+		$producers = \Movie_Library\APIs\Movie_Library_Metadata_API::get_movie_meta( $id, 'rt-movie-meta-crew-producer', true );
+		$actors    = \Movie_Library\APIs\Movie_Library_Metadata_API::get_movie_meta( $id, 'rt-movie-meta-crew-actor', true );
 
 		// validate the data.
 		if ( ! is_array( $actors ) ) {
@@ -76,7 +76,7 @@ if ( ! function_exists( 'get_post_birth_date' ) ) {
 		}
 
 		// get the meta value and format it.
-		$birth_date = get_post_meta( $id, $meta_keys[ $post_type ], true );
+		$birth_date = \Movie_Library\APIs\Movie_Library_Metadata_API::get_person_meta( $id, $meta_keys[ $post_type ], true );
 		$birth_date = $birth_date ?? '';
 		$birth_date = gmdate( $format, strtotime( $birth_date ) );
 		return preg_replace( '/(\d+)(th|st|nd|rd)/', '$1<span class="date-th">$2</span>', $birth_date );
@@ -193,7 +193,7 @@ if ( ! function_exists( 'get_archive_cast_crew' ) ) {
 	function get_archive_cast_crew( $movie_id, int $limit = 12 ) : array {
 		// if movie id is not empty.
 		if ( $movie_id ) {
-			$persons = get_post_meta( $movie_id, 'rt-movie-meta-crew-actor', true );
+			$persons = \Movie_Library\APIs\Movie_Library_Metadata_API::get_movie_meta( $movie_id, 'rt-movie-meta-crew-actor', true );
 
 			if ( ! is_array( $persons ) ) {
 				$persons = array();

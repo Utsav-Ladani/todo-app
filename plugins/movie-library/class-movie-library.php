@@ -43,6 +43,9 @@ use Movie_Library\Shortcode\Person_Shortcode;
 // setting.
 use Movie_Library\Setting\Setting;
 
+// APIs.
+use Movie_Library\APIs\Movie_Library_Metadata_API;
+
 /**
  * Main class of the plugin.
  *
@@ -57,6 +60,9 @@ abstract class Movie_Library {
 	public static function init() : void {
 		// register the autoloader.
 		Autoloader::register();
+
+		// setup database variable for metadata APIs.
+		Movie_Library_Metadata_API::init();
 
 		// add custom post type.
 		Movie::init();
