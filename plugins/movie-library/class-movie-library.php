@@ -89,6 +89,9 @@ abstract class Movie_Library {
 
 		// add setting.
 		Setting::init();
+
+		// add custom rewrite rules.
+		Custom_Rewrite_Rules::init();
 	}
 
 	/**
