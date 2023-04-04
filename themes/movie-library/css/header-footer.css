@@ -447,12 +447,18 @@ header * {
 }
 
 /** Search form */
+.search-form-btn {
+	display: flex;
+	align-items: center;
+	column-gap: 8px;
+}
+
 .search-form {
 	position: absolute;
 	top: 32px;
 	align-items: center;
 	background-color: #fff;
-	display: none;
+	display: flex;
 }
 
 .search-form .search-form__input {
@@ -481,14 +487,14 @@ header * {
 	position: relative;
 }
 
-.search-header-btn:hover > .search-form {
-	display: flex;
+.search-close {
+	display: none;
 }
 
 /** media query for the search form in mobile view. */
 @media screen and (max-width: 768px) {
 
 	.search-form {
-		top: 24px;
+		top: 120px;
 	}
 }

@@ -12,6 +12,8 @@
 		// get the menu button
 		const menuBtn = document.getElementById('mobile-toggle-btn');
 
+		if( ! menuBtn ) return;
+
 		// store the status of the menu
 		let isClose = true;
 
@@ -34,4 +36,63 @@
 			isClose = !isClose;
 		});
 	});
+
+	// wait for the window to be loaded
+	document.addEventListener('DOMContentLoaded', function () {
+		// get the menu button
+		const searchMenuBtn = document.getElementById('search-form-btn');
+
+		if( ! searchMenuBtn ) return;
+
+		// store the status of the menu
+		let isClose = true;
+
+		// add event listener to the menu button
+		searchMenuBtn.addEventListener('click', function () {
+			// get all the elements to toggle
+			const elementsToToggle =
+				document.getElementsByClassName('toggle-search-form');
+
+			if( ! elementsToToggle ) return;
+
+			// toggle the elements
+			for (let i = 0; i < elementsToToggle.length; i++) {
+				elementsToToggle[i].classList.toggle('search-close');
+			}
+
+			// toggle the status of the menu
+			isClose = !isClose;
+		});
+	});
+
+	// wait for the window to be loaded
+	document.addEventListener('DOMContentLoaded', function () {
+		// get the menu button
+		const searchMenuBtn = document.getElementById('search-form-btn-mobile');
+
+		if( ! searchMenuBtn ) return;
+
+		// store the status of the menu
+		let isClose = true;
+
+		// add event listener to the menu button
+		searchMenuBtn.addEventListener('click', function () {
+			// get all the elements to toggle
+			const elementsToToggle =
+				document.getElementsByClassName('toggle-search-form-mobile');
+
+			if( ! elementsToToggle ) return;
+
+			// toggle the elements
+			for (let i = 0; i < elementsToToggle.length; i++) {
+				elementsToToggle[i].classList.toggle('search-close');
+			}
+
+			// toggle the status of the menu
+			isClose = !isClose;
+		});
+	});
 })();
+
+
+
