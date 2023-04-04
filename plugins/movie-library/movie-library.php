@@ -17,9 +17,32 @@
 
 namespace Movie_Library;
 
+use Movie_Library\APIs\Movie_Library_Metadata_API;
+
 require_once __DIR__ . '/class-movie-library.php';
 
-\Movie_Library\Movie_Library::init();
+Movie_Library::init();
+Movie_Library_Metadata_API::init();
+
+
+add_action( 'init', function() {
+//	\Movie_Library\Movie_Library_Update::update();
+//	die();
+
+//	$result = Movie_Library_Metadata_API::get_movie_meta( 68, 'rt-movie-meta-basic-release-date' );
+//	print_r( $result );
+
+//	$result = Movie_Library_Metadata_API::add_movie_meta( 2, 'rt-movie-meta-basic-release-date', '999', true );
+//	print_r( $result );
+
+//	$result = Movie_Library_Metadata_API::delete_movie_meta( 68, 'rt-movie-meta-basic-release-date' );
+//	print_r( $result );
+
+//	$result = Movie_Library_Metadata_API::update_movie_meta( 72, 'rt-movie-meta-basic-release-date', '12-12' );
+//	print_r( $result );
+
+	die();
+} );
 
 // register activation hook.
 register_activation_hook( __FILE__, array( Movie_Library::class, 'activate' ) );
