@@ -10,7 +10,7 @@
 /** Movie Slider */
 .slider-container {
 	width: 100%;
-	overflow: scroll;
+	overflow: hidden;
 	color: #fff;
 }
 
