@@ -14,23 +14,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use Movie_Library\Custom_Post_Type\Movie;
-use Movie_Library\Custom_Post_Type\Person;
-
 /**
  * Class Movie_Library_Update
  * It responsible for updating the database and other plugin related data of older version plugin to make plugin compatible with new version.
  */
 class Movie_Library_Update {
+	public static function init() {
+		add_action( 'upgrader_process_complete', array( __CLASS__, 'update' ) );
+	}
+
 	public static function update() : void {
-		delete_option( 'movie_library_version' );
 		$version = get_option( 'movie_library_version' );
 
 		if ( version_compare( $version, MOVIE_LIBRARY_VERSION, '<' ) ) {
 			$result = self::update_1_1_0();
 
 			if ( $result ) {
-				echo 'Database updated successfully.';
 				update_option( 'movie_library_version', MOVIE_LIBRARY_VERSION );
 			}
 		}

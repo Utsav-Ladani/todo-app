@@ -97,6 +97,8 @@ abstract class Movie_Library {
 	 * @return void
 	 */
 	public static function activate() : void {
+		// update the plugin, if needed.
+		Movie_Library_Update::update();
 
 		// register custom post type to flush rewrite rules.
 		Movie::register_movie_post_type();
