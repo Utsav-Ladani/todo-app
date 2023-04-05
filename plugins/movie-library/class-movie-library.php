@@ -46,6 +46,9 @@ use Movie_Library\Setting\Setting;
 // APIs.
 use Movie_Library\APIs\Movie_Library_Metadata_API;
 
+// other.
+use Movie_Library\Movie_Library_Update;
+
 /**
  * Main class of the plugin.
  *
