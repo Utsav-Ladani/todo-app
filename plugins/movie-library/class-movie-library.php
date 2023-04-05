@@ -46,6 +46,9 @@ use Movie_Library\Setting\Setting;
 // APIs.
 use Movie_Library\APIs\Movie_Library_Metadata_API;
 
+// other.
+use Movie_Library\Movie_Library_Update;
+
 /**
  * Main class of the plugin.
  *
@@ -104,7 +107,7 @@ abstract class Movie_Library {
 	 */
 	public static function activate() : void {
 		// update the plugin, if needed.
-//		Movie_Library_Update::update();
+		Movie_Library_Update::update();
 
 		// register custom post type to flush rewrite rules.
 		Movie::register_movie_post_type();
