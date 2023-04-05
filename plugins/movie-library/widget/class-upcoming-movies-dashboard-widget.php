@@ -100,19 +100,19 @@ class Upcoming_Movies_Dashboard_Widget {
 								<div class="movie-card-item__info__release-date">
 									<?php
 									/* translators: %s: release date */
-									printf( esc_html__( 'Release on: %s' ), esc_attr( $upcoming_movie['releaseState'] ?? '' ) );
+									printf( esc_html__( 'Release on: %s', 'movie-library' ), esc_attr( $upcoming_movie['releaseState'] ?? '' ) );
 									?>
 								</div>
 								<div class="movie-card-item__info__genres">
 									<?php
 									/* translators: %s: genres */
-									printf( esc_html__( 'Genres: %s' ), esc_attr( $upcoming_movie['genres'] ?? '' ) );
+									printf( esc_html__( 'Genres: %s', 'movie-library' ), esc_attr( $upcoming_movie['genres'] ?? '' ) );
 									?>
 								</div>
 								<div class="movie-card-item__info__actors">
 									<?php
 									/* translators: %s: actors */
-									printf( esc_html__( 'Actors: %s' ), esc_attr( $upcoming_movie['stars'] ?? '' ) );
+									printf( esc_html__( 'Actors: %s', 'movie-library' ), esc_attr( $upcoming_movie['stars'] ?? '' ) );
 									?>
 								</div>
 							</div>

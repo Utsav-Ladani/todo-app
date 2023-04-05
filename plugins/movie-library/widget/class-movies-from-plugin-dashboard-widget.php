@@ -153,7 +153,7 @@ class Movies_From_Plugin_Dashboard_Widget {
 									<div class="movie-card-item__info__release-date">
 										<?php
 										/* translators: 1: Release date */
-										printf( esc_html__( 'Release on: %s' ), esc_attr( $release_date ?? '' ) );
+										printf( esc_html__( 'Release on: %s', 'movie-library' ), esc_attr( $release_date ?? '' ) );
 										?>
 									</div>
 								<?php endif; ?>
@@ -161,7 +161,7 @@ class Movies_From_Plugin_Dashboard_Widget {
 									<div class="movie-card-item__info__genres">
 										<?php
 										/* translators: 1: Genres */
-										printf( esc_html__( 'Genres: %s' ), esc_attr( $genres ?? '' ) );
+										printf( esc_html__( 'Genres: %s', 'movie-library' ), esc_attr( $genres ?? '' ) );
 										?>
 									</div>
 								<?php endif; ?>
@@ -169,7 +169,7 @@ class Movies_From_Plugin_Dashboard_Widget {
 									<div class="movie-card-item__info__actors">
 										<?php
 										/* translators: 1: Actors */
-										printf( esc_html__( 'Actors: %s' ), esc_attr( $actors ?? '' ) );
+										printf( esc_html__( 'Actors: %s', 'movie-library' ), esc_attr( $actors ?? '' ) );
 										?>
 									</div>
 								<?php endif; ?>
@@ -190,11 +190,16 @@ class Movies_From_Plugin_Dashboard_Widget {
 	 * @return array
 	 */
 	public static function get_most_recent_movies( int $movies_count = 6 ) : array {
+		// limit the number of movies to 20.
+		if ( $movies_count > 20 ) {
+			$movies_count = 20;
+		}
+
 		// WP_Query arguments.
 		$args = array(
 			'post_type'      => Movie::SLUG,
 			'post_status'    => 'publish',
-			'posts_per_page' => absint( $movies_count ),
+			'posts_per_page' => absint( $movies_count ), // phpcs:ignore WordPress.WP.PostsPerPage.posts_per_page_posts_per_page
 			// order by release date in meta key.
 			'meta_key'       => 'rt-movie-meta-basic-release-date', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 			'orderby'        => 'meta_value',
@@ -225,11 +230,16 @@ class Movies_From_Plugin_Dashboard_Widget {
 	 * @return array
 	 */
 	public static function get_top_rated_movies( int $movies_count = 6 ) : array {
+		// limit the number of movies to 20.
+		if ( $movies_count > 20 ) {
+			$movies_count = 20;
+		}
+
 		// WP_Query arguments.
 		$args = array(
 			'post_type'      => Movie::SLUG,
 			'post_status'    => 'publish',
-			'posts_per_page' => absint( $movies_count ),
+			'posts_per_page' => absint( $movies_count ),  // phpcs:ignore WordPress.WP.PostsPerPage.posts_per_page_posts_per_page
 			// order by rating in meta key.
 			'meta_key'       => 'rt-movie-meta-basic-rating', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 			'orderby'        => 'meta_value',
