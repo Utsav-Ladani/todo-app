@@ -19,7 +19,7 @@ use Movie_Library\Taxonomy\Hierarchical\Genre;
 
 	<?php
 	// get video link.
-    $videos = \Movie_Library\APIs\Movie_Library_Metadata_API::get_movie_meta( get_the_ID(), 'rt-media-meta-videos', true );
+	$videos = \Movie_Library\APIs\Movie_Library_Metadata_API::get_movie_meta( get_the_ID(), 'rt-media-meta-videos', true );
 
 	if ( ! is_array( $videos ) ) {
 		$videos = array();
