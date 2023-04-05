@@ -18,12 +18,13 @@
 namespace Movie_Library;
 
 require_once __DIR__ . '/class-movie-library.php';
+require_once __DIR__ . '/class-movie-library-update.php';
 
 // initialize plugin.
 Movie_Library::init();
 
 // initialize update functionality.
-//Movie_Library_Update::init();
+Movie_Library_Update::init();
 
 // register activation hook.
 register_activation_hook( __FILE__, array( Movie_Library::class, 'activate' ) );
