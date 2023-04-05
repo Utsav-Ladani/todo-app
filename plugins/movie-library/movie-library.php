@@ -20,7 +20,7 @@ namespace Movie_Library;
 require_once __DIR__ . '/class-movie-library.php';
 
 // initialize plugin.
-//Movie_Library::init();
+Movie_Library::init();
 
 // initialize update functionality.
 //Movie_Library_Update::init();
