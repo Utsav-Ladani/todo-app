@@ -227,11 +227,12 @@ abstract class Crew_Meta_Box {
 		// get the person from the database.
 		$person_query = new \WP_Query(
 			array(
-				'post_type' => Person::SLUG,
-				'orderby'   => 'name',
-				'order'     => 'ASC',
+				'post_type'      => Person::SLUG,
+				'orderby'        => 'name',
+				'order'          => 'ASC',
+				'posts_per_page' => -1,
 				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
-				'tax_query' => array(
+				'tax_query'      => array(
 					array(
 						'taxonomy' => Career::SLUG,
 						'field'    => 'slug',

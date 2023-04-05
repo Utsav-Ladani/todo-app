@@ -1,0 +1,528 @@
+/**
+ * Header and Footer styles.
+ * It contains styles for the header and footer with submenu styles.
+ * It also contains styles for the toggle menu.
+ */
+
+/** Variables */
+
+$primary-bg-color: #1f1f1f;
+$accent-color: #d13223;
+$mobile-break-point: 768px;
+$nav-bg-color: #111;
+
+
+/** Footer */
+
+footer {
+	background-color: #2a2a2a;
+	font-family: Heebo, cursive;
+
+	* {
+		color: #fff;
+	}
+}
+
+.footer-wrapper {
+	padding: 0 110px;
+}
+
+.widgets {
+	padding: 96px 0;
+
+	display: grid;
+	grid-template-columns: 2fr 1fr 1fr;
+	align-items: center;
+
+	.main-title {
+		font-family: "Big Shoulders Display", sans-serif;
+		font-size: 48px;
+		font-weight: 500;
+		line-height: 56px;
+		text-transform: uppercase;
+
+		margin-bottom: 76px;
+	}
+
+	ul {
+		padding: 0;
+	}
+
+	.widget-title {
+		margin-bottom: 24px;
+		text-transform: uppercase;
+		font-size: 16px;
+		font-weight: 700;
+		line-height: 32px;
+	}
+
+	.menu-item {
+		list-style: none;
+	}
+
+	.menu-item a {
+		text-decoration: none;
+		font-size: 16px;
+		line-height: 40px;
+		font-weight: 400;
+		text-transform: capitalize;
+		color: #fff;
+	}
+}
+
+.footer-hr {
+	border-top: 0.5px solid #ddd;
+}
+
+.footer-text {
+	padding: 40px 0;
+	font-size: 16px;
+	font-weight: 400;
+	text-align: left;
+	color: #ddd;
+}
+
+.social-title {
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 32px;
+	text-align: left;
+	text-transform: uppercase;
+}
+
+.social {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	column-gap: 16px;
+	list-style: none;
+
+	margin: 16px 0;
+}
+
+
+/** Header */
+
+header * {
+	color: #fff;
+	text-transform: uppercase;
+}
+
+.mobile-header {
+	display: none;
+}
+
+.search-svg {
+	content: url(../assets/svg/search.svg);
+}
+
+.text-color-accent {
+	color: #d13223;
+}
+
+.desktop-header {
+	height: 120px;
+	width: 100%;
+	padding: 0 112px;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	.main-title {
+		font-family: "Big Shoulders Display", sans-serif;
+		font-weight: 700;
+		font-size: 48px;
+		line-height: 56px;
+	}
+
+	.header-btn {
+		position: relative;
+		display: flex;
+		align-items: center;
+		column-gap: 8px;
+
+		font-family: Heebo, cursive;
+		font-style: normal;
+		font-weight: 400;
+		font-size: 16px;
+		line-height: 32px;
+
+		cursor: pointer;
+	}
+
+	.header-span-gap {
+		display: flex;
+		column-gap: 34px;
+	}
+
+	.user-svg {
+		content: url(../assets/svg/user.svg);
+	}
+
+	.negative-triangle-svg {
+		content: url(../assets/svg/negative-triangle.svg);
+		height: 16px;
+		width: 16px;
+		transform: rotate(90deg);
+	}
+
+	.header-triangle-menu {
+		position: absolute;
+		top: 100px;
+		right: 50px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		row-gap: 10px;
+		text-align: center;
+
+		background-color: #3a3a3a;
+
+		height: 0;
+		padding: 0;
+		overflow: hidden;
+
+		transition: all 160ms ease-in-out;
+	}
+
+	.rotate-180 {
+		transform: rotate(270deg);
+	}
+
+	.close-drop-down-menu {
+		padding: 16px;
+		height: 120px;
+	}
+}
+
+.mobile-menu {
+	display: none;
+}
+
+.desktop-menu {
+	display: block;
+
+	.desktop-nav-menu {
+		height: 48px;
+
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 42px;
+
+		background-color: $nav-bg-color;
+		list-style: none;
+
+		.menu-item a {
+			width: 60px;
+
+			font-family: Heebo, cursive;
+			font-style: normal;
+			font-weight: 700;
+			font-size: 16px;
+
+			text-transform: uppercase;
+			text-decoration: none;
+
+			color: #fff;
+		}
+	}
+}
+
+/** Media Query for the header in mobile view. */
+
+@media screen and (max-width: $mobile-break-point) {
+
+	/** Header */
+
+	.desktop-header {
+		display: none;
+	}
+
+	.mobile-header {
+		display: flex;
+		flex-direction: column;
+		row-gap: 56px;
+		padding: 32px 24px;
+
+		background-color: #2a2a2a;
+
+		.mobile-header-main {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.main-title {
+			font-family: "Big Shoulders Display", sans-serif;
+			font-style: normal;
+			font-weight: 700;
+			font-size: 34.3456px;
+			line-height: 40px;
+		}
+
+		.close-svg {
+			content: url(../assets/svg/close.svg);
+		}
+
+		.bar-svg {
+			content: url(../assets/svg/bar.svg);
+		}
+
+		.mobile-header-btns {
+			display: flex;
+			column-gap: 8px;
+		}
+
+		.close {
+			display: none;
+		}
+
+		.mobile-header-btn {
+			padding: 8px 24px;
+			height: 40px;
+			border-radius: 20px;
+			display: flex;
+			align-items: center;
+
+			font-family: Heebo, cursive;
+			font-style: normal;
+			font-weight: 400;
+			font-size: 14px;
+			line-height: 24px;
+
+			background-color: transparent;
+			border: 1px solid #fff;
+		}
+
+		.mobile-btn-register {
+			border: none;
+			color: #fff;
+			background-color: #d13223;
+		}
+	}
+
+	.desktop-menu {
+		display: none;
+	}
+
+	.mobile-menu {
+		display: block;
+		padding: 0 24px;
+		background-color: #2a2a2a;
+
+		.mobile-menu-line {
+			height: 1px;
+			background-color: #666;
+		}
+	}
+
+	/** Sub-menus in mobile view. */
+
+	.explore-menu,
+	.settings-menu {
+		padding: 24px 0;
+		text-transform: uppercase;
+
+		.mobile-menu-title-wrapper {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			color: #fff;
+		}
+
+		.mobile-menu-title {
+			font-family: Heebo, cursive;
+			font-style: normal;
+			font-weight: 700;
+			font-size: 16px;
+			line-height: 16px;
+		}
+
+		.drop-down-arrow-svg {
+			content: url(../assets/svg/drop-down-arrow.svg);
+			transition: transform 200ms ease-in-out;
+		}
+
+		.rotate-180 {
+			transform: rotate(180deg);
+		}
+
+		.menu {
+			transition: all 0.5s ease-out;
+			max-height: 50vh;
+			overflow: hidden;
+		}
+
+		.close-drop-down-menu {
+			max-height: 0;
+		}
+
+		.mobile-nav-menu {
+			display: flex;
+			flex-direction: column;
+			row-gap: 40px;
+			list-style: none;
+			padding: 32px 16px 0 16px;
+			height: auto;
+
+			.menu-item {
+				display: block;
+				line-height: 14px;
+			}
+
+			.menu-item a {
+				font-family: Heebo, cursive;
+				font-style: normal;
+				font-weight: 700;
+				font-size: 14px;
+				line-height: 14px;
+
+				text-decoration: none;
+
+				color: #fff;
+			}
+		}
+
+		.language-value {
+			font-style: normal;
+			font-weight: 400;
+			font-size: 14px;
+			margin-left: 9px;
+		}
+	}
+
+	.mobile-version {
+		font-family: Heebo, cursive;
+		font-style: normal;
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 24px;
+		color: #ddd;
+		padding: 32px 0;
+		text-align: center;
+	}
+}
+
+.close {
+	display: none;
+}
+
+/** Media query for the footer in mobile view. */
+
+@media screen and (max-width: $mobile-break-point) {
+
+	/** Footer */
+
+	footer {
+		padding: 40px 24px;
+
+		.widgets {
+			padding: 0;
+			grid-template-columns: 1fr;
+
+			.widget-left {
+				display: grid;
+				justify-items: center;
+			}
+
+			.main-title {
+				text-align: center;
+				margin-bottom: 24px;
+			}
+		}
+	}
+
+	.footer-wrapper {
+		padding: 0;
+	}
+
+	.widget-company {
+		display: none;
+	}
+
+	.social-title {
+		text-align: center;
+	}
+
+	.social {
+		width: 100%;
+		max-width: 400px;
+		justify-content: space-between;
+		column-gap: 16px;
+	}
+
+	.social-item {
+
+		img {
+			width: 32px;
+			height: 32px;
+			object-fit: cover;
+		}
+	}
+
+	.footer-hr {
+		margin-top: 44px;
+	}
+
+	.footer-text {
+		padding: 40px 16px 0 16px;
+		text-align: center;
+	}
+}
+
+/** Search form */
+
+.search-form-btn {
+	display: flex;
+	align-items: center;
+	column-gap: 8px;
+}
+
+.search-form {
+	position: absolute;
+	top: 32px;
+	align-items: center;
+	background-color: #fff;
+	display: flex;
+
+	.search-form__input {
+		padding: 8px;
+		color: #000;
+		font-size: 16px;
+		text-transform: none;
+		border: none;
+		outline: none;
+		background-color: transparent;
+	}
+
+	.search-form__btn {
+		padding: 0 8px;
+		background-color: transparent;
+		font-size: 16px;
+		border: none;
+		cursor: pointer;
+	}
+
+	.search-svg {
+		content: url(../assets/svg/search-black.svg);
+	}
+}
+
+.search-header-btn {
+	position: relative;
+}
+
+.search-close {
+	display: none;
+}
+
+/** media query for the search form in mobile view. */
+
+@media screen and (max-width: $mobile-break-point) {
+
+	.search-form {
+		top: 120px;
+	}
+}

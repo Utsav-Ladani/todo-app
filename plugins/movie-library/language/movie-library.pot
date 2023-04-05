@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-03-07T21:15:48+00:00\n"
+"POT-Creation-Date: 2023-03-14T22:12:38+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: movie-library\n"
@@ -141,11 +141,11 @@ msgstr ""
 msgid "Movie Poster"
 msgstr ""
 
-#: custom-post-type/class-movie.php:98
+#: custom-post-type/class-movie.php:99
 msgid "Title"
 msgstr ""
 
-#: custom-post-type/class-movie.php:112
+#: custom-post-type/class-movie.php:113
 msgid "Plot"
 msgstr ""
 
@@ -236,71 +236,79 @@ msgstr ""
 msgid "Profile Picture"
 msgstr ""
 
-#: custom-post-type/class-person.php:97
+#: custom-post-type/class-person.php:98
 msgid "Name"
 msgstr ""
 
-#: custom-post-type/class-person.php:111
+#: custom-post-type/class-person.php:112
 msgid "Biography"
 msgstr ""
 
-#: meta-box/class-basic-meta-box.php:32
-#: meta-box/class-person-basic-meta-box.php:43
+#: meta-box/class-basic-meta-box.php:38
+#: meta-box/class-person-basic-meta-box.php:47
 msgid "Basic"
 msgstr ""
 
-#: meta-box/class-basic-meta-box.php:55
-msgid "Rating"
+#: meta-box/class-basic-meta-box.php:98
+msgid "Rating ( Between 0 to 10 )"
 msgstr ""
 
-#: meta-box/class-basic-meta-box.php:68
+#: meta-box/class-basic-meta-box.php:115
 msgid "Runtime"
 msgstr ""
 
-#: meta-box/class-basic-meta-box.php:79
+#: meta-box/class-basic-meta-box.php:130
 msgid "Release Date"
 msgstr ""
 
-#: meta-box/class-crew-meta-box.php:74
+#: meta-box/class-crew-meta-box.php:79
 msgid "Crew"
 msgstr ""
 
-#: meta-box/class-images-meta-box.php:47
-#: meta-box/class-images-meta-box.php:56
+#: meta-box/class-crew-meta-box.php:168
+msgid "(Press CTRL to select multiple)"
+msgstr ""
+
+#: meta-box/class-images-meta-box.php:50
+#: meta-box/class-images-meta-box.php:59
 msgid "Images"
 msgstr ""
 
-#: meta-box/class-images-meta-box.php:122
+#: meta-box/class-images-meta-box.php:128
 #: admin/js/image-upload-handler.js:82
 msgid "Add Images"
 msgstr ""
 
-#: meta-box/class-images-meta-box.php:223
-#: meta-box/class-videos-meta-box.php:222
+#: meta-box/class-images-meta-box.php:229
+#: meta-box/class-videos-meta-box.php:228
 #: admin/js/image-upload-handler.js:136
-#: admin/js/video-upload-handler.js:148
+#: admin/js/video-upload-handler.js:145
 msgid "Remove"
 msgstr ""
 
-#: meta-box/class-person-basic-meta-box.php:71
+#: meta-box/class-person-basic-meta-box.php:110
 msgid "Birth Date"
 msgstr ""
 
-#: meta-box/class-person-basic-meta-box.php:83
+#: meta-box/class-person-basic-meta-box.php:124
 msgid "Birth Place"
 msgstr ""
 
-#: meta-box/class-social-meta-box.php:81
+#: meta-box/class-person-basic-meta-box.php:139
+msgid "Full Name"
+msgstr ""
+
+#: meta-box/class-social-meta-box.php:86
 msgid "Social Information"
 msgstr ""
 
-#: meta-box/class-videos-meta-box.php:47
-#: meta-box/class-videos-meta-box.php:56
+#: meta-box/class-videos-meta-box.php:50
+#: meta-box/class-videos-meta-box.php:59
 msgid "Videos"
 msgstr ""
 
-#: meta-box/class-videos-meta-box.php:122
-#: admin/js/video-upload-handler.js:82
+#: meta-box/class-videos-meta-box.php:128
+#: admin/js/video-upload-handler.js:79
 msgid "Add Videos"
 msgstr ""
 
@@ -333,11 +341,11 @@ msgstr ""
 msgid "New Person Name"
 msgstr ""
 
-#: shortcode/class-movie-shortcode.php:477
+#: shortcode/class-movie-shortcode.php:484
 msgid "Director"
 msgstr ""
 
-#: shortcode/class-movie-shortcode.php:480
+#: shortcode/class-movie-shortcode.php:487
 msgid "Actor"
 msgstr ""
 
@@ -605,6 +613,6 @@ msgstr ""
 msgid "Write a synopsis"
 msgstr ""
 
-#: admin/js/video-upload-handler.js:80
+#: admin/js/video-upload-handler.js:77
 msgid "Select or Upload Videos for Movie"
 msgstr ""

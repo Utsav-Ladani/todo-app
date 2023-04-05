@@ -39,5 +39,41 @@
 				}
 			});
 		})();
+
+		// validate full name
+		(function () {
+			const fullNameInput = document.getElementById(
+				'rt-person-meta-basic-full-name'
+			);
+
+			// don't validate if input not found.
+			if (!fullNameInput) {
+				return false;
+			}
+
+			// add listener to input
+			fullNameInput.addEventListener('input', function (e) {
+				e.preventDefault();
+
+				// get the DOM object
+				const fullName = e.target.value;
+				const fullNameError = document.getElementById(
+					'rt-person-meta-basic-full-name-error'
+				);
+
+				fullName.trim();
+
+				// allowed only letters, commas, and spaces and show error if not.
+				if (fullName === '' || !fullName.match(/^[a-zA-Z0-9 ]+$/)) {
+					fullNameError.style.display = 'block';
+					fullNameError.innerText = __(
+						'Full name only contains alphabets, numbers, and spaces.'
+					);
+				} else {
+					fullNameError.innerText = '';
+					fullNameError.style.display = 'none';
+				}
+			});
+		})();
 	});
 })();
