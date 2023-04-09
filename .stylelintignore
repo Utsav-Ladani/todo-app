@@ -3,7 +3,7 @@ themes/twentytwentyone/
 **/*.php
 **/*.png
 **/*.jpg
-**/*.svg
+**/*.md
 **/*.pot
 **/*.map
-**/*.md
+**/*.svg
