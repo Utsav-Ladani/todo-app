@@ -36,7 +36,9 @@
 			const id = target.getAttribute('id');
 
 			// get the list of actor ids
-			const actorIDs = actorInput.value;
+			const actorIDs = getOptionsValueArray(actorInput.options).map(
+				(actor) => actor.id
+			);
 
 			// if the id is not in the list of actor ids, return
 			if (id === '' || actorIDs.indexOf(id) === -1) {
@@ -91,7 +93,7 @@
 				const input = document.createElement('input');
 				const inputAttributes = {
 					type: 'text',
-					name: actor.name,
+					name: actor.id,
 					id: actor.id,
 					value:
 						actor.id in characterValues
