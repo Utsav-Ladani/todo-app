@@ -76,6 +76,22 @@ class Upcoming_Movies_Dashboard_Widget {
 	 * @return void
 	 */
 	public static function render_upcoming_movies_dashboard_widget() : void {
+
+		// check whether API URL and Key is set. It is not, then show the message to add the API URL and Key.
+		if ( ! self::validate_api_url_and_key() ) {
+			?>
+			<div class="upcoming-movies">
+				<p>
+					<?php esc_html_e( 'Please add the API URL and Key in the settings page.', 'movie-library' ); ?>
+					<a href="<?php echo esc_url( admin_url( 'options-general.php?page=movie-library' ) ); ?>">
+						<?php esc_html_e( 'Click here add this.', 'movie-library' ); ?>
+					</a>
+				</p>
+			</div>
+			<?php
+			return;
+		}
+
 		// get imdb upcoming movies list.
 		$upcoming_movies = self::get_imdb_upcoming_movies();
 
@@ -122,7 +138,31 @@ class Upcoming_Movies_Dashboard_Widget {
 				<?php endforeach; ?>
 			</ul>
 		</div>
+		<p>
+			<a href="<?php echo esc_url( admin_url( 'options-general.php?page=movie-library' ) ); ?>">
+				<?php esc_html_e( 'Click here', 'movie-library' ); ?>
+			</a>
+			<?php esc_html_e( ' to change the API URL and Key.', 'movie-library' ); ?>
+		</p>
 		<?php
+	}
+
+	/**
+	 * Validate the API URL and Key before fetching the data.
+	 *
+	 * @return bool
+	 */
+	public static function validate_api_url_and_key() : bool {
+		// get the API URL and Key from options.
+		$api_url = get_option( 'rt-movie-library-api-url' );
+		$api_key = get_option( 'rt-movie-library-api-key' );
+
+		// if API URL or Key is empty, then return false.
+		if ( empty( $api_url ) || empty( $api_key ) ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -133,8 +173,16 @@ class Upcoming_Movies_Dashboard_Widget {
 	 */
 	public static function get_imdb_upcoming_movies( int $max_items = 6 ) : array {
 		// add API key to the URL and sanitize it.
-		$url = MOVIE_LIBRARY_IMDB_API_URL . MOVIE_LIBRARY_IMDB_API_KEY;
-		$url = esc_url_raw( $url );
+		$api_url = get_option( 'rt-movie-library-api-url' );
+		$api_key = get_option( 'rt-movie-library-api-key' );
+
+		// Add the trailing slash if not present.
+		if ( substr( $api_url, -1 ) !== '/' ) {
+			$api_url .= '/';
+		}
+
+		// joint the API URL and API Key.
+		$url = esc_url_raw( $api_url . $api_key );
 
 		// set the arguments for the wp_remote_request.
 		$args = array(
