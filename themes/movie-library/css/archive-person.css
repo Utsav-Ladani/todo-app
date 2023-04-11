@@ -21,7 +21,7 @@
 
 .person-archive-list {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(min(100%, max(500px, 33.3333333333%)), 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, max(500px, 33.33%)), 1fr));
 	justify-content: center;
 	align-items: start;
 	align-content: start;
@@ -40,9 +40,11 @@
 }
 
 .person-archive-item-first {
-	height: 100%;
-	display: flex;
+	height: 224px;
+	display: grid;
+	grid-template-columns: auto auto;
 	align-items: center;
+	overflow: hidden;
 }
 
 .person-info-wrapper {
@@ -71,12 +73,14 @@
 .person-born {
 	font-size: 14px;
 	line-height: 24px;
-	color: rgba(255, 255, 255, 0.4980392157);
+	color: rgba(255, 255, 255, 0.5);
 }
 
 .archive-person-excerpt {
 	font-size: 16px;
 	line-height: 24px;
+	max-height: 48px;
+	overflow: hidden;
 }
 
 .archive-page-link {
@@ -96,15 +100,17 @@
 	width: 16px;
 }
 
+.person-archive-image-link {
+	display: flex;
+	width: 153px;
+	height: 100%;
+	overflow: hidden;
+}
+
 .person-archive-image {
 	width: 153px;
 	height: 100%;
 	object-fit: cover;
-}
-
-.person-archive-image-link {
-	width: 153px;
-	height: 100%;
 }
 
 /** Load More Button */
@@ -145,6 +151,12 @@
 	.person-archive-item {
 		max-width: 400px;
 		flex-direction: column;
+	}
+
+	.person-archive-item-first {
+		height: 105px;
+		justify-content: start;
+		overflow: hidden;
 	}
 
 	.person-archive-item-second {
@@ -205,6 +217,5 @@
 
 	.person-archive-image-link {
 		width: 72px;
-		height: 100%;
 	}
 }

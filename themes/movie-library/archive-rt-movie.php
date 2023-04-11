@@ -44,19 +44,12 @@ get_header();
 				$total_movies = count( $movies );
 
 				foreach ( $movies as $movie ) {
-					$src = get_thumbnail_attachment_url( $movie->ID );
-
-					// get the runtime and format it.
-					$runtime = get_post_runtime( $movie->ID, 'H', 'M' );
-
-					// get the release date and format it.
-					$release_date = get_post_release_date( $movie->ID );
-
-					// get the permalink.
-					$permalink = get_permalink( $movie->ID );
-
 					?>
-					<div style='background-image: url("<?php echo esc_url( $src ); ?>")' class="slide" onclick="window.location='<?php echo esc_url( $permalink ); ?>'">
+					<div
+							style='background-image: url("<?php echo esc_url( get_thumbnail_attachment_url( $movie->ID ) ); ?>")'
+							class="slide"
+							onclick="window.location='<?php echo esc_url( get_permalink( $movie->ID ) ); ?>'"
+					>
 						<div class="slide-content-wrapper">
 							<div class="slide-content">
 								<h2 class="movie-cover-title"><?php echo esc_html( $movie->post_title ); ?></h2>
@@ -64,15 +57,9 @@ get_header();
 									<?php echo wp_kses_post( get_the_excerpt( $movie->ID ) ); ?>
 								</div>
 								<div class="meta-info-wrapper">
-						<span class="basic-meta-item">
-							<?php echo esc_html( $release_date ); ?>
-						</span>
-									<span class="basic-meta-item">
-							<?php echo esc_html( 'PG-13' ); ?>
-						</span>
-									<span class="basic-meta-item">
-							<?php echo esc_html( $runtime ); ?>
-						</span>
+									<span class="basic-meta-item"><?php echo esc_html( get_post_release_date( $movie->ID ) ); ?></span>
+									<span class="basic-meta-item"><?php echo esc_html( 'PG-13' ); ?></span>
+									<span class="basic-meta-item"><?php echo esc_html( get_post_runtime( $movie->ID, 'H', 'M' ) ); ?></span>
 								</div>
 								<ul class="movie-genre">
 									<?php
@@ -84,9 +71,7 @@ get_header();
 
 										?>
 										<li class="movie-genre-item hover-btn">
-											<a href="<?php echo esc_url( $term_link ); ?>">
-												<?php echo esc_html( $term_name ); ?>
-											</a>
+											<a href="<?php echo esc_url( $term_link ); ?>"><?php echo esc_html( $term_name ); ?></a>
 										</li>
 										<?php
 									endforeach;
@@ -136,40 +121,26 @@ get_header();
 				);
 
 				foreach ( $movies as $movie ) {
-					// get the image and title.
-					$src  = get_thumbnail_attachment_url( $movie->ID );
-					$name = $movie->post_title;
-
-					// get the release date and format it.
-					$release_date = get_post_release_date( $movie->ID, 'jS M Y' );
-
 					// get the terms.
 					$term_names = get_terms_list( $movie->ID, Genre::SLUG );
 					$term_name  = $term_names[0] ?? '';
-
-					// get the permalink.
-					$permalink = get_permalink( $movie->ID );
-
-					// get the term link.
-					$term_link = get_term_link( $term_name, Genre::SLUG );
-
 					?>
 					<li class="movie-card-item">
-						<a class="link-flex" href="<?php echo esc_url( $permalink ); ?>">
-							<img class="movie-image" src="<?php echo esc_url( $src ); ?>" alt="" />
+						<a class="link-flex" href="<?php echo esc_url( get_permalink( $movie->ID ) ); ?>">
+							<img class="movie-image" src="<?php echo esc_url( get_thumbnail_attachment_url( $movie->ID ) ); ?>" alt="<?php esc_html_e( 'Movie Image', 'movie-library' ); ?>" />
 						</a>
 						<div class="movie-info">
-							<a href="<?php echo esc_url( $permalink ); ?>">
+							<a href="<?php echo esc_url( get_permalink( $movie->ID ) ); ?>">
 								<h4 class="movie-title">
-									<?php echo esc_html( $name ); ?>
+									<?php echo esc_html( $movie->post_title ); ?>
 								</h4>
 							</a>
-							<a class="movie-genre-item" href="<?php echo esc_url( $term_link ); ?>">
+							<a class="movie-genre-item" href="<?php echo esc_url( get_term_link( $term_name, Genre::SLUG ) ); ?>">
 								<?php echo esc_html( $term_name ); ?>
 							</a>
 							<span class="movie-date">
 							<?php esc_html_e( 'Release', 'movie-library' ); ?>:
-							<?php echo wp_kses( $release_date, array( 'span' => array( 'class' => array() ) ) ); ?>
+							<?php echo wp_kses( get_post_release_date( $movie->ID, 'jS M Y' ), array( 'span' => array( 'class' => array() ) ) ); ?>
 						</span>
 							<span class="movie-tag"><?php echo esc_html( 'PG-13' ); ?></span>
 						</div>
@@ -187,4 +158,3 @@ get_header();
 get_template_part( 'template-parts/movie/trending-movies' );
 
 get_footer();
-

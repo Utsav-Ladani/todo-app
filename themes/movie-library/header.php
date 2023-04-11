@@ -25,53 +25,74 @@
 <div id="page" class="site">
 	<div class="header-nav">
 		<div class="max-container">
-		<header class="desktop-header" >
-			<div class="header-btn" >
-				<span class="search-svg"></span>
-				<?php esc_html_e( 'Search', 'movie-library' ); ?>
-			</div>
-			<h2 class="main-title" >
-				<a href="/">
-					<span><?php esc_html_e( 'Screen', 'movie-library' ); ?></span>
-					<span class="text-color-accent" ><?php esc_html_e( 'Time', 'movie-library' ); ?></span>
-				</a>
-			</h2>
-			<div class="header-span-gap">
+			<header class="desktop-header" >
+				<div id="search-header-btn" class="header-btn" >
+					<span id="search-form-btn" class="search-form-btn">
+						<span class="search-svg"></span>
+						<?php esc_html_e( 'Search', 'movie-library' ); ?>
+					</span>
+					<form acrion="/" class="search-form toggle-search-form search-close">
+						<input class="search-form__input" type="text" id="s" name="s" placeholder="Search here" />
+						<button class="search-form__btn" type="submit" class="search-submit">
+							<span class="search-svg"></span>
+						</button>
+					</form>
+				</div>
+				<h2 class="main-title" >
+					<a href="/">
+						<span><?php esc_html_e( 'Screen', 'movie-library' ); ?></span>
+						<span class="text-color-accent" ><?php esc_html_e( 'Time', 'movie-library' ); ?></span>
+					</a>
+				</h2>
+				<div class="header-span-gap">
 		<span class="header-btn" >
 			<span class="user-svg"></span>
 			<?php esc_html_e( 'Sign In', 'movie-library' ); ?>
 		</span>
-				<div class="drop-down-menu">
+					<div class="drop-down-menu">
 					<span class="header-btn" >
 						<?php echo esc_html( 'ENG' ); ?>
 						<span class="negative-triangle-svg drop-down-btn"></span>
 					</span>
-					<nav class="header-triangle-menu">
-						<span><?php esc_html_e( 'Settings', 'movie-library' ); ?></span>
-						<span><?php esc_html_e( 'Location', 'movie-library' ); ?></span>
-						<span><?php esc_html_e( 'Preference', 'movie-library' ); ?></span>
-					</nav>
+						<nav class="header-triangle-menu">
+							<a href="#" ><?php esc_html_e( 'Settings', 'movie-library' ); ?></a>
+							<a href="#" ><?php esc_html_e( 'Location', 'movie-library' ); ?></a>
+							<a href="#" ><?php esc_html_e( 'Preference', 'movie-library' ); ?></a>
+						</nav>
+					</div>
 				</div>
-			</div>
-		</header>
+			</header>
 
-		<header class="mobile-header" >
-			<div class="mobile-header-main">
-				<span class="search-svg" ></span>
-				<h2 class="main-title" >
-					<span><?php esc_html_e( 'Screen', 'movie-library' ); ?></span>
-					<span class="text-color-accent" ><?php esc_html_e( 'Time', 'movie-library' ); ?></span>
-				</h2>
-				<span id="mobile-toggle-btn" class="bar-svg"></span>
-			</div>
-			<div class="mobile-header-btns position-hover mobile-toggle close">
-				<button class="mobile-header-btn">
-					<?php esc_html_e( 'Sign In', 'movie-library' ); ?>
-				</button>
-				<button class="mobile-header-btn mobile-btn-register">
-					<?php esc_html_e( 'Register for FREE', 'movie-library' ); ?>
-				</button>
-			</div>
+			<header class="mobile-header" >
+				<div class="mobile-header-main">
+					<div class="header-btn" >
+						<span id="search-form-btn-mobile" class="search-form-btn">
+							<span class="search-svg"></span>
+						</span>
+						<form acrion="/" class="search-form toggle-search-form-mobile search-close">
+							<input class="search-form__input" type="text" id="s" name="s" placeholder="Search here" />
+							<button class="search-form__btn" type="submit" class="search-submit">
+								<span class="search-svg"></span>
+							</button>
+						</form>
+					</div>
+
+					<a href="/">
+						<h2 class="main-title" >
+							<span><?php esc_html_e( 'Screen', 'movie-library' ); ?></span>
+							<span class="text-color-accent" ><?php esc_html_e( 'Time', 'movie-library' ); ?></span>
+						</h2>
+					</a>
+					<span id="mobile-toggle-btn" class="bar-svg"></span>
+				</div>
+				<div class="mobile-header-btns position-hover mobile-toggle close">
+					<button class="mobile-header-btn">
+						<?php esc_html_e( 'Sign In', 'movie-library' ); ?>
+					</button>
+					<button class="mobile-header-btn mobile-btn-register">
+						<?php esc_html_e( 'Register for FREE', 'movie-library' ); ?>
+					</button>
+				</div>
 		</div>
 		</header>
 

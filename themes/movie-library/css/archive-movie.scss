@@ -14,7 +14,7 @@ $nav-bg-color: #111;
 
 .slider-container {
 	width: 100%;
-	overflow: scroll;
+	overflow: hidden;
 	color: #fff;
 }
 
@@ -99,7 +99,7 @@ $nav-bg-color: #111;
 	}
 
 	.basic-meta-item:not(:last-child)::after {
-		content: "•";
+		content: "\2022";
 		padding: 0 8px;
 	}
 

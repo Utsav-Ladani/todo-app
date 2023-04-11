@@ -1,0 +1,60 @@
+/**
+ * Archive page style
+ * It contains the style for post card.
+ */
+
+/** Category archive page */
+
+.category-archive-page,
+.author-archive-page {
+	margin: 0 auto;
+	width: 100%;
+	max-width: 780px;
+}
+
+/** Author archive page */
+
+.author-meta {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 24px;
+	font-size: 1em;
+}
+
+.author__image {
+	height: 8rem;
+	aspect-ratio: 1 / 1;
+	border-radius: 50%;
+}
+
+.author__info__socials {
+	margin-top: 24px;
+	display: flex;
+	gap: 12px;
+}
+
+.author__info__socials__item {
+	height: 16px;
+	width: 16px;
+	color: #515151;
+
+	&:hover {
+		color: #000;
+	}
+}
+
+/** media query for the author archive page */
+
+@media screen and (max-width: 768px) {
+
+	.author__image {
+		height: 4rem;
+	}
+}
+
+@media screen and (max-width: 512px) {
+
+	.author__image {
+		height: 2rem;
+	}
+}

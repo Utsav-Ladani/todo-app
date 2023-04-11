@@ -85,8 +85,11 @@
 		<p class="footer-text" >&#169;
 			<?php
 			/* translators: %s: current year. */
-			printf( esc_html__( '%s ScreenTime. All Rights Reserved. Terms of Service  |  Privacy Policy', 'movie-library' ), esc_html( date_i18n( 'Y' ) ) );
+			printf( esc_html__( '%s ScreenTime. All Rights Reserved.', 'movie-library' ), esc_html( date_i18n( 'Y' ) ) );
 			?>
+			<a href="#"><?php esc_html_e( 'Terms of Service', 'movie-library' ); ?></a>
+			|
+			<a href="#"><?php esc_html_e( 'Privacy Policy', 'movie-library' ); ?></a>
 		</p>
 	</div>
 </footer>
