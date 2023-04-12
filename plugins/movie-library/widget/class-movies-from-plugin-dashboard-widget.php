@@ -209,15 +209,15 @@ class Movies_From_Plugin_Dashboard_Widget {
 			// order by release date in meta key.
 			'orderby'        => array(
 				'rt-movie-meta-basic-release-date' => 'DESC',
-				'last_modified'                    => 'DESC',
+				'modified'                         => 'DESC',
 			),
 			// meta_query to get movie whose release date is less than today.
 			'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				array(
-					'key'     => 'rt-movie-meta-basic-release-date',
-					'value'   => gmdate( 'Y-m-d' ),
-					'compare' => '<=',
-					'type'    => 'DATE',
+						'key'     => 'rt-movie-meta-basic-release-date',
+						'value'   => gmdate( 'Y-m-d' ),
+						'compare' => '<=',
+						'type'    => 'DATE',
 				),
 			),
 		);
@@ -247,12 +247,13 @@ class Movies_From_Plugin_Dashboard_Widget {
 			'post_type'      => Movie::SLUG,
 			'post_status'    => 'publish',
 			'posts_per_page' => absint( $movies_count ),  // phpcs:ignore WordPress.WP.PostsPerPage.posts_per_page_posts_per_page
+			'meta_key'       => 'rt-movie-meta-basic-rating', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+			// 'orderby'        => 'meta_value_num',
 			// order by rating in meta key.
 			'orderby'        => array(
 				'rt-movie-meta-basic-rating' => 'DESC',
-				'last_modified'              => 'DESC',
+				'modified'                   => 'DESC',
 			),
-			'order'          => 'DESC',
 			'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				array(
 					'key'     => 'rt-movie-meta-basic-release-date',
