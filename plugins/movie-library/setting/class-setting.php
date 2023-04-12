@@ -137,13 +137,13 @@ abstract class Setting {
 	 * @return string The sanitized API URL.
 	 */
 	public static function sanitize_api_url( string $url ) : string {
-		// trim and validate the URL.
+		// Trim and sanitize the URL.
 		$url = trim( $url );
-		$url = filter_var( $url, FILTER_VALIDATE_URL );
+		$url = esc_url_raw( $url, array( 'https', 'http' ) );
 
 		// If the URL is invalid, add the error message to the settings page.
 		if ( empty( $url ) ) {
-			// add error to the settings page.
+			// Add error to the settings page.
 			add_settings_error(
 				'rt-movie-library-api-url',
 				'rt-movie-library-api-url',
@@ -152,8 +152,7 @@ abstract class Setting {
 			);
 		}
 
-		// Return the sanitized URL.
-		return esc_url_raw( $url, array( 'https', 'http' ) );
+		return $url;
 	}
 
 	/**
@@ -165,9 +164,9 @@ abstract class Setting {
 	 * @return string The sanitized API key.
 	 */
 	public static function sanitize_api_key( string $key ) : string {
-		// trim and validate the key.
+		// trim and sanitize the key.
 		$key = trim( $key );
-		$key = filter_var( $key, FILTER_SANITIZE_STRING );
+		$key = sanitize_text_field( $key );
 
 		// If the key is invalid, add the error message to the settings page.
 		if ( empty( $key ) ) {
