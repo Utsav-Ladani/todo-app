@@ -14,7 +14,7 @@ namespace Movie_Library\Setting;
  * Option is to delete the data on plugin delete.
  */
 abstract class Setting {
-	const SETTINGS_CAPABILITY = 'movie_library_settings';
+	const SETTINGS_CAPABILITY = 'manage_options';
 
 	/**
 	 * Initialize the class.

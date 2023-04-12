@@ -166,7 +166,7 @@ abstract class Movie_Manager {
 	 */
 	public static function get_custom_capabilities() : array {
 		return array(
-			'movie_library_settings', // manage movie library settings.
+			'movie_manager_cap', // movie manage specific capability.
 			'upload_files', // upload files.
 		);
 	}
