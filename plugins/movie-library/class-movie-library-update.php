@@ -94,15 +94,19 @@ class Movie_Library_Update {
 
 		$charset_collate = $wpdb->get_charset_collate();
 
-		$sql = "CREATE TABLE IF NOT EXISTS `{$table_name}` (
+		$sql = sprintf(
+			'CREATE TABLE IF NOT EXISTS `%1$s` (
 			meta_id bigint(20) NOT NULL AUTO_INCREMENT,
-			`{$post_type}_id` bigint(20) NOT NULL,
+			`%2$s_id` bigint(20) NOT NULL,
 			meta_key varchar(255) NOT NULL,
 			meta_value longtext NOT NULL,
 			PRIMARY KEY  (meta_id),
-			KEY `{$post_type}_id` (`{$post_type}_id`),
+			KEY `%2$s_id` (`%2$s_id`),
 			KEY meta_key (meta_key)
-		) $charset_collate;";
+		) $charset_collate;',
+			$table_name,
+			$post_type
+		);
 
 		// run SQL Query.
 		dbDelta( $sql );
