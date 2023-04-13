@@ -10,6 +10,7 @@ namespace Movie_Library\REST_API;
 
 use Movie_Library\Custom_Post_Type\Movie;
 use Movie_Library\APIs\Movie_Library_Metadata_API;
+use Movie_Library\Shadow_Taxonomy\Non_Hierarchical\Shadow_Person;
 use Movie_Library\Taxonomy\Hierarchical\Genre;
 use Movie_Library\Taxonomy\Hierarchical\Label;
 use Movie_Library\Taxonomy\Hierarchical\Language;
@@ -309,7 +310,7 @@ class Movie_REST_API {
 		}
 
 		// check if user can publish posts.
-		if ( ! current_user_can( 'publish_post' ) ) {
+		if ( ! current_user_can( 'publish_posts' ) ) {
 			$args['post_status'] = 'draft';
 		}
 
@@ -326,14 +327,15 @@ class Movie_REST_API {
 			return rest_ensure_response( $movie_id );
 		}
 
+		// add the movie featured image.
+		if ( isset( $data['featured_image'] ) && $data['featured_image'] ) {
+			set_post_thumbnail( $movie_id, absint( $data['featured_image'] ) );
+		}
+
 		// update movie meta.
 		$movie_meta = $data['meta'] ?? array();
 
-		if ( $movie_meta ) {
-			foreach ( $movie_meta as $meta_key => $meta_value ) {
-				Movie_Library_Metadata_API::update_movie_meta( $movie_id, $meta_key, $meta_value );
-			}
-		}
+		self::update_movie_meta_and_shadow_tax( $movie_id, $movie_meta );
 
 		// update movie taxonomies.
 		$movie_taxonomies = $data['taxonomy'];
@@ -346,6 +348,70 @@ class Movie_REST_API {
 
 		// return updated or created movie data.
 		return rest_ensure_response( self::get_movie_data( get_post( $movie_id ) ) );
+	}
+
+	/**
+	 * Update movie meta and shadow taxonomies.
+	 *
+	 * @param int   $movie_id Movie ID.
+	 * @param array $movie_meta Movie meta.
+	 */
+	public static function update_movie_meta_and_shadow_tax( int $movie_id, array $movie_meta ) {
+		// remove term relationships.
+		wp_delete_object_term_relationships( $movie_id, Shadow_Person::SLUG );
+
+		$person_list = self::extract_person_ids_from_movie_meta( $movie_meta );
+
+		// change the id to shadow person slug.
+		$person_list = array_map(
+			function( $person_id ) {
+				return 'person-' . $person_id;
+			},
+			$person_list
+		);
+
+		// add term relationships.
+		wp_add_object_terms( $movie_id, $person_list, Shadow_Person::SLUG );
+
+		if ( $movie_meta ) {
+			foreach ( $movie_meta as $meta_key => $meta_value ) {
+				Movie_Library_Metadata_API::update_movie_meta( $movie_id, $meta_key, $meta_value );
+			}
+		}
+	}
+
+	/**
+	 * Extract person ids from movie meta.
+	 *
+	 * @param array $movie_meta Movie meta.
+	 *
+	 * @return array
+	 */
+	public static function extract_person_ids_from_movie_meta( array $movie_meta ) : array {
+		$crew_keys = array(
+			'rt-movie-meta-crew-director',
+			'rt-movie-meta-crew-writer',
+			'rt-movie-meta-crew-producer',
+		);
+
+		$person_list = array();
+
+		// get person list.
+		foreach ( $crew_keys as $crew_key ) {
+			if ( ! empty( $movie_meta[ $crew_key ] ) ) {
+				$person_list = array_merge( $person_list, $movie_meta[ $crew_key ] );
+			}
+		}
+
+		// add the actor list.
+		if ( ! empty( $movie_meta['rt-movie-meta-crew-actor'] ) ) {
+			foreach ( $movie_meta['rt-movie-meta-crew-actor'] as $actor_id => $char_name ) {
+				$person_list[] = $actor_id;
+			}
+		}
+
+		// remove the duplicate person ids.
+		return array_unique( $person_list );
 	}
 
 
