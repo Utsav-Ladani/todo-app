@@ -532,6 +532,9 @@ class Movie_REST_API {
 		// delete all movie meta.
 		self::delete_all_movie_meta( $movie_id );
 
+		// remove term relationships.
+		wp_delete_object_term_relationships( $movie_id, Shadow_Person::SLUG );
+
 		// return deleted movie data.
 		return rest_ensure_response( self::get_movie_data( $movie ) );
 	}
