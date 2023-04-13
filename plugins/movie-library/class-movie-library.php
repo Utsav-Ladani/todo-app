@@ -48,6 +48,7 @@ use Movie_Library\APIs\Movie_Library_Metadata_API;
 
 // REST API.
 use Movie_Library\REST_API\Movie_REST_API;
+use Movie_Library\REST_API\Person_REST_API;
 
 // Update.
 use Movie_Library\Movie_Library_Update;
@@ -104,6 +105,7 @@ abstract class Movie_Library {
 
 		// add REST API.
 		Movie_REST_API::init();
+		Person_REST_API::init();
 	}
 
 	/**

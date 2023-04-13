@@ -91,7 +91,7 @@ class Movie_REST_API {
 				array(
 					'methods'             => 'GET',
 					'callback'            => array( __CLASS__, 'get_movie' ),
-					'permission_callback' => '__return_true',
+					'permission_callback' => array( __CLASS__, 'get_movies_permissions_check' ),
 				),
 
 				/**
@@ -236,6 +236,42 @@ class Movie_REST_API {
 	}
 
 	/**
+	 * Get movie.
+	 *
+	 * @param \WP_REST_Request $request Request object.
+	 *
+	 * @return \WP_REST_Response|\WP_Error
+	 */
+	public static function get_movie( \WP_REST_Request $request ) {
+		// get movie ID.
+		$movie_id = $request->get_param( 'id' );
+
+		if ( ! $movie_id ) {
+			return new \WP_Error(
+				'rest_movie_id_required',
+				esc_html__( 'Movie ID required.' ),
+				array( 'status' => 404 )
+			);
+		}
+
+		// get movie.
+		$movie = get_post( $movie_id );
+
+		if ( ! $movie ) {
+			return new \WP_Error(
+				'rest_movie_not_found',
+				esc_html__( 'Movie not found.' ),
+				array( 'status' => 404 )
+			);
+		}
+
+		// prepare response.
+		$response = self::get_movie_data( $movie );
+
+		return rest_ensure_response( $response );
+	}
+
+	/**
 	 * Check if a given request has access to get movies.
 	 *
 	 * @param \WP_REST_Request $request Full data about the request.
@@ -248,7 +284,7 @@ class Movie_REST_API {
 			return new \WP_Error(
 				'rest_forbidden',
 				esc_html__( 'You cannot view the movies resource.' ),
-				array( 'status' => rest_authorization_required_code() )
+				array( 'status' => 404 )
 			);
 		}
 
@@ -428,7 +464,7 @@ class Movie_REST_API {
 			return new \WP_Error(
 				'rest_forbidden',
 				esc_html__( 'You cannot update or create the movie resource.' ),
-				array( 'status' => rest_authorization_required_code() )
+				array( 'status' => 404 )
 			);
 		}
 
@@ -437,7 +473,7 @@ class Movie_REST_API {
 			return new \WP_Error(
 				'rest_forbidden',
 				esc_html__( 'You cannot update or create the movie resource.' ),
-				array( 'status' => rest_authorization_required_code() )
+				array( 'status' => 404 )
 			);
 		}
 
@@ -532,7 +568,7 @@ class Movie_REST_API {
 			return new \WP_Error(
 				'rest_forbidden',
 				esc_html__( 'Please provide the ID to delete the movie.' ),
-				array( 'status' => rest_authorization_required_code() )
+				array( 'status' => 404 )
 			);
 		}
 
@@ -541,7 +577,7 @@ class Movie_REST_API {
 			return new \WP_Error(
 				'rest_forbidden',
 				esc_html__( 'You cannot delete the movie resource.' ),
-				array( 'status' => rest_authorization_required_code() )
+				array( 'status' => 404 )
 			);
 		}
 
