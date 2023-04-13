@@ -241,7 +241,7 @@ class Person_REST_API {
 		if ( ! $person_id ) {
 			return new \WP_Error(
 				'rest_person_id_required',
-				esc_html__( 'Person ID required.' ),
+				esc_html__( 'Person ID required.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -252,7 +252,7 @@ class Person_REST_API {
 		if ( ! $person ) {
 			return new \WP_Error(
 				'rest_person_not_found',
-				esc_html__( 'Person not found.' ),
+				esc_html__( 'Person not found.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -275,7 +275,7 @@ class Person_REST_API {
 		if ( ! current_user_can( 'read' ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__( 'You cannot view the person resource.' ),
+				esc_html__( 'You cannot view the person resource.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -394,7 +394,7 @@ class Person_REST_API {
 		if ( $request->get_param( 'id' ) && ! current_user_can( 'edit_post', $request->get_param( 'id' ) ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__( 'You cannot update or create the person resource.' ),
+				esc_html__( 'You cannot update or create the person resource.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -403,7 +403,7 @@ class Person_REST_API {
 		if ( ! current_user_can( 'edit_posts' ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__( 'You cannot update or create the person resource.' ),
+				esc_html__( 'You cannot update or create the person resource.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -426,7 +426,7 @@ class Person_REST_API {
 			return rest_ensure_response(
 				new \WP_Error(
 					'rest_person_invalid_id',
-					esc_html__( 'Invalid person ID.' ),
+					esc_html__( 'Invalid person ID.', 'movie-library' ),
 					array( 'status' => 404 )
 				)
 			);
@@ -440,7 +440,7 @@ class Person_REST_API {
 			return rest_ensure_response(
 				new \WP_Error(
 					'rest_person_invalid_id',
-					esc_html__( 'Invalid person ID.' ),
+					esc_html__( 'Invalid person ID.', 'movie-library' ),
 					array( 'status' => 404 )
 				)
 			);
@@ -454,7 +454,7 @@ class Person_REST_API {
 			return rest_ensure_response(
 				new \WP_Error(
 					'rest_person_cannot_delete',
-					esc_html__( 'Person not found!' ),
+					esc_html__( 'Person not found!', 'movie-library' ),
 					array( 'status' => 500 )
 				)
 			);
@@ -498,7 +498,7 @@ class Person_REST_API {
 		if ( ! $request->get_param( 'id' ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__( 'Please provide the ID to delete the person.' ),
+				esc_html__( 'Please provide the ID to delete the person.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -507,7 +507,7 @@ class Person_REST_API {
 		if ( ! current_user_can( 'delete_post', $request->get_param( 'id' ) ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__( 'You cannot delete the person resource.' ),
+				esc_html__( 'You cannot delete the person resource.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}

@@ -249,7 +249,7 @@ class Movie_REST_API {
 		if ( ! $movie_id ) {
 			return new \WP_Error(
 				'rest_movie_id_required',
-				esc_html__( 'Movie ID required.' ),
+				esc_html__( 'Movie ID required.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -260,7 +260,7 @@ class Movie_REST_API {
 		if ( ! $movie ) {
 			return new \WP_Error(
 				'rest_movie_not_found',
-				esc_html__( 'Movie not found.' ),
+				esc_html__( 'Movie not found.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -283,7 +283,7 @@ class Movie_REST_API {
 		if ( ! current_user_can( 'read' ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__( 'You cannot view the movies resource.' ),
+				esc_html__( 'You cannot view the movies resource.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -463,7 +463,7 @@ class Movie_REST_API {
 		if ( $request->get_param( 'id' ) && ! current_user_can( 'edit_post', $request->get_param( 'id' ) ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__( 'You cannot update or create the movie resource.' ),
+				esc_html__( 'You cannot update or create the movie resource.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -472,7 +472,7 @@ class Movie_REST_API {
 		if ( ! current_user_can( 'edit_posts' ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__( 'You cannot update or create the movie resource.' ),
+				esc_html__( 'You cannot update or create the movie resource.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -495,7 +495,7 @@ class Movie_REST_API {
 			return rest_ensure_response(
 				new \WP_Error(
 					'rest_movie_invalid_id',
-					esc_html__( 'Invalid movie ID.' ),
+					esc_html__( 'Invalid movie ID.', 'movie-library' ),
 					array( 'status' => 404 )
 				)
 			);
@@ -509,7 +509,7 @@ class Movie_REST_API {
 			return rest_ensure_response(
 				new \WP_Error(
 					'rest_movie_invalid_id',
-					esc_html__( 'Invalid movie ID.' ),
+					esc_html__( 'Invalid movie ID.', 'movie-library' ),
 					array( 'status' => 404 )
 				)
 			);
@@ -523,7 +523,7 @@ class Movie_REST_API {
 			return rest_ensure_response(
 				new \WP_Error(
 					'rest_movie_cannot_delete',
-					esc_html__( 'Movie not found!' ),
+					esc_html__( 'Movie not found!', 'movie-library' ),
 					array( 'status' => 500 )
 				)
 			);
@@ -567,7 +567,7 @@ class Movie_REST_API {
 		if ( ! $request->get_param( 'id' ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__( 'Please provide the ID to delete the movie.' ),
+				esc_html__( 'Please provide the ID to delete the movie.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -576,7 +576,7 @@ class Movie_REST_API {
 		if ( ! current_user_can( 'delete_post', $request->get_param( 'id' ) ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__( 'You cannot delete the movie resource.' ),
+				esc_html__( 'You cannot delete the movie resource.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
