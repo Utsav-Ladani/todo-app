@@ -8,6 +8,9 @@
 
 namespace Movie_Library\APIs;
 
+use Movie_Library\Custom_Post_Type\Movie;
+use Movie_Library\Custom_Post_Type\Person;
+
 /**
  * Class Movie_Library_Metadata_API
  * It defines the custom metadata API for movie library plugin.
@@ -23,6 +26,12 @@ class Movie_Library_Metadata_API {
 	 */
 	public static function init() : void {
 		add_action( 'plugins_loaded', array( __CLASS__, 'setup_metadata_api' ) );
+
+		// disable the suppression filter.
+		add_action( 'pre_get_posts', array( __CLASS__, 'add_suppress_filter' ) );
+
+		// add the filter to change the SQL query and update it for new table.
+		add_filter( 'posts_request', array( __CLASS__, 'change_meta_query' ) );
 	}
 
 	/**
@@ -283,5 +292,49 @@ class Movie_Library_Metadata_API {
 
 		// update the data into new table.
 		return update_metadata( 'person', $person_id, $meta_key, $meta_value, $prev_value );
+	}
+
+	/**
+	 * Disable the suppression filter.
+	 * It used to manipulate the every WP Query.
+	 *
+	 * @param object $args The query args.
+	 * @see \WP_Query
+	 *
+	 * @return void
+	 */
+	public static function add_suppress_filter( $args ) {
+		// custom post type slug list.
+		$post_type = array( Movie::SLUG, Person::SLUG );
+
+		// check whether the query is for the custom post type.
+		if ( in_array( $args->query_vars['post_type'], $post_type, true ) ) {
+			// disable the suppression filter.
+			$args->query_vars['suppress_filters'] = false;
+		}
+	}
+
+	/**
+	 * Change the meta query.
+	 * It used to change the SQL query for the custom post type.
+	 * Replace the postmeta table with the custom table.
+	 *
+	 * @param string $sql The SQL query.
+	 *
+	 * @return string
+	 */
+	public function change_meta_query( string $sql ): string {
+		// Check if the query is for the rt-movie post type.
+		if ( str_contains( $sql, 'wp_posts.post_type = \'rt-movie\'' ) ) {
+			$sql = str_replace( 'wp_postmeta', 'wp_moviemeta', $sql );
+			$sql = str_replace( 'post_id', 'movie_id', $sql );
+
+			// Check if the query is for the rt-person post type.
+		} elseif ( str_contains( $sql, 'wp_posts.post_type = \'rt-person\'' ) ) {
+			$sql = str_replace( 'wp_postmeta', 'wp_personmeta', $sql );
+			$sql = str_replace( 'post_id', 'person_id', $sql );
+		}
+
+		return $sql;
 	}
 }
