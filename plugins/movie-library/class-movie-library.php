@@ -89,6 +89,9 @@ abstract class Movie_Library {
 
 		// add setting.
 		Setting::init();
+
+		// add custom rewrite rules.
+		Custom_Rewrite_Rules::init();
 	}
 
 	/**
@@ -114,6 +117,9 @@ abstract class Movie_Library {
 
 		// register non-hierarchical shadow taxonomy to flush rewrite rules.
 		Shadow_Person::register_shadow_person_taxonomy();
+
+		// add custom rewrite rules for custom post type.
+		Custom_Rewrite_Rules::add_custom_rewrite_rules();
 
 		// flush rewrite rules.
 		flush_rewrite_rules();
