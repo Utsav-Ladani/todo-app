@@ -241,14 +241,10 @@ abstract class Social_Meta_Box {
 			$meta_value = self::add_social_to_meta_data_by_id( $meta_value, $social['id'] );
 		}
 
-		// Delete the meta data if there is no social media link.
-		if ( count( $meta_value ) === 0 ) {
-			Movie_Library_Metadata_API::delete_person_meta( $post_id, 'rt-person-meta-social' );
-			return;
+		// save it to new database.
+		foreach ( $meta_value as $key => $value ) {
+			Movie_Library_Metadata_API::update_person_meta( $post_id, $key, $value );
 		}
-
-		// Update the meta data.
-		Movie_Library_Metadata_API::update_person_meta( $post_id, 'rt-person-meta-social', $meta_value );
 	}
 
 	/**
