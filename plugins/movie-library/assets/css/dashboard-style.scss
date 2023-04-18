@@ -23,7 +23,12 @@
 		margin: 0;
 	}
 
+	.movie-card__link {
+		display: block;
+	}
+
 	.movie-card__image {
+		display: block;
 		width: 100%;
 		height: auto;
 		aspect-ratio: 3 / 4;
@@ -80,5 +85,10 @@
 		padding: 0.4em 0.6em;
 		font-size: 1.6em;
 		background-color: #e5e5e5;
+	}
+
+	.movies-wrapper__link {
+		display: block;
+		margin-top: 0.8em;
 	}
 }

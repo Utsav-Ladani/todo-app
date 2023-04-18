@@ -80,14 +80,14 @@ class Movies_From_Plugin_Dashboard_Widget {
 				<?php esc_html_e( 'Most Recent Movies', 'movie-library' ); ?>
 			</h2>
 			<?php self::render_movie_card_in_dashboard_widget( self::get_most_recent_movies( 3 ) ); ?>
-			<a href='<?php echo esc_html( get_post_type_archive_link( Movie::SLUG ) ); ?>'>
+			<a href='<?php echo esc_html( get_post_type_archive_link( Movie::SLUG ) ); ?>' class="movies-wrapper__link" >
 				<?php esc_html_e( 'View All', 'movie-library' ); ?>
 			</a>
 			<h2 class="movies-wrapper__title-h2" >
 				<?php esc_html_e( 'Top Rated Movies', 'movie-library' ); ?>
 			</h2>
 			<?php self::render_movie_card_in_dashboard_widget( self::get_top_rated_movies( 3 ) ); ?>
-			<a href='<?php echo esc_url( get_post_type_archive_link( Movie::SLUG ) ); ?>'>
+			<a href='<?php echo esc_url( get_post_type_archive_link( Movie::SLUG ) ); ?>' class="movies-wrapper__link" >
 				<?php esc_html_e( 'View All', 'movie-library' ); ?>
 			</a>
 		</div>

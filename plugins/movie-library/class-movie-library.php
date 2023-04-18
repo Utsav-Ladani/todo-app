@@ -52,6 +52,10 @@ use Movie_Library\Movie_Library_Update;
 // role.
 use Movie_Library\Role\Movie_Manager;
 
+// dashboard widget.
+use Movie_Library\Widget\Movies_From_Plugin_Dashboard_Widget;
+use Movie_Library\Widget\Upcoming_Movies_Dashboard_Widget;
+
 /**
  * Main class of the plugin.
  *
@@ -104,6 +108,10 @@ abstract class Movie_Library {
 
 		// add custom rewrite rules.
 		Custom_Rewrite_Rules::init();
+
+		// add dashboard widget.
+		Movies_From_Plugin_Dashboard_Widget::init();
+		Upcoming_Movies_Dashboard_Widget::init();
 	}
 
 	/**
