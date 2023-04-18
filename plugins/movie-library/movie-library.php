@@ -28,3 +28,6 @@ Movie_Library_Update::init();
 
 // register activation hook.
 register_activation_hook( __FILE__, array( Movie_Library::class, 'activate' ) );
+
+// register deactivation hook.
+register_deactivation_hook( __FILE__, array( Movie_Library::class, 'deactivate' ) );

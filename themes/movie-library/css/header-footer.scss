@@ -474,13 +474,18 @@ header * {
 
 /** Search form */
 
+.search-form-btn {
+	display: flex;
+	align-items: center;
+	column-gap: 8px;
+}
 
 .search-form {
 	position: absolute;
 	top: 32px;
 	align-items: center;
 	background-color: #fff;
-	display: none;
+	display: flex;
 
 	.search-form__input {
 		padding: 8px;
@@ -509,8 +514,8 @@ header * {
 	position: relative;
 }
 
-.search-header-btn:hover > .search-form {
-	display: flex;
+.search-close {
+	display: none;
 }
 
 /** media query for the search form in mobile view. */
@@ -518,6 +523,6 @@ header * {
 @media screen and (max-width: $mobile-break-point) {
 
 	.search-form {
-		top: 24px;
+		top: 120px;
 	}
 }
