@@ -8,6 +8,7 @@
 
 namespace Movie_Library\Meta_Box;
 
+use Movie_Library\APIs\Movie_Library_Metadata_API;
 use Movie_Library\Custom_Post_Type\Movie;
 use Movie_Library\Custom_Post_Type\Person;
 
@@ -102,7 +103,14 @@ abstract class Videos_Meta_Box {
 	 */
 	public static function render_video_meta_box( \WP_Post $post ) : void {
 		// Get the videos metadata.
-		$videos = get_post_meta( $post->ID, 'rt-media-meta-videos', true );
+		$videos = array();
+
+		// Check if post type is movie or person, and based on that fetch the metadata.
+		if ( Movie::SLUG === get_post_type( $post->ID ) ) {
+			$videos = Movie_Library_Metadata_API::get_movie_meta( $post->ID, 'rt-media-meta-videos', true );
+		} else {
+			$videos = Movie_Library_Metadata_API::get_person_meta( $post->ID, 'rt-media-meta-videos', true );
+		}
 
 		// If videos is not an array, make it an array.
 		$videos = is_array( $videos ) ? $videos : array();
@@ -179,8 +187,12 @@ abstract class Videos_Meta_Box {
 			}
 		}
 
-		// Update the post meta.
-		update_post_meta( $post_id, 'rt-media-meta-videos', $video_ids );
+		// Check if post type is movie or person, and based on that update the metadata.
+		if ( Movie::SLUG === get_post_type( $post_id ) ) {
+			Movie_Library_Metadata_API::update_movie_meta( $post_id, 'rt-media-meta-videos', $video_ids );
+		} else {
+			Movie_Library_Metadata_API::update_person_meta( $post_id, 'rt-media-meta-videos', $video_ids );
+		}
 	}
 
 	/**

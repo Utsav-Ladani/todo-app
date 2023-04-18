@@ -11,6 +11,7 @@ use Movie_Library\Custom_Post_Type\Movie;
 use Movie_Library\Custom_Post_Type\Person;
 use Movie_Library\Shadow_Taxonomy\Non_Hierarchical\Shadow_Person;
 use Movie_Library\Taxonomy\Hierarchical\Career;
+use Movie_Library\APIs\Movie_Library_Metadata_API;
 
 /**
  * Class Crew_Meta_Box
@@ -137,7 +138,7 @@ abstract class Crew_Meta_Box {
 		$all_crew_member = self::list_persons_with_career( $crew['type'] );
 
 		// get the selected crew members for the given crew type.
-		$selected_crew_member = get_post_meta( $post_id, $crew['id'], true );
+		$selected_crew_member = Movie_Library_Metadata_API::get_movie_meta( $post_id, $crew['id'], true );
 
 		// if the selected crew member is not an array, then make it an array.
 		if ( ! is_array( $selected_crew_member ) ) {
@@ -321,7 +322,7 @@ abstract class Crew_Meta_Box {
 
 		// if the no member is selected then delete the metadata and return.
 		if ( empty( $selected_crew_member ) || ! is_array( $selected_crew_member ) ) {
-			delete_post_meta( $post_id, $crew['id'] );
+			Movie_Library_Metadata_API::delete_movie_meta( $post_id, $crew['id'] );
 			return;
 		}
 
@@ -339,6 +340,7 @@ abstract class Crew_Meta_Box {
 
 		// update the metadata.
 		update_post_meta( $post_id, $crew['id'], $selected_crew_member );
+		Movie_Library_Metadata_API::update_movie_meta( $post_id, $crew['id'], $selected_crew_member );
 
 		// add the temp-relationships.
 		wp_add_object_terms( $post_id, $rt_person_arr, Shadow_Person::SLUG );

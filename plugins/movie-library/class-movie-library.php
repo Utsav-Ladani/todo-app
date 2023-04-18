@@ -43,6 +43,12 @@ use Movie_Library\Shortcode\Person_Shortcode;
 // setting.
 use Movie_Library\Setting\Setting;
 
+// APIs.
+use Movie_Library\APIs\Movie_Library_Metadata_API;
+
+// other.
+use Movie_Library\Movie_Library_Update;
+
 // role.
 use Movie_Library\Role\Movie_Manager;
 
@@ -60,6 +66,9 @@ abstract class Movie_Library {
 	public static function init() : void {
 		// register the autoloader.
 		Autoloader::register();
+
+		// setup database variable for metadata APIs.
+		Movie_Library_Metadata_API::init();
 
 		// add custom post type.
 		Movie::init();
@@ -103,6 +112,8 @@ abstract class Movie_Library {
 	 * @return void
 	 */
 	public static function activate() : void {
+		// update the plugin, if needed.
+		Movie_Library_Update::update();
 
 		// register custom post type to flush rewrite rules.
 		Movie::register_movie_post_type();
