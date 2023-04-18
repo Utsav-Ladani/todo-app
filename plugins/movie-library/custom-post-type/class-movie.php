@@ -81,6 +81,8 @@ abstract class Movie {
 			'menu_icon'         => 'dashicons-editor-video',
 			'show_in_rest'      => true,
 			'rest_base'         => 'movie',
+			'capability_type'   => 'movie',
+			'map_meta_cap'      => true,
 		);
 
 		// phpcs:ignore WordPress.NamingConventions.ValidPostTypeSlug.NotStringLiteral

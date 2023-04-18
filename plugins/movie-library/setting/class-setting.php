@@ -14,6 +14,7 @@ namespace Movie_Library\Setting;
  * Option is to delete the data on plugin delete.
  */
 abstract class Setting {
+	const SETTINGS_CAPABILITY = 'manage_options';
 
 	/**
 	 * Initialize the class.
@@ -45,7 +46,7 @@ abstract class Setting {
 		add_options_page(
 			__( 'Movie Library', 'movie-library' ),
 			__( 'Movie Library', 'movie-library' ),
-			'manage_options',
+			self::SETTINGS_CAPABILITY,
 			'movie-library',
 			array( __CLASS__, 'render_plugin_settings_page' ),
 		);
@@ -138,7 +139,7 @@ abstract class Setting {
 	 * @static
 	 */
 	public static function render_plugin_settings_page() : void {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( self::SETTINGS_CAPABILITY ) ) {
 			return;
 		}
 
