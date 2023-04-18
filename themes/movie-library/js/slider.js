@@ -10,6 +10,7 @@
 	document.addEventListener('DOMContentLoaded', function () {
 		// set the index of the slide to 0
 		let slideIndex = 0;
+		let slideShowIntervalID = 0;
 
 		// get all the slides and dots
 		const slides = document.getElementsByClassName('slide');
@@ -19,6 +20,12 @@
 		for (let i = 0; i < dots.length; i++) {
 			dots[i].addEventListener('click', function () {
 				showSlides(i);
+
+				// reset the interval if it is already set
+				if (slideShowIntervalID) {
+					clearInterval(slideShowIntervalID);
+					slideShowIntervalID = setInterval(showSlides, 5000);
+				}
 			});
 		}
 
@@ -46,12 +53,12 @@
 			if (slideIndex >= slides.length) {
 				slideIndex = 0;
 			}
-
-			// Change slide after every 5 seconds
-			// setTimeout(showSlides, 5000);
 		}
 
 		// init the slide show
 		showSlides();
+
+		// Change slide after every 5 seconds
+		slideShowIntervalID = setInterval(showSlides, 5000);
 	});
 })();

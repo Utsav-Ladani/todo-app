@@ -53,6 +53,13 @@ use Movie_Library\REST_API\Person_REST_API;
 // Update.
 use Movie_Library\Movie_Library_Update;
 
+// role.
+use Movie_Library\Role\Movie_Manager;
+
+// dashboard widget.
+use Movie_Library\Widget\Movies_From_Plugin_Dashboard_Widget;
+use Movie_Library\Widget\Upcoming_Movies_Dashboard_Widget;
+
 /**
  * Main class of the plugin.
  *
@@ -106,6 +113,13 @@ abstract class Movie_Library {
 		// add REST API.
 		Movie_REST_API::init();
 		Person_REST_API::init();
+
+		// add custom rewrite rules.
+		Custom_Rewrite_Rules::init();
+
+		// add dashboard widget.
+		Movies_From_Plugin_Dashboard_Widget::init();
+		Upcoming_Movies_Dashboard_Widget::init();
 	}
 
 	/**
@@ -134,7 +148,24 @@ abstract class Movie_Library {
 		// register non-hierarchical shadow taxonomy to flush rewrite rules.
 		Shadow_Person::register_shadow_person_taxonomy();
 
+		// add Movie Manager Role.
+		Movie_Manager::add_movie_manager_role();
+
+		// add custom rewrite rules for custom post type.
+		Custom_Rewrite_Rules::add_custom_rewrite_rules();
+
 		// flush rewrite rules.
 		flush_rewrite_rules();
+	}
+
+	/**
+	 * Do something on deactivation.
+	 * It removes the Movie Manager Role.
+	 *
+	 * @return void
+	 */
+	public static function deactivate() : void {
+		// remove Movie Manager Role.
+		Movie_Manager::remove_movie_manager_role();
 	}
 }

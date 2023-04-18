@@ -65,6 +65,12 @@ abstract class Production_Company {
 			'show_tagcloud'      => true,
 			'show_in_quick_edit' => true,
 			'show_admin_column'  => true,
+			'capabilities'       => array(
+				'manage_terms' => 'manage_production_companies',
+				'edit_terms'   => 'edit_production_companies',
+				'delete_terms' => 'delete_production_companies',
+				'assign_terms' => 'assign_production_companies',
+			),
 		);
 
 		register_taxonomy( self::SLUG, array( Movie::SLUG ), $args );
