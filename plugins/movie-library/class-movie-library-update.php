@@ -103,9 +103,10 @@ class Movie_Library_Update {
 			PRIMARY KEY  (meta_id),
 			KEY `%2$s_id` (`%2$s_id`),
 			KEY meta_key (meta_key)
-		) $charset_collate;',
+		) %3$s;',
 			$table_name,
-			$post_type
+			$post_type,
+			$charset_collate
 		);
 
 		// run SQL Query.
