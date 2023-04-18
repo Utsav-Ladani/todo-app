@@ -80,6 +80,8 @@ abstract class Person {
 			'menu_icon'         => 'dashicons-admin-users',
 			'show_in_rest'      => true,
 			'rest_base'         => 'person',
+			'capability_type'   => array( 'person', 'people' ),
+			'map_meta_cap'      => true,
 		);
 
 		// phpcs:ignore WordPress.NamingConventions.ValidPostTypeSlug.NotStringLiteral

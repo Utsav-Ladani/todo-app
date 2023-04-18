@@ -9,6 +9,8 @@
 use Movie_Library\Custom_Post_Type\Movie;
 use Movie_Library\Custom_Post_Type\Person;
 
+use Movie_Library\APIs\Movie_Library_Metadata_API;
+
 // check if the function exists.
 if ( ! function_exists( 'get_thumbnail_attachment_url' ) ) {
 	/**
@@ -50,7 +52,7 @@ if ( ! function_exists( 'get_post_rating' ) ) {
 		}
 
 		// get the meta value and format it.
-		$rating = get_post_meta( $id, $meta_keys[ $post_type ], true );
+		$rating = Movie_Library_Metadata_API::get_movie_meta( $id, $meta_keys[ $post_type ], true );
 		$rating = $rating ?? 0;
 		$rating = (float) $rating;
 		return number_format_i18n( $rating, 1 );
@@ -71,8 +73,7 @@ if ( ! function_exists( 'get_post_runtime' ) ) {
 	 */
 	function get_post_runtime( int $id, string $hour_tag = ' hr', string $minute_tag = ' min', string $post_type = Movie::SLUG ) : string {
 		$meta_keys = array(
-			Movie::SLUG  => 'rt-movie-meta-basic-runtime',
-			Person::SLUG => 'rt-person-meta-basic-runtime',
+			Movie::SLUG => 'rt-movie-meta-basic-runtime',
 		);
 
 		if ( ! isset( $meta_keys[ $post_type ] ) ) {
@@ -80,7 +81,10 @@ if ( ! function_exists( 'get_post_runtime' ) ) {
 		}
 
 		// get the meta value and format it.
-		$runtime = get_post_meta( $id, $meta_keys[ $post_type ], true );
+		if ( Movie::SLUG === $post_type ) {
+			$runtime = Movie_Library_Metadata_API::get_movie_meta( $id, $meta_keys[ $post_type ], true );
+		}
+
 		$runtime = $runtime ?? 0;
 		$runtime = (int) $runtime;
 		$runtime = number_format_i18n( $runtime, 1 );
@@ -126,7 +130,10 @@ if ( ! function_exists( 'get_post_release_date' ) ) {
 		}
 
 		// get the meta value and format it.
-		$release_date = get_post_meta( $id, $meta_keys[ $post_type ], true );
+		if ( Movie::SLUG === $post_type ) {
+			$release_date = Movie_Library_Metadata_API::get_movie_meta( $id, $meta_keys[ $post_type ], true );
+		}
+
 		$release_date = $release_date ?? '';
 		$release_date = gmdate( $format, strtotime( $release_date ) );
 

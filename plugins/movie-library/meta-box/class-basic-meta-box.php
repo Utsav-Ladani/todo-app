@@ -8,6 +8,7 @@
 namespace Movie_Library\Meta_Box;
 
 use Movie_Library\Custom_Post_Type\Movie;
+use Movie_Library\APIs\Movie_Library_Metadata_API;
 
 /**
  * Class Basic_Meta_Box
@@ -156,7 +157,7 @@ abstract class Basic_Meta_Box {
 
 		$data = array();
 		foreach ( $meta_keys as $meta_key ) {
-			$meta_value = get_post_meta( $post_id, $meta_key, true );
+			$meta_value = Movie_Library_Metadata_API::get_movie_meta( $post_id, $meta_key, true );
 
 			// If the meta value is empty, set it to empty string.
 			$data[ $meta_key ] = $meta_value ?? '';
@@ -223,12 +224,12 @@ abstract class Basic_Meta_Box {
 	public static function add_meta_data_to_database( string $meta_key, string $meta_value, int $post_id ) : void {
 		// Delete the meta data if no data is sent by user.
 		if ( empty( $meta_value ) ) {
-			delete_post_meta( $post_id, $meta_key );
+			Movie_Library_Metadata_API::delete_movie_meta( $post_id, $meta_key );
 			return;
 		}
 
 		// Update the metadata.
-		update_post_meta( $post_id, $meta_key, $meta_value );
+		Movie_Library_Metadata_API::update_movie_meta( $post_id, $meta_key, $meta_value );
 	}
 
 	/**

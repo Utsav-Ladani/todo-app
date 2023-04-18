@@ -133,7 +133,7 @@
 
 	/** Videos Styles */
 	.videos-list {
-		grid-template-columns: repeat(auto-fill, minmax(min(100%, max(327px, 33.3333333333%)), 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, max(327px, 33.33%)), 1fr));
 		column-gap: 16px;
 	}
 
@@ -245,6 +245,8 @@
 	border-radius: 24px;
 	outline-offset: -1px;
 	white-space: nowrap;
+	font-size: 16px;
+	line-height: 24px;
 }
 
 .movie-director {
@@ -263,6 +265,12 @@
 	list-style: none;
 	padding: 0;
 	display: flex;
+	font-size: 18px;
+	line-height: 32px;
+}
+
+.movie-director-item {
+	font-size: unset;
 }
 
 .movie-director-item:not(:first-child)::before {
@@ -367,6 +375,7 @@
 
 	.movie-genre .movie-genre-item {
 		padding: 4px 12px;
+		font-size: 14px;
 	}
 
 	.movie-director {
@@ -374,6 +383,11 @@
 		font-size: 14px;
 		line-height: 21px;
 		margin-top: 24px;
+	}
+
+	.movie-director-item {
+		font-size: 14px;
+		line-height: 21px;
 	}
 
 	.movie-watch-btn {
@@ -486,7 +500,7 @@
 	font-weight: 400;
 	font-size: 16px;
 	line-height: 24px;
-	color: rgba(255, 255, 255, 0.4980392157);
+	color: rgba(255, 255, 255, 0.5);
 }
 
 .review-list .review-rating {
@@ -514,7 +528,7 @@
 .review-list .review-publish-date {
 	font-size: 16px;
 	line-height: 24px;
-	color: rgba(255, 255, 255, 0.4980392157);
+	color: rgba(255, 255, 255, 0.5);
 	text-align: right;
 }
 

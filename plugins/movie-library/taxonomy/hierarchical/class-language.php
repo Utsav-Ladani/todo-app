@@ -65,6 +65,12 @@ abstract class Language {
 			'show_tagcloud'      => true,
 			'show_in_quick_edit' => true,
 			'show_admin_column'  => true,
+			'capabilities'       => array(
+				'manage_terms' => 'manage_languages',
+				'edit_terms'   => 'edit_languages',
+				'delete_terms' => 'delete_languages',
+				'assign_terms' => 'assign_languages',
+			),
 		);
 
 		register_taxonomy( self::SLUG, array( Movie::SLUG ), $args );

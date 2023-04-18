@@ -125,6 +125,7 @@ header * {
 }
 
 .desktop-header .header-btn {
+	position: relative;
 	display: flex;
 	align-items: center;
 	column-gap: 8px;
@@ -133,6 +134,7 @@ header * {
 	font-weight: 400;
 	font-size: 16px;
 	line-height: 32px;
+	cursor: pointer;
 }
 
 .desktop-header .header-span-gap {
@@ -269,6 +271,7 @@ header * {
 
 	.mobile-header .mobile-btn-register {
 		border: none;
+		color: #fff;
 		background-color: #d13223;
 	}
 
@@ -408,6 +411,10 @@ header * {
 		margin-bottom: 24px;
 	}
 
+	.footer-wrapper {
+		padding: 0;
+	}
+
 	.widget-company {
 		display: none;
 	}
@@ -436,5 +443,58 @@ header * {
 	.footer-text {
 		padding: 40px 16px 0 16px;
 		text-align: center;
+	}
+}
+
+/** Search form */
+.search-form-btn {
+	display: flex;
+	align-items: center;
+	column-gap: 8px;
+}
+
+.search-form {
+	position: absolute;
+	top: 32px;
+	align-items: center;
+	background-color: #fff;
+	display: flex;
+}
+
+.search-form .search-form__input {
+	padding: 8px;
+	color: #000;
+	font-size: 16px;
+	text-transform: none;
+	border: none;
+	outline: none;
+	background-color: transparent;
+}
+
+.search-form .search-form__btn {
+	padding: 0 8px;
+	background-color: transparent;
+	font-size: 16px;
+	border: none;
+	cursor: pointer;
+}
+
+.search-form .search-svg {
+	content: url(../assets/svg/search-black.svg);
+}
+
+.search-header-btn {
+	position: relative;
+}
+
+.search-close {
+	display: none;
+}
+
+/** media query for the search form in mobile view. */
+@media screen and (max-width: 768px) {
+
+	.search-form {
+		top: 120px;
 	}
 }

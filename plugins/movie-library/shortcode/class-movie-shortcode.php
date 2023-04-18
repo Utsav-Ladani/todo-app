@@ -7,6 +7,7 @@
 
 namespace Movie_Library\Shortcode;
 
+use Movie_Library\APIs\Movie_Library_Metadata_API;
 use Movie_Library\Custom_Post_Type\Movie;
 use Movie_Library\Custom_Post_Type\Person;
 use Movie_Library\Shadow_Taxonomy\Non_Hierarchical\Shadow_Person;
@@ -395,11 +396,11 @@ abstract class Movie_Shortcode {
 			}
 
 			// Get the release date.
-			$movie_basic_date = get_post_meta( $movie->ID, 'rt-movie-meta-basic', true );
+			$movie_basic_date = Movie_Library_Metadata_API::get_movie_meta( $movie->ID, 'rt-movie-meta-basic', true );
 			$release_date     = $movie_basic_date['rt-movie-meta-basic-release-date'] ?? '';
 
 			// Get the director.
-			$director = get_post_meta( $movie->ID, 'rt-movie-meta-crew-director', true );
+			$director = Movie_Library_Metadata_API::get_movie_meta( $movie->ID, 'rt-movie-meta-crew-director', true );
 			$director = maybe_unserialize( $director ) ?? array();
 
 			if ( ! is_array( $director ) ) {
@@ -411,10 +412,14 @@ abstract class Movie_Shortcode {
 			}
 
 			// Get the actors.
-			$actors = get_post_meta( $movie->ID, 'rt-movie-meta-crew-actor', true );
+			$actors = Movie_Library_Metadata_API::get_movie_meta( $movie->ID, 'rt-movie-meta-crew-actor', true );
 			$actors = maybe_unserialize( $actors ) ?? array();
 
 			$actor_names = array();
+
+			if ( ! is_array( $actors ) ) {
+				$actors = array();
+			}
 
 			foreach ( $actors as $actor_key => $actor_value ) {
 				$actor_names[] = get_the_title( $actor_key );

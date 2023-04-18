@@ -114,6 +114,8 @@ $nav-bg-color: #111;
 		border-radius: 24px;
 		outline-offset: -1px;
 		white-space: nowrap;
+		font-size: 16px;
+		line-height: 24px;
 	}
 }
 
@@ -134,10 +136,16 @@ $nav-bg-color: #111;
 	padding: 0;
 
 	display: flex;
+	font-size: 18px;
+	line-height: 32px;
+}
+
+.movie-director-item {
+	font-size: unset;
 }
 
 .movie-director-item:not(:first-child)::before {
-	content: "•";
+	content: "\2022";
 	margin: 0 8px;
 }
 
@@ -248,6 +256,7 @@ $nav-bg-color: #111;
 
 		.movie-genre-item {
 			padding: 4px 12px;
+			font-size: 14px;
 		}
 	}
 
@@ -256,6 +265,11 @@ $nav-bg-color: #111;
 		font-size: 14px;
 		line-height: 21px;
 		margin-top: 24px;
+	}
+
+	.movie-director-item {
+		font-size: 14px;
+		line-height: 21px;
 	}
 
 	.movie-watch-btn {
@@ -377,7 +391,7 @@ $nav-bg-color: #111;
 		font-size: 16px;
 		line-height: 24px;
 
-		color: #ffffff7f;
+		color: rgba(255, 255, 255, 0.5);
 	}
 
 	.review-rating {
@@ -405,7 +419,7 @@ $nav-bg-color: #111;
 	.review-publish-date {
 		font-size: 16px;
 		line-height: 24px;
-		color: #ffffff7f;
+		color: rgba(255, 255, 255, 0.5);
 		text-align: right;
 	}
 }

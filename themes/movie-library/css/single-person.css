@@ -131,7 +131,7 @@
 
 	/** Videos Styles */
 	.videos-list {
-		grid-template-columns: repeat(auto-fill, minmax(min(100%, max(327px, 33.3333333333%)), 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, max(327px, 33.33%)), 1fr));
 		column-gap: 16px;
 	}
 

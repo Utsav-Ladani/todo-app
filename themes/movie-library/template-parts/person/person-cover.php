@@ -11,19 +11,19 @@
 <?php
 require_once get_stylesheet_directory() . '/includes/common-utility.php';
 require_once get_stylesheet_directory() . '/includes/person-utility.php';
+
+use Movie_Library\APIs\Movie_Library_Metadata_API;
 ?>
 
 <div class="person-cover max-container">
-	<?php $src = get_thumbnail_attachment_url( get_the_ID() ); ?>
-
-	<img class="person-image" src="<?php echo esc_url( $src ); ?>" alt="">
+	<img class="person-image" src="<?php echo esc_url( get_thumbnail_attachment_url( get_the_ID() ) ); ?>" alt="<?php esc_html_e( 'Person Image', 'movie-library' ); ?>">
 	<div class="person-info">
 		<div class="person-name-wrap">
 			<?php the_title( '<h1 class="person-name">', '</h1>' ); ?>
 			<?php
-			$full_name = get_post_meta( get_the_ID(), 'rt-person-meta-basic-full-name', true );
+			$full_name = Movie_Library_Metadata_API::get_person_meta( get_the_ID(), 'rt-person-meta-basic-full-name', true );
 			$full_name = $full_name ?? '';
-			echo '<span class="person-full-name">' . esc_html( $full_name ) . '</span>';
+			printf( '<span class="person-full-name">%s</span>', esc_html( $full_name ) );
 			?>
 		</div>
 		<?php
@@ -35,7 +35,7 @@ require_once get_stylesheet_directory() . '/includes/person-utility.php';
 		$age = gmdate( 'Y' ) - gmdate( 'Y', strtotime( $date ) );
 
 		// get the birthplace.
-		$birth_place = get_post_meta( get_the_ID(), 'rt-person-meta-basic-birth-place', true );
+		$birth_place = Movie_Library_Metadata_API::get_person_meta( get_the_ID(), 'rt-person-meta-basic-birth-place', true );
 		$birth_place = $birth_place ?? '';
 
 		$first_movie = get_first_movie( get_the_ID() );
@@ -101,7 +101,7 @@ require_once get_stylesheet_directory() . '/includes/person-utility.php';
 				<td><?php esc_html_e( 'Upcoming Movie', 'movie-library' ); ?>:</td>
 				<td>
 					<?php
-						$count = count( $upcoming_movies );
+					$count = count( $upcoming_movies );
 					foreach ( $upcoming_movies as $upcoming_movie ) {
 						echo esc_html( $upcoming_movie->post_title );
 
@@ -140,7 +140,7 @@ require_once get_stylesheet_directory() . '/includes/person-utility.php';
 						),
 					);
 
-					$social_meta = get_post_meta( get_the_ID(), 'rt-person-meta-social', true );
+					$social_meta = Movie_Library_Metadata_API::get_person_meta( get_the_ID(), 'rt-person-meta-social', true );
 
 					if ( ! is_array( $social_meta ) ) {
 						$social_meta = array();
@@ -152,7 +152,7 @@ require_once get_stylesheet_directory() . '/includes/person-utility.php';
 							$src = get_stylesheet_directory_uri() . '/assets/svg/' . $social['type'] . '-small.svg';
 							?>
 							<a class="person-social-item" href="<?php echo esc_url( $url ); ?>" target="_blank">
-								<img src="<?php echo esc_attr( $src ); ?>" alt="" />
+								<img src="<?php echo esc_attr( $src ); ?>" alt="<?php esc_html_e( 'Social Icon', 'movie-library' ); ?>" />
 							</a>
 							<?php
 						}

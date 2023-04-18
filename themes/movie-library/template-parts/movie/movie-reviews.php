@@ -22,19 +22,17 @@
 	);
 
 	foreach ( $reviews as $review ) {
-		// author link.
-		$author_link = get_comment_author_url( $review->comment_ID );
 		?>
 		<li class="review-item">
 			<div class="review-header">
-				<a href="<?php echo esc_url( $author_link ); ?>" >
-					<img class="review-avatar" src="<?php echo esc_url( get_avatar_url( $review->comment_author_email ) ); ?>" alt="">
+				<a href="<?php echo esc_url( get_comment_author_url( $review->comment_ID ) ); ?>" >
+					<img class="review-avatar" src="<?php echo esc_url( get_avatar_url( $review->comment_author_email ) ); ?>" alt="<?php esc_html_e( 'Avatar', 'movie-library' ); ?>">
 				</a>
-				<a href="<?php echo esc_url( $author_link ); ?>" >
+				<a href="<?php echo esc_url( get_comment_author_url( $review->comment_ID ) ); ?>" >
 					<div class="review-author-name"><?php echo esc_html( $review->comment_author ); ?></div>
 				</a>
 				<span class="review-rating">
-					<img class="star-icon" src="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/svg/star.svg" />
+					<img class="star-icon" src="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/svg/star.svg" alt="<?php esc_html_e( 'Star', 'movie-library' ); ?>" />
 					<?php echo esc_html( '8.4/10' ); ?>
 				</span>
 			</div>

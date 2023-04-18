@@ -43,9 +43,14 @@ use Movie_Library\Shortcode\Person_Shortcode;
 // setting.
 use Movie_Library\Setting\Setting;
 
-// widget.
-use Movie_Library\Widget\Upcoming_Movies_Dashboard_Widget;
-use Movie_Library\Widget\Movies_From_Plugin_Dashboard_Widget;
+// APIs.
+use Movie_Library\APIs\Movie_Library_Metadata_API;
+
+// other.
+use Movie_Library\Movie_Library_Update;
+
+// role.
+use Movie_Library\Role\Movie_Manager;
 
 /**
  * Main class of the plugin.
@@ -61,6 +66,9 @@ abstract class Movie_Library {
 	public static function init() : void {
 		// register the autoloader.
 		Autoloader::register();
+
+		// setup database variable for metadata APIs.
+		Movie_Library_Metadata_API::init();
 
 		// add custom post type.
 		Movie::init();
@@ -94,9 +102,8 @@ abstract class Movie_Library {
 		// add setting.
 		Setting::init();
 
-		// add widget.
-		Upcoming_Movies_Dashboard_Widget::init();
-		Movies_From_Plugin_Dashboard_Widget::init();
+		// add custom rewrite rules.
+		Custom_Rewrite_Rules::init();
 	}
 
 	/**
@@ -105,6 +112,8 @@ abstract class Movie_Library {
 	 * @return void
 	 */
 	public static function activate() : void {
+		// update the plugin, if needed.
+		Movie_Library_Update::update();
 
 		// register custom post type to flush rewrite rules.
 		Movie::register_movie_post_type();
@@ -123,7 +132,24 @@ abstract class Movie_Library {
 		// register non-hierarchical shadow taxonomy to flush rewrite rules.
 		Shadow_Person::register_shadow_person_taxonomy();
 
+		// add Movie Manager Role.
+		Movie_Manager::add_movie_manager_role();
+
+		// add custom rewrite rules for custom post type.
+		Custom_Rewrite_Rules::add_custom_rewrite_rules();
+
 		// flush rewrite rules.
 		flush_rewrite_rules();
+	}
+
+	/**
+	 * Do something on deactivation.
+	 * It removes the Movie Manager Role.
+	 *
+	 * @return void
+	 */
+	public static function deactivate() : void {
+		// remove Movie Manager Role.
+		Movie_Manager::remove_movie_manager_role();
 	}
 }
