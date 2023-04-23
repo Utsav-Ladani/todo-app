@@ -53,6 +53,7 @@ class Movie_REST_API {
 					'methods'             => \WP_REST_Server::READABLE,
 					'callback'            => array( __CLASS__, 'get_movies' ),
 					'permission_callback' => array( __CLASS__, 'get_movies_permissions_check' ),
+					'args'                => self::movies_get_route_args(),
 				),
 
 				/**
@@ -63,6 +64,7 @@ class Movie_REST_API {
 					'methods'             => \WP_REST_Server::EDITABLE,
 					'callback'            => array( __CLASS__, 'create_or_update_movie' ),
 					'permission_callback' => array( __CLASS__, 'create_or_update_movie_permissions_check' ),
+					'args'                => self::movie_editable_route_args(),
 				),
 
 				/**
@@ -73,6 +75,7 @@ class Movie_REST_API {
 					'methods'             => \WP_REST_Server::DELETABLE,
 					'callback'            => array( __CLASS__, 'delete_movie' ),
 					'permission_callback' => array( __CLASS__, 'delete_movie_permissions_check' ),
+					'args'                => self::movie_delete_route_args(),
 				),
 			),
 		);
@@ -92,6 +95,7 @@ class Movie_REST_API {
 					'methods'             => 'GET',
 					'callback'            => array( __CLASS__, 'get_movie' ),
 					'permission_callback' => array( __CLASS__, 'get_movies_permissions_check' ),
+					'args'                => self::movie_get_route_args(),
 				),
 
 				/**
@@ -102,6 +106,7 @@ class Movie_REST_API {
 					'methods'             => \WP_REST_Server::EDITABLE,
 					'callback'            => array( __CLASS__, 'create_or_update_movie' ),
 					'permission_callback' => array( __CLASS__, 'create_or_update_movie_permissions_check' ),
+					'args'                => self::movie_editable_route_args(),
 				),
 
 				/**
@@ -112,6 +117,7 @@ class Movie_REST_API {
 					'methods'             => \WP_REST_Server::DELETABLE,
 					'callback'            => array( __CLASS__, 'delete_movie' ),
 					'permission_callback' => array( __CLASS__, 'delete_movie_permissions_check' ),
+					'args'                => self::movie_delete_route_args(),
 				),
 			),
 		);
@@ -249,7 +255,7 @@ class Movie_REST_API {
 		if ( ! $movie_id ) {
 			return new \WP_Error(
 				'rest_movie_id_required',
-				esc_html__( 'Movie ID required.', 'movie-library' ),
+				__( 'Movie ID required.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -257,10 +263,10 @@ class Movie_REST_API {
 		// get movie.
 		$movie = get_post( $movie_id );
 
-		if ( ! $movie ) {
+		if ( ! $movie || Movie::SLUG !== $movie->post_type ) {
 			return new \WP_Error(
 				'rest_movie_not_found',
-				esc_html__( 'Movie not found.', 'movie-library' ),
+				__( 'Movie not found.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -283,7 +289,7 @@ class Movie_REST_API {
 		if ( ! current_user_can( 'read' ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__( 'You cannot view the movies resource.', 'movie-library' ),
+				__( 'You cannot view the movie(s).', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -319,7 +325,7 @@ class Movie_REST_API {
 						array(
 							'status'  => 'necessary_field_missing',
 							/* translators: %s: field name */
-							'message' => sprintf( esc_html__( '%s is required.', 'movie-library' ), ucwords( $field ) ),
+							'message' => sprintf( __( '%s is required.', 'movie-library' ), ucwords( $field ) ),
 						),
 						400
 					);
@@ -463,7 +469,7 @@ class Movie_REST_API {
 		if ( $request->get_param( 'id' ) && ! current_user_can( 'edit_post', $request->get_param( 'id' ) ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__( 'You cannot update or create the movie resource.', 'movie-library' ),
+				__( 'You cannot update or create the movie.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -472,7 +478,7 @@ class Movie_REST_API {
 		if ( ! current_user_can( 'edit_posts' ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__( 'You cannot update or create the movie resource.', 'movie-library' ),
+				__( 'You cannot update or create the movie.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -485,33 +491,28 @@ class Movie_REST_API {
 	 *
 	 * @param \WP_REST_Request $request Request object.
 	 *
-	 * @return \WP_REST_Response
+	 * @return \WP_Error|\WP_REST_Response
 	 */
-	public static function delete_movie( \WP_REST_Request $request ) : \WP_REST_Response {
+	public static function delete_movie( \WP_REST_Request $request ) {
 		$movie_id = $request->get_param( 'id' );
 
 		// reject if movie id is not present.
 		if ( ! $movie_id ) {
-			return rest_ensure_response(
-				new \WP_Error(
-					'rest_movie_invalid_id',
-					esc_html__( 'Invalid movie ID.', 'movie-library' ),
-					array( 'status' => 404 )
-				)
+			return new \WP_Error(
+				'rest_movie_invalid_id',
+				__( 'Invalid movie ID.', 'movie-library' ),
+				array( 'status' => 404 )
 			);
 		}
 
-		// get the movie post.
 		$movie = get_post( $movie_id );
 
 		// if movie is not found, return error.
-		if ( ! $movie ) {
-			return rest_ensure_response(
-				new \WP_Error(
-					'rest_movie_invalid_id',
-					esc_html__( 'Invalid movie ID.', 'movie-library' ),
-					array( 'status' => 404 )
-				)
+		if ( ! $movie || Movie::SLUG !== $movie->post_type ) {
+			return new \WP_Error(
+				'rest_movie_not found',
+				__( 'Movie not found.', 'movie-library' ),
+				array( 'status' => 404 ),
 			);
 		}
 
@@ -520,12 +521,10 @@ class Movie_REST_API {
 
 		// if movie is not deleted, return error.
 		if ( ! $deleted ) {
-			return rest_ensure_response(
-				new \WP_Error(
-					'rest_movie_cannot_delete',
-					esc_html__( 'Movie not found!', 'movie-library' ),
-					array( 'status' => 500 )
-				)
+			return new \WP_Error(
+				'rest_movie_not_deleted',
+				__( 'Movie not deleted!', 'movie-library' ),
+				array( 'status' => 500 )
 			);
 		}
 
@@ -536,7 +535,7 @@ class Movie_REST_API {
 		wp_delete_object_term_relationships( $movie_id, Shadow_Person::SLUG );
 
 		// return deleted movie data.
-		return rest_ensure_response( self::get_movie_data( $movie ) );
+		return rest_ensure_response( self::get_movie_data( $deleted ) );
 	}
 
 	/**
@@ -570,16 +569,28 @@ class Movie_REST_API {
 		if ( ! $request->get_param( 'id' ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__( 'Please provide the ID to delete the movie.', 'movie-library' ),
+				__( 'Please provide the ID to delete the movie.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
 
-		// if user cannot delete the movie, return error.
+		// get the movie.
+		$movie = get_post( $request->get_param( 'id' ) );
+
+		// throw error if movie is not found.
+		if ( ! $movie || Movie::SLUG !== $movie->post_type ) {
+			return new \WP_Error(
+				'rest_forbidden',
+				__( 'Movie not found.', 'movie-library' ),
+				array( 'status' => 404 )
+			);
+		}
+
+		// permission check.
 		if ( ! current_user_can( 'delete_post', $request->get_param( 'id' ) ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__( 'You cannot delete the movie resource.', 'movie-library' ),
+				__( 'You cannot delete the movie.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -587,4 +598,312 @@ class Movie_REST_API {
 		return true;
 	}
 
+	/**
+	 * Movies GET endpoint request args
+	 *
+	 * @return array
+	 */
+	public static function movies_get_route_args() : array {
+		return array(
+			'per_page' => array(
+				'description'       => __( 'Maximum number of items to be returned in result set.', 'movie-library' ),
+				'type'              => 'integer',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => array( __CLASS__, 'validate_my_int' ),
+				'default'           => 10,
+			),
+			'page'     => array(
+				'description'       => __( 'Offset the result set by a specific number of items.', 'movie-library' ),
+				'type'              => 'integer',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => array( __CLASS__, 'validate_my_int' ),
+				'default'           => 1,
+			),
+			'offset'   => array(
+				'description'       => __( 'Offset the result set by a specific number of items.', 'movie-library' ),
+				'type'              => 'integer',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => array( __CLASS__, 'validate_my_int' ),
+				'default'           => 0,
+			),
+			'order'    => array(
+				'description'       => __( 'Order sort attribute ascending or descending.', 'movie-library' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'default'           => 'DESC',
+				'validate_callback' => function ( $param, $request, $key ) {
+					return in_array( $param, array( 'ASC', 'DESC' ), true );
+				},
+				'enum'              => array(
+					'ASC',
+					'DESC',
+				),
+			),
+			'orderby'  => array(
+				'description'       => __( 'Sort collection by object attribute.', 'movie-library' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'default'           => 'date',
+				'validate_callback' => function ( $param, $request, $key ) {
+					return in_array( $param, array( 'date', 'title', 'id' ), true );
+				},
+				'enum'              => array(
+					'date',
+					'title',
+					'id',
+				),
+			),
+		);
+	}
+
+	/**
+	 * Movie GET endpoint request args
+	 *
+	 * @return array
+	 */
+	public static function movie_get_route_args() : array {
+		return array(
+			'id' => array(
+				'description' => __( 'Unique identifier for the post.', 'movie-library' ),
+				'type'        => 'numeric',
+				'minimum'     => 1,
+			),
+		);
+	}
+
+	/**
+	 * Movie POST, PUT, PATCH endpoint request args
+	 *
+	 * @return array
+	 */
+	public static function movie_editable_route_args() : array {
+		return array(
+			'id'             => array(
+				'description'       => __( 'Unique identifier for the post.', 'movie-library' ),
+				'type'              => 'integer',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => array( __CLASS__, 'validate_my_int' ),
+			),
+			'author'         => array(
+				'description'       => __( 'Author ID', 'movie-library' ),
+				'type'              => 'integer',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => array( __CLASS__, 'validate_my_int' ),
+			),
+			'status'         => array(
+				'description'       => __( 'Post status.', 'movie-library' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'default'           => 'publish',
+				'validate_callback' => function ( $param, $request, $key ) {
+					return in_array( $param, array( 'publish', 'draft', 'pending', 'trash' ), true );
+				},
+				'enum'              => array(
+					'publish',
+					'draft',
+					'pending',
+					'trash',
+				),
+			),
+			'comment_status' => array(
+				'description'       => __( 'Comment status.', 'movie-library' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'default'           => 'open',
+				'validate_callback' => function ( $param, $request, $key ) {
+					return in_array( $param, array( 'open', 'closed' ), true );
+				},
+				'enum'              => array(
+					'open',
+					'closed',
+				),
+			),
+			'ping_status'    => array(
+				'description'       => __( 'Ping status.', 'movie-library' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'default'           => 'open',
+				'validate_callback' => function ( $param, $request, $key ) {
+					return in_array( $param, array( 'open', 'closed' ), true );
+				},
+				'enum'              => array(
+					'open',
+					'closed',
+				),
+			),
+			'post_password'  => array(
+				'description'       => __( 'Post password.', 'movie-library' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => 'sanitize_text_field',
+			),
+			'title'          => array(
+				'description'       => __( 'Title for the post.', 'movie-library' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => 'sanitize_text_field',
+			),
+			'content'        => array(
+				'description'       => __( 'Content for the post.', 'movie-library' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'wp_kses_post',
+				'validate_callback' => 'wp_kses_post',
+			),
+			'excerpt'        => array(
+				'description'       => __( 'Excerpt for the post.', 'movie-library' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'wp_kses_post',
+				'validate_callback' => 'wp_kses_post',
+			),
+			'featured_image' => array(
+				'description'       => __( 'Featured image for the post.', 'movie-library' ),
+				'type'              => 'integer',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => array( __CLASS__, 'validate_my_int' ),
+			),
+			'meta'           => array(
+				'description' => __( 'Meta data.', 'movie-library' ),
+				'type'        => 'object',
+				'properties'  => array(
+					'rt-movie-meta-basic-rating'       => array(
+						'default'     => '0',
+						'type'        => 'string',
+						'description' => __( 'The rating for the movie.', 'movie-library' ),
+						'pattern'     => '^([0-9]|10)(\.[0-9])?$',
+					),
+					'rt-movie-meta-basic-release-date' => array(
+						'default'     => '',
+						'type'        => 'string',
+						'description' => __( 'The release date for the movie.', 'movie-library' ),
+						// pattern: YYYY-MM-DD.
+						'pattern'     => '^\d{4}-\d{2}-\d{2}$',
+					),
+					'rt-movie-meta-basic-runtime'      => array(
+						'default'     => 0,
+						'type'        => 'integer',
+						'description' => __( 'The runtime for the movie.', 'movie-library' ),
+						'minimum'     => 0,
+						'maximum'     => 1000,
+					),
+					'rt-media-meta-images'             => array(
+						'default'     => array(),
+						'type'        => 'array',
+						'description' => __( 'The images for the movie.', 'movie-library' ),
+						'items'       => array(
+							'type' => 'integer',
+						),
+					),
+					'rt-media-meta-videos'             => array(
+						'default'     => array(),
+						'type'        => 'array',
+						'description' => __( 'The videos for the movie.', 'movie-library' ),
+						'items'       => array(
+							'type' => 'integer',
+						),
+					),
+					'rt-movie-meta-crew-actor'         => array(
+						'default'           => array(),
+						'type'              => 'object',
+						'description'       => __( 'The actors for the movie.', 'movie-library' ),
+						'patternProperties' => array(
+							'^\\d+$' => array(
+								'type' => 'string',
+							),
+						),
+					),
+					'rt-movie-meta-crew-director'      => array(
+						'default'     => array(),
+						'type'        => 'array',
+						'description' => __( 'The directors for the movie.', 'movie-library' ),
+						'items'       => array(
+							'type' => 'integer',
+						),
+					),
+					'rt-movie-meta-crew-writer'        => array(
+						'default'     => array(),
+						'type'        => 'array',
+						'description' => __( 'The writers for the movie.', 'movie-library' ),
+						'items'       => array(
+							'type' => 'integer',
+						),
+					),
+					'rt-movie-meta-crew-producer'      => array(
+						'default'     => array(),
+						'type'        => 'array',
+						'description' => __( 'The producers for the movie.', 'movie-library' ),
+						'items'       => array(
+							'type' => 'integer',
+						),
+					),
+				),
+			),
+			'taxonomy'       => array(
+				'type'        => 'object',
+				'description' => __( 'The taxonomy data for the object.', 'movie-library' ),
+				'properties'  => array(
+					Genre::SLUG              => array(
+						'default'     => array(),
+						'type'        => 'array',
+						'description' => __( 'The genres for the movie.', 'movie-library' ),
+						'items'       => array(
+							'type' => 'integer',
+						),
+					),
+					Language::SLUG           => array(
+						'default'     => array(),
+						'type'        => 'array',
+						'description' => __( 'The languages for the movie.', 'movie-library' ),
+						'items'       => array(
+							'type' => 'integer',
+						),
+					),
+					Label::SLUG              => array(
+						'default'     => array(),
+						'type'        => 'array',
+						'description' => __( 'The labels for the movie.', 'movie-library' ),
+						'items'       => array(
+							'type' => 'integer',
+						),
+					),
+					Production_Company::SLUG => array(
+						'default'     => array(),
+						'type'        => 'array',
+						'description' => __( 'The production companies for the movie.', 'movie-library' ),
+						'items'       => array(
+							'type' => 'integer',
+						),
+					),
+				),
+			),
+		);
+	}
+
+	/**
+	 * Movie DELETE endpoint request args.
+	 *
+	 * @return array
+	 */
+	public static function movie_delete_route_args() {
+		return array(
+			'id' => array(
+				'description' => __( 'Unique identifier for the object.', 'movie-library' ),
+				'type'        => 'integer',
+				'minimum'     => 1,
+				'required'    => true,
+			),
+		);
+	}
+
+	/**
+	 * Validate the integer.
+	 *
+	 * @param mixed            $value Value to validate.
+	 * @param \WP_REST_Request $request Full details about the request.
+	 * @param string           $param The parameter name.
+	 *
+	 * @return bool
+	 */
+	public static function validate_my_int( $value, $request, $param ) {
+		return is_int( $value );
+	}
 }
