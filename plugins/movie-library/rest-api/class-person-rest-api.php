@@ -11,6 +11,10 @@ namespace Movie_Library\REST_API;
 use Movie_Library\Custom_Post_Type\Person;
 use Movie_Library\APIs\Movie_Library_Metadata_API;
 use Movie_Library\Taxonomy\Hierarchical\Career;
+use Movie_Library\Taxonomy\Hierarchical\Genre;
+use Movie_Library\Taxonomy\Hierarchical\Label;
+use Movie_Library\Taxonomy\Hierarchical\Language;
+use Movie_Library\Taxonomy\Hierarchical\Production_Company;
 
 /**
  * Class Person_REST_API
@@ -48,6 +52,7 @@ class Person_REST_API {
 					'methods'             => \WP_REST_Server::READABLE,
 					'callback'            => array( __CLASS__, 'get_people' ),
 					'permission_callback' => array( __CLASS__, 'get_people_permissions_check' ),
+					'args'                => Movie_REST_API::movies_get_route_args(),
 				),
 
 				/**
@@ -58,6 +63,7 @@ class Person_REST_API {
 					'methods'             => \WP_REST_Server::EDITABLE,
 					'callback'            => array( __CLASS__, 'create_or_update_person' ),
 					'permission_callback' => array( __CLASS__, 'create_or_update_person_permissions_check' ),
+					'args'                => self::people_editable_route_args(),
 				),
 
 				/**
@@ -68,6 +74,7 @@ class Person_REST_API {
 					'methods'             => \WP_REST_Server::DELETABLE,
 					'callback'            => array( __CLASS__, 'delete_person' ),
 					'permission_callback' => array( __CLASS__, 'delete_person_permissions_check' ),
+					'args'                => Movie_REST_API::movie_delete_route_args(),
 				),
 			),
 		);
@@ -87,6 +94,7 @@ class Person_REST_API {
 					'methods'             => 'GET',
 					'callback'            => array( __CLASS__, 'get_person' ),
 					'permission_callback' => array( __CLASS__, 'get_people_permissions_check' ),
+					'args'                => Movie_REST_API::movie_get_route_args(),
 				),
 
 				/**
@@ -97,6 +105,7 @@ class Person_REST_API {
 					'methods'             => \WP_REST_Server::EDITABLE,
 					'callback'            => array( __CLASS__, 'create_or_update_person' ),
 					'permission_callback' => array( __CLASS__, 'create_or_update_person_permissions_check' ),
+					'args'                => self::people_editable_route_args(),
 				),
 
 				/**
@@ -107,6 +116,7 @@ class Person_REST_API {
 					'methods'             => \WP_REST_Server::DELETABLE,
 					'callback'            => array( __CLASS__, 'delete_person' ),
 					'permission_callback' => array( __CLASS__, 'delete_person_permissions_check' ),
+					'args'                => Movie_REST_API::movie_delete_route_args(),
 				),
 			),
 		);
@@ -117,9 +127,9 @@ class Person_REST_API {
 	 *
 	 * @param \WP_REST_Request $request Request object.
 	 *
-	 * @return \WP_REST_Response
+	 * @return \WP_REST_Response | \WP_Error
 	 */
-	public static function get_people( \WP_REST_Request $request ) : \WP_REST_Response {
+	public static function get_people( \WP_REST_Request $request ) {
 		// prepare arguments.
 		$args = array(
 			'post_type'      => Person::SLUG,
@@ -133,6 +143,14 @@ class Person_REST_API {
 
 		// execute query.
 		$people = get_posts( $args );
+
+		if ( empty( $people ) ) {
+			return new \WP_Error(
+				'no_persons_found',
+				__( 'No persons found.', 'movie-library' ),
+				array( 'status' => 404 )
+			);
+		}
 
 		// prepare response.
 		$response = array();
@@ -241,7 +259,7 @@ class Person_REST_API {
 		if ( ! $person_id ) {
 			return new \WP_Error(
 				'rest_person_id_required',
-				esc_html__( 'Person ID required.', 'movie-library' ),
+				__( 'Person ID required.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -249,10 +267,10 @@ class Person_REST_API {
 		// get person.
 		$person = get_post( $person_id );
 
-		if ( ! $person ) {
+		if ( ! $person || Person::SLUG !== $person->post_type ) {
 			return new \WP_Error(
 				'rest_person_not_found',
-				esc_html__( 'Person not found.', 'movie-library' ),
+				__( 'Person not found.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -275,7 +293,7 @@ class Person_REST_API {
 		if ( ! current_user_can( 'read' ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__( 'You cannot view the person resource.', 'movie-library' ),
+				__( 'You cannot view the person.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -288,9 +306,9 @@ class Person_REST_API {
 	 *
 	 * @param \WP_REST_Request $request Request object.
 	 *
-	 * @return \WP_REST_Response
+	 * @return \WP_REST_Response | \WP_Error
 	 */
-	public static function create_or_update_person( \WP_REST_Request $request ) : \WP_REST_Response {
+	public static function create_or_update_person( \WP_REST_Request $request ) {
 		// get person id.
 		$person_id = $request->get_param( 'id' );
 
@@ -307,11 +325,11 @@ class Person_REST_API {
 
 			foreach ( $required_fields as $field ) {
 				if ( empty( $data[ $field ] ) ) {
-					return new \WP_REST_Response(
+					return new \WP_Error(
 						array(
 							'status'  => 'necessary_field_missing',
 							/* translators: %s: field name */
-							'message' => sprintf( esc_html__( '%s is required.', 'movie-library' ), ucwords( $field ) ),
+							'message' => sprintf( __( '%s is required.', 'movie-library' ), ucwords( $field ) ),
 						),
 						400
 					);
@@ -322,9 +340,9 @@ class Person_REST_API {
 		// prepare post arguments.
 		$args = array(
 			'post_type'      => Person::SLUG,
-			'post_title'     => $data['title'] ?? '',
+			'post_title'     => $data['title'],
 			'post_author'    => $data['author'] ?? get_current_user_id(),
-			'post_content'   => $data['content'] ?? '',
+			'post_content'   => $data['content'],
 			'post_excerpt'   => $data['excerpt'] ?? '',
 			'post_status'    => $data['status'] ?? 'publish',
 			'comment_status' => $data['comment_status'] ?? 'closed',
@@ -394,7 +412,7 @@ class Person_REST_API {
 		if ( $request->get_param( 'id' ) && ! current_user_can( 'edit_post', $request->get_param( 'id' ) ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__( 'You cannot update or create the person resource.', 'movie-library' ),
+				__( 'You cannot update or create the person.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -403,7 +421,7 @@ class Person_REST_API {
 		if ( ! current_user_can( 'edit_posts' ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__( 'You cannot update or create the person resource.', 'movie-library' ),
+				__( 'You cannot update or create the person.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -416,19 +434,17 @@ class Person_REST_API {
 	 *
 	 * @param \WP_REST_Request $request Request object.
 	 *
-	 * @return \WP_REST_Response
+	 * @return \WP_Error | \WP_REST_Response
 	 */
-	public static function delete_person( \WP_REST_Request $request ) : \WP_REST_Response {
+	public static function delete_person( \WP_REST_Request $request ) {
 		$person_id = $request->get_param( 'id' );
 
 		// reject if person id is not present.
 		if ( ! $person_id ) {
-			return rest_ensure_response(
-				new \WP_Error(
-					'rest_person_invalid_id',
-					esc_html__( 'Invalid person ID.', 'movie-library' ),
-					array( 'status' => 404 )
-				)
+			return new \WP_Error(
+				'rest_person_id_required',
+				__( 'Person ID required.', 'movie-library' ),
+				array( 'status' => 404 )
 			);
 		}
 
@@ -436,13 +452,11 @@ class Person_REST_API {
 		$person = get_post( $person_id );
 
 		// if person is not found, return error.
-		if ( ! $person ) {
-			return rest_ensure_response(
-				new \WP_Error(
-					'rest_person_invalid_id',
-					esc_html__( 'Invalid person ID.', 'movie-library' ),
-					array( 'status' => 404 )
-				)
+		if ( ! $person || Person::SLUG !== $person->post_type ) {
+			return new \WP_Error(
+				'rest_person_invalid_id',
+				__( 'Invalid person ID.', 'movie-library' ),
+				array( 'status' => 404 )
 			);
 		}
 
@@ -451,12 +465,10 @@ class Person_REST_API {
 
 		// if person is not deleted, return error.
 		if ( ! $deleted ) {
-			return rest_ensure_response(
-				new \WP_Error(
-					'rest_person_cannot_delete',
-					esc_html__( 'Person not found!', 'movie-library' ),
-					array( 'status' => 500 )
-				)
+			return new \WP_Error(
+				'rest_person_cannot_delete',
+				__( 'Person not found!', 'movie-library' ),
+				array( 'status' => 500 )
 			);
 		}
 
@@ -464,7 +476,7 @@ class Person_REST_API {
 		self::delete_all_person_meta( $person_id );
 
 		// return deleted person data.
-		return rest_ensure_response( self::get_person_data( $person ) );
+		return rest_ensure_response( self::get_person_data( $deleted ) );
 	}
 
 	/**
@@ -498,7 +510,19 @@ class Person_REST_API {
 		if ( ! $request->get_param( 'id' ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__( 'Please provide the ID to delete the person.', 'movie-library' ),
+				__( 'Please provide the ID to delete the person.', 'movie-library' ),
+				array( 'status' => 404 )
+			);
+		}
+
+		// get the person post.
+		$person = get_post( $request->get_param( 'id' ) );
+
+		// if person is not found, return error.
+		if ( ! $person || Person::SLUG !== $person->post_type ) {
+			return new \WP_Error(
+				'rest_person_invalid_id',
+				__( 'Invalid person ID.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -507,7 +531,7 @@ class Person_REST_API {
 		if ( ! current_user_can( 'delete_post', $request->get_param( 'id' ) ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__( 'You cannot delete the person resource.', 'movie-library' ),
+				__( 'You cannot delete the person resource.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -515,4 +539,188 @@ class Person_REST_API {
 		return true;
 	}
 
+	/**
+	 * People POST, PUT, PATCH endpoint request args
+	 *
+	 * @return array
+	 */
+	public static function people_editable_route_args() : array {
+		return array(
+			'id'             => array(
+				'description'       => __( 'Unique identifier for the post.', 'movie-library' ),
+				'type'              => 'integer',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => array( __CLASS__, 'validate_my_int' ),
+			),
+			'author'         => array(
+				'description'       => __( 'Author ID', 'movie-library' ),
+				'type'              => 'integer',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => array( __CLASS__, 'validate_my_int' ),
+			),
+			'status'         => array(
+				'description'       => __( 'Post status.', 'movie-library' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'default'           => 'publish',
+				'validate_callback' => function ( $param, $request, $key ) {
+					return in_array( $param, array( 'publish', 'draft', 'pending', 'trash' ), true );
+				},
+				'enum'              => array(
+					'publish',
+					'draft',
+					'pending',
+					'trash',
+				),
+			),
+			'comment_status' => array(
+				'description'       => __( 'Comment status.', 'movie-library' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'default'           => 'open',
+				'validate_callback' => function ( $param, $request, $key ) {
+					return in_array( $param, array( 'open', 'closed' ), true );
+				},
+				'enum'              => array(
+					'open',
+					'closed',
+				),
+			),
+			'ping_status'    => array(
+				'description'       => __( 'Ping status.', 'movie-library' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'default'           => 'open',
+				'validate_callback' => function ( $param, $request, $key ) {
+					return in_array( $param, array( 'open', 'closed' ), true );
+				},
+				'enum'              => array(
+					'open',
+					'closed',
+				),
+			),
+			'post_password'  => array(
+				'description'       => __( 'Post password.', 'movie-library' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => 'sanitize_text_field',
+			),
+			'title'          => array(
+				'description'       => __( 'Title for the post.', 'movie-library' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => 'sanitize_text_field',
+			),
+			'content'        => array(
+				'description'       => __( 'Content for the post.', 'movie-library' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'wp_kses_post',
+				'validate_callback' => 'wp_kses_post',
+			),
+			'excerpt'        => array(
+				'description'       => __( 'Excerpt for the post.', 'movie-library' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'wp_kses_post',
+				'validate_callback' => 'wp_kses_post',
+			),
+			'featured_image' => array(
+				'description'       => __( 'Featured image for the post.', 'movie-library' ),
+				'type'              => 'integer',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => array( __CLASS__, 'validate_my_int' ),
+			),
+			'meta'           => array(
+				'description' => __( 'Meta data.', 'movie-library' ),
+				'type'        => 'object',
+				'properties'  => array(
+					'rt-person-meta-basic-birth-date'  => array(
+						'default'     => '',
+						'type'        => 'string',
+						'description' => __( 'The birth date for the person.', 'movie-library' ),
+						// pattern: YYYY-MM-DD.
+						'pattern'     => '^\d{4}-\d{2}-\d{2}$',
+					),
+					'rt-person-meta-basic-birth-place' => array(
+						'default'     => '',
+						'type'        => 'string',
+						'description' => __( 'The birth place for the person.', 'movie-library' ),
+						'pattern'     => '^[a-zA-Z0-9\s,]+$',
+					),
+					'rt-person-meta-basic-full-name'   => array(
+						'default'     => '',
+						'type'        => 'string',
+						'description' => __( 'The full name for the person.', 'movie-library' ),
+						'pattern'     => '^[a-zA-Z0-9\s]+$',
+					),
+					'rt-person-meta-social-twitter'    => array(
+						'default'     => '',
+						'type'        => 'string',
+						'format'      => 'uri',
+						'description' => __( 'The twitter handle for the person.', 'movie-library' ),
+					),
+					'rt-person-meta-social-facebook'   => array(
+						'default'     => '',
+						'type'        => 'string',
+						'format'      => 'uri',
+						'description' => __( 'The facebook handle for the person.', 'movie-library' ),
+					),
+					'rt-person-meta-social-instagram'  => array(
+						'default'     => '',
+						'type'        => 'string',
+						'format'      => 'uri',
+						'description' => __( 'The instagram handle for the person.', 'movie-library' ),
+					),
+					'rt-person-meta-social-web'        => array(
+						'default'     => '',
+						'type'        => 'string',
+						'format'      => 'uri',
+						'description' => __( 'The website for the person.', 'movie-library' ),
+					),
+					'rt-media-meta-images'             => array(
+						'default'     => array(),
+						'type'        => 'array',
+						'description' => __( 'The images for the person.', 'movie-library' ),
+						'items'       => array(
+							'type' => 'integer',
+						),
+					),
+					'rt-media-meta-videos'             => array(
+						'default'     => array(),
+						'type'        => 'array',
+						'description' => __( 'The videos for the person.', 'movie-library' ),
+						'items'       => array(
+							'type' => 'integer',
+						),
+					),
+				),
+			),
+			'taxonomy'       => array(
+				'type'        => 'object',
+				'description' => __( 'The taxonomy data for the object.', 'movie-library' ),
+				'properties'  => array(
+					Career::SLUG => array(
+						'default'     => array(),
+						'type'        => 'array',
+						'description' => __( 'The careers for the person.', 'movie-library' ),
+						'items'       => array(
+							'type' => 'integer',
+						),
+					),
+				),
+			),
+		);
+	}
+
+	/**
+	 * Validate the integer.
+	 *
+	 * @param mixed            $value Value to validate.
+	 * @param \WP_REST_Request $request Full details about the request.
+	 * @param string           $param The parameter name.
+	 *
+	 * @return bool
+	 */
+	public static function validate_my_int( $value, $request, $param ): bool {
+		return is_int( $value );
+	}
 }

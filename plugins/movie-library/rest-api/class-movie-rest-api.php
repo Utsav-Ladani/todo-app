@@ -128,9 +128,9 @@ class Movie_REST_API {
 	 *
 	 * @param \WP_REST_Request $request Request object.
 	 *
-	 * @return \WP_REST_Response
+	 * @return \WP_Error | \WP_REST_Response
 	 */
-	public static function get_movies( \WP_REST_Request $request ) : \WP_REST_Response {
+	public static function get_movies( \WP_REST_Request $request ) {
 		// prepare arguments.
 		$args = array(
 			'post_type'      => Movie::SLUG,
@@ -144,6 +144,14 @@ class Movie_REST_API {
 
 		// execute query.
 		$movies = get_posts( $args );
+
+		if ( empty( $movies ) ) {
+			return new \WP_Error(
+				'no_movies_found',
+				__( 'No movies found.', 'movie-library' ),
+				array( 'status' => 404 )
+			);
+		}
 
 		// prepare response.
 		$response = array();
@@ -302,9 +310,9 @@ class Movie_REST_API {
 	 *
 	 * @param \WP_REST_Request $request Request object.
 	 *
-	 * @return \WP_REST_Response
+	 * @return \WP_REST_Response | \WP_Error
 	 */
-	public static function create_or_update_movie( \WP_REST_Request $request ) : \WP_REST_Response {
+	public static function create_or_update_movie( \WP_REST_Request $request ) {
 		// get movie id.
 		$movie_id = $request->get_param( 'id' );
 
@@ -321,7 +329,7 @@ class Movie_REST_API {
 
 			foreach ( $required_fields as $field ) {
 				if ( empty( $data[ $field ] ) ) {
-					return new \WP_REST_Response(
+					return new \WP_Error(
 						array(
 							'status'  => 'necessary_field_missing',
 							/* translators: %s: field name */
@@ -336,9 +344,9 @@ class Movie_REST_API {
 		// prepare post arguments.
 		$args = array(
 			'post_type'      => Movie::SLUG,
-			'post_title'     => $data['title'] ?? '',
+			'post_title'     => $data['title'],
 			'post_author'    => $data['author'] ?? get_current_user_id(),
-			'post_content'   => $data['content'] ?? '',
+			'post_content'   => $data['content'],
 			'post_excerpt'   => $data['excerpt'] ?? '',
 			'post_status'    => $data['status'] ?? 'publish',
 			'comment_status' => $data['comment_status'] ?? 'closed',
@@ -499,8 +507,8 @@ class Movie_REST_API {
 		// reject if movie id is not present.
 		if ( ! $movie_id ) {
 			return new \WP_Error(
-				'rest_movie_invalid_id',
-				__( 'Invalid movie ID.', 'movie-library' ),
+				'rest_movie_id_required',
+				__( 'Movie ID required.', 'movie-library' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -903,7 +911,7 @@ class Movie_REST_API {
 	 *
 	 * @return bool
 	 */
-	public static function validate_my_int( $value, $request, $param ) {
+	public static function validate_my_int( $value, $request, $param ): bool {
 		return is_int( $value );
 	}
 }
