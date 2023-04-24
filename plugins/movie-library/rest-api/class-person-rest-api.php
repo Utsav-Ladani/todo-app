@@ -548,7 +548,7 @@ class Person_REST_API {
 		return array(
 			'id'             => array(
 				'description'       => __( 'Unique identifier for the post.', 'movie-library' ),
-				'type'              => 'integer',
+				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => array( __CLASS__, 'validate_my_int' ),
 			),
@@ -721,6 +721,7 @@ class Person_REST_API {
 	 * @return bool
 	 */
 	public static function validate_my_int( $value, $request, $param ): bool {
+		$value = absint( $value );
 		return is_int( $value );
 	}
 }

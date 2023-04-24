@@ -672,9 +672,10 @@ class Movie_REST_API {
 	public static function movie_get_route_args() : array {
 		return array(
 			'id' => array(
-				'description' => __( 'Unique identifier for the post.', 'movie-library' ),
-				'type'        => 'numeric',
-				'minimum'     => 1,
+				'description'       => __( 'Unique identifier for the post.', 'movie-library' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => array( __CLASS__, 'validate_my_int' ),
 			),
 		);
 	}
@@ -688,7 +689,7 @@ class Movie_REST_API {
 		return array(
 			'id'             => array(
 				'description'       => __( 'Unique identifier for the post.', 'movie-library' ),
-				'type'              => 'integer',
+				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => array( __CLASS__, 'validate_my_int' ),
 			),
@@ -894,10 +895,11 @@ class Movie_REST_API {
 	public static function movie_delete_route_args() {
 		return array(
 			'id' => array(
-				'description' => __( 'Unique identifier for the object.', 'movie-library' ),
-				'type'        => 'integer',
-				'minimum'     => 1,
-				'required'    => true,
+				'description'       => __( 'Unique identifier for the object.', 'movie-library' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => array( __CLASS__, 'validate_my_int' ),
+				'required'          => true,
 			),
 		);
 	}
@@ -912,6 +914,7 @@ class Movie_REST_API {
 	 * @return bool
 	 */
 	public static function validate_my_int( $value, $request, $param ): bool {
+		$value = absint( $value );
 		return is_int( $value );
 	}
 }
