@@ -11,10 +11,6 @@ namespace Movie_Library\REST_API;
 use Movie_Library\Custom_Post_Type\Person;
 use Movie_Library\APIs\Movie_Library_Metadata_API;
 use Movie_Library\Taxonomy\Hierarchical\Career;
-use Movie_Library\Taxonomy\Hierarchical\Genre;
-use Movie_Library\Taxonomy\Hierarchical\Label;
-use Movie_Library\Taxonomy\Hierarchical\Language;
-use Movie_Library\Taxonomy\Hierarchical\Production_Company;
 
 /**
  * Class Person_REST_API
@@ -409,12 +405,27 @@ class Person_REST_API {
 	 */
 	public static function create_or_update_person_permissions_check( \WP_REST_Request $request ) {
 		// check for specific person post.
-		if ( $request->get_param( 'id' ) && ! current_user_can( 'edit_post', $request->get_param( 'id' ) ) ) {
-			return new \WP_Error(
-				'rest_forbidden',
-				__( 'You cannot update or create the person.', 'movie-library' ),
-				array( 'status' => 404 )
-			);
+		if ( $request->get_param( 'id' ) ) {
+
+			$post = get_post( $request->get_param( 'id' ) );
+
+			if ( ! $post || Person::SLUG !== $post->post_type ) {
+				return new \WP_Error(
+					'rest_forbidden',
+					__( 'Person not found.', 'movie-library' ),
+					array( 'status' => 404 )
+				);
+			}
+
+			if ( ! current_user_can( 'edit_post', $request->get_param( 'id' ) ) ) {
+				return new \WP_Error(
+					'rest_forbidden',
+					__( 'You cannot update or create the person.', 'movie-library' ),
+					array( 'status' => 404 )
+				);
+			}
+
+			return true;
 		}
 
 		// check for create person capability.

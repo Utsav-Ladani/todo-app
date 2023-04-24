@@ -474,12 +474,27 @@ class Movie_REST_API {
 	 */
 	public static function create_or_update_movie_permissions_check( \WP_REST_Request $request ) {
 		// check for specific movie post.
-		if ( $request->get_param( 'id' ) && ! current_user_can( 'edit_post', $request->get_param( 'id' ) ) ) {
-			return new \WP_Error(
-				'rest_forbidden',
-				__( 'You cannot update or create the movie.', 'movie-library' ),
-				array( 'status' => 404 )
-			);
+		if ( $request->get_param( 'id' ) ) {
+
+			$post = get_post( $request->get_param( 'id' ) );
+
+			if ( ! $post || Movie::SLUG !== $post->post_type ) {
+				return new \WP_Error(
+					'rest_forbidden',
+					__( 'Movie not found.', 'movie-library' ),
+					array( 'status' => 404 )
+				);
+			}
+
+			if ( ! current_user_can( 'edit_post', $request->get_param( 'id' ) ) ) {
+				return new \WP_Error(
+					'rest_forbidden',
+					__( 'You cannot update or create the movie.', 'movie-library' ),
+					array( 'status' => 404 )
+				);
+			}
+
+			return true;
 		}
 
 		// check for create movie capability.
