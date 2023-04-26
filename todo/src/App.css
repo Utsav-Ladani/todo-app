@@ -72,7 +72,7 @@ header {
 	padding: .8em 1em;
 	border-radius: .1rem;
 	display: flex;
-	gap: .6em;
+	column-gap: .6em;
 	align-items: flex-start;
 }
 
@@ -127,4 +127,31 @@ header {
 	font-size: .8rem;
 	color: var(--font-color-accent);
 	background-color: var(--font-color);
+}
+
+@media screen and (max-width: 768px) {
+	#root {
+		padding: 1.2em;
+	}
+
+	.todo-item {
+		display: grid;
+		padding: .4em;
+		row-gap: .4em;
+		grid-template: "checkbox content" ". btns" / auto 1fr;
+	}
+
+	.todo-item__checkbox {
+		grid-area: checkbox;
+	}
+
+	.todo-item__content {
+		grid-area: content;
+		resize: vertical;
+	}
+
+	.btn-wrapper {
+		grid-area: btns;
+		justify-content: end;
+	}
 }
