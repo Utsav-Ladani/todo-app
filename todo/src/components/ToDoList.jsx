@@ -4,9 +4,9 @@ function ToDoList( { todoList } ) {
     return (
         <ul className="todo-list">
             {
-                todoList.map((val, index) => (
-                    <ToDoItem key={index} data={val} />
-                ))
+                todoList.length ?
+                    todoList.map((todo) => <ToDoItem key={todo.id} data={todo} />) :
+                    <li className="todo-item--empty">No tasks</li>
             }
         </ul>
     )

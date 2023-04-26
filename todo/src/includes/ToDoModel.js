@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 class ToDoModel {
     static instance = null;
 
@@ -6,7 +8,9 @@ class ToDoModel {
             return ToDoModel.instance
         }
 
-        this.todos = [];
+        const localData = localStorage.getItem('react-todos');
+
+        this.todos = localData ? JSON.parse(localData) : [];
         this.observe = () => { };
 
         ToDoModel.instance = this;
@@ -23,16 +27,37 @@ class ToDoModel {
     }
 
     add(todo) {
-        this.todos.push(todo);
-        this.observe(this.todos);
+        const id = uuidv4();
+
+        this.todos.push({
+            id,
+            text: todo,
+            done: false
+        });
+        this.save();
     }
 
-    remove(todo) {
-        this.todos = this.todos.filter((t) => t !== todo);
+    remove(todoID) {
+        this.todos = this.todos.filter((t) => t.id !== todoID);
+
+        this.save();
     }
 
-    edit(todo, newTodo) {
-        // this.todos = this.todos.map((t) => t === todo ? newTodo : t);
+    edit(todoID, newText) {
+        this.todos = this.todos.map((t) => t.id === todoID ? { ...t, text: newText } : t );
+
+        this.save();
+    }
+
+    done(todoID, done) {
+        this.todos = this.todos.map((t) => t.id === todoID ? { ...t, done: done } : t );
+
+        this.save();
+    }
+
+    save() {
+        localStorage.setItem('react-todos', JSON.stringify(this.todos));
+        this.observe([...this.todos]);
     }
 }
 
