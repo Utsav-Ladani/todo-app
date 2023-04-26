@@ -1,5 +1,0 @@
-SSH_USER: root
-SSH_HOST: tr.rt.gw
-REPORT_SITE_NAME: reports.tr.rt.gw
-REPORT_SITE_PATH: /opt/easyengine/sites/reports.tr.rt.gw/app/htdocs/current
-VISUAL_TEST_ZIP_URL: https://pub.tr.rt.gw/playwright.zip
