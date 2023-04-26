@@ -2,6 +2,7 @@ import { faEdit, faSave, faTrash } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import ToDoModel from "../includes/ToDoModel";
 import { useState } from "react";
+import PropTypes from 'prop-types';
 
 function ToDoItem({ data }) {
     const [isEdit, setIsEdit] = useState(false);
@@ -70,6 +71,14 @@ function ToDoItem({ data }) {
             </div>
         </li>
     )
+}
+
+ToDoItem.propTypes = {
+    data: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired,
+        done: PropTypes.bool.isRequired
+    })
 }
 
 export default ToDoItem

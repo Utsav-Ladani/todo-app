@@ -1,4 +1,5 @@
 import ToDoItem from "./ToDoItem"
+import PropTypes from "prop-types"
 
 function ToDoList( { todoList } ) {
     return (
@@ -10,6 +11,14 @@ function ToDoList( { todoList } ) {
             }
         </ul>
     )
+}
+
+ToDoList.defaultProps = {
+    todoList: []
+}
+
+ToDoList.propTypes = {
+    todoList: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default ToDoList

@@ -5,11 +5,13 @@ import ToDoList from './components/ToDoList'
 import ToDoModel from './includes/ToDoModel'
 
 function App() {
-	const todoModel = new ToDoModel();
-	const [todoList, setToDoList] = useState(todoModel.get());
+	const [todoList, setToDoList] = useState([]);
 
 	useEffect(() => {
+		const todoModel = new ToDoModel();
 		todoModel.subscribe(setToDoList);
+		
+		setToDoList(todoModel.get());
 	},[]);
 
 	return (
