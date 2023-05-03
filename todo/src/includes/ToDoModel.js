@@ -54,6 +54,15 @@ class ToDoModel {
 
         this.save();
     }
+    
+    search(text) {
+        this.observe( this.todos.filter((t) => t.text.toLowerCase().includes(text.toLowerCase())) );
+    }
+
+    clearAll() {
+        this.todos = [];
+        this.save();
+    }
 
     save() {
         localStorage.setItem('react-todos', JSON.stringify(this.todos));

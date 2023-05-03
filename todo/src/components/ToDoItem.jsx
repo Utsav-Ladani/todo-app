@@ -53,7 +53,10 @@ function ToDoItem({ data }) {
                         value={text}
                         onChange={handleTextareaChange}
                     /> :
-                    <div className={`todo-item__content ${data.done ? 'todo-item__content--done' : ''}`}>
+                    <div 
+                        className={`todo-item__content ${data.done ? 'todo-item__content--done' : ''}`}
+                        onClick={handleToDoDone}
+                    >
                         {data.text}
                     </div>
             }
